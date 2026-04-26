@@ -1,215 +1,394 @@
 'use client'
-import { useState } from 'react'
-import { Cpu, TrendingUp, TrendingDown, RefreshCw, Zap, BarChart2, AlertTriangle } from 'lucide-react'
-import Card from '@/components/ui/Card'
-import Badge from '@/components/ui/Badge'
-import Button from '@/components/ui/Button'
-import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
+import { useState, useEffect } from 'react'
+import { Play, RotateCcw, AlertTriangle, X, ChevronLeft, Upload, Download, Settings } from 'lucide-react'
 
-const MARKETS = ['Volatility 10', 'Volatility 25', 'Volatility 75', 'Boom 1000', 'Crash 500', 'Step Index']
+type Tab = 'summary' | 'transactions' | 'journal'
+type ToolTab = 'smart' | 'manual'
 
-const RADAR_DATA = [
-  { subject: 'Trend', V10: 82, V25: 65, Boom: 78 },
-  { subject: 'Momentum', V10: 74, V25: 58, Boom: 85 },
-  { subject: 'Volatility', V10: 45, V25: 62, Boom: 90 },
-  { subject: 'Volume', V10: 88, V25: 72, Boom: 68 },
-  { subject: 'Pattern', V10: 70, V25: 55, Boom: 75 },
-  { subject: 'Signal', V10: 78, V25: 68, Boom: 82 },
+const MARKETS = [
+  'Volatility 10 (1s)', 'Volatility 25 (1s)', 'Volatility 50 (1s)',
+  'Volatility 75 (1s)', 'Volatility 100 (1s)',
+  'Crash 500', 'Crash 1000', 'Boom 500', 'Boom 1000', 'Step Index',
 ]
-
-const DIGIT_STATS = Array.from({ length: 10 }, (_, i) => ({
-  digit: i.toString(),
-  count: Math.floor(Math.random() * 80 + 20),
-  pct: Math.floor(Math.random() * 15 + 5),
-}))
-
-const INSIGHTS = [
-  { market: 'Volatility 10', signal: 'OVER', confidence: 84, reason: 'Last 8 ticks averaged digit 6.2. Strong over bias detected.', type: 'bullish' },
-  { market: 'Boom 1000', signal: 'RISE', confidence: 79, reason: 'No spike in last 847 ticks. Spike probability increasing.', type: 'bullish' },
-  { market: 'Crash 500', signal: 'FALL', confidence: 72, reason: 'Spike occurred 12 ticks ago. Downward pressure expected.', type: 'bearish' },
-  { market: 'Volatility 25', signal: 'EVEN', confidence: 68, reason: 'Even digits appeared 58% of last 50 ticks.', type: 'neutral' },
-  { market: 'Step Index', signal: 'OVER', confidence: 65, reason: 'Consistent upward step pattern detected over 20 ticks.', type: 'bullish' },
-]
-
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload?.length) {
-    return (
-      <div className="bg-card border border-border rounded-lg px-3 py-2 text-xs">
-        <p className="text-muted-foreground">Digit {label}</p>
-        <p className="text-primary font-bold">{payload[0]?.value} times</p>
-      </div>
-    )
-  }
-  return null
-}
 
 export default function SmartAnalysisPage() {
-  const [selectedMarket, setSelectedMarket] = useState('Volatility 10')
-  const [scanning, setScanning] = useState(false)
-  const [lastScan, setLastScan] = useState('14:32:05')
+  const [toolTab, setToolTab] = useState<ToolTab>('smart')
+  const [rightTab, setRightTab] = useState<Tab>('summary')
+  const [running, setRunning] = useState(false)
+  const [rightPanelOpen, setRightPanelOpen] = useState(true)
+  const [showDisclaimer, setShowDisclaimer] = useState(true)
 
-  const handleScan = () => {
-    setScanning(true)
-    setTimeout(() => {
-      setScanning(false)
-      setLastScan(new Date().toTimeString().slice(0, 8))
-    }, 2000)
-  }
+  const [market, setMarket] = useState('')
+  const [ticks, setTicks] = useState(1000)
+  const [ldp, setLdp] = useState(0)
+  const [ldpTicks, setLdpTicks] = useState(1)
+  const [stake, setStake] = useState(0.5)
+  const [martingale, setMartingale] = useState(1.2)
+  const [selectedDigit, setSelectedDigit] = useState<number | null>(null)
+  const [price, setPrice] = useState<number | null>(null)
+  const [digits, setDigits] = useState<number[]>([])
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Cpu className="w-6 h-6 text-primary" />
-            Smart Analysis
-          </h1>
-          <p className="text-muted-foreground text-sm mt-1">AI-powered market pattern detection and insights</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="text-muted-foreground text-xs">Last scan: {lastScan}</span>
-          <Button variant="primary" size="sm" onClick={handleScan} disabled={scanning}>
-            <RefreshCw className={`w-4 h-4 ${scanning ? 'animate-spin' : ''}`} />
-            {scanning ? 'Scanning...' : 'Scan Markets'}
-          </Button>
-        </div>
+  // Simulate live price + digits when market selected
+  useEffect(() => {
+    if (!market) return
+    const bases: Record<string, number> = {
+      'Volatility 10 (1s)': 4904.49, 'Volatility 25 (1s)': 2345.67,
+      'Volatility 50 (1s)': 3456.78, 'Volatility 75 (1s)': 1234.56,
+      'Volatility 100 (1s)': 567.89, 'Crash 500': 8765.43,
+      'Crash 1000': 9876.54, 'Boom 500': 7654.32, 'Boom 1000': 6543.21, 'Step Index': 1000.00,
+    }
+    const base = bases[market] ?? 1000
+    setPrice(base)
+    setDigits(Array.from({ length: 100 }, () => Math.floor(Math.random() * 10)))
+    const interval = setInterval(() => {
+      setPrice((p) => p ? parseFloat((p + (Math.random() - 0.48) * p * 0.001).toFixed(2)) : base)
+      setDigits((d) => [Math.floor(Math.random() * 10), ...d.slice(0, 99)])
+    }, 500)
+    return () => clearInterval(interval)
+  }, [market])
+
+  // Digit stats
+  const digitStats = Array.from({ length: 10 }, (_, i) => ({
+    digit: i,
+    count: digits.filter((d) => d === i).length,
+    pct: digits.length > 0 ? (digits.filter((d) => d === i).length / digits.length * 100) : 0,
+  }))
+
+  const evenCount = digits.filter((d) => d % 2 === 0).length
+  const oddCount = digits.filter((d) => d % 2 !== 0).length
+  const overCount = digits.filter((d) => d > 4).length
+  const underCount = digits.filter((d) => d <= 4).length
+  const matchCount = selectedDigit !== null ? digits.filter((d) => d === selectedDigit).length : 0
+
+  const evenPct = digits.length > 0 ? (evenCount / digits.length * 100) : 0
+  const oddPct = digits.length > 0 ? (oddCount / digits.length * 100) : 0
+  const overPct = digits.length > 0 ? (overCount / digits.length * 100) : 0
+  const underPct = digits.length > 0 ? (underCount / digits.length * 100) : 0
+  const matchPct = digits.length > 0 && selectedDigit !== null ? (matchCount / digits.length * 100) : 0
+
+  const RightPanel = () => (
+    <div className="w-72 border-l border-[#1E2A40] bg-[#121829] flex flex-col shrink-0">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-[#1E2A40]">
+        <button
+          onClick={() => setRunning(!running)}
+          className={`flex items-center gap-2 px-5 py-2 rounded font-semibold text-sm transition-all ${running ? 'bg-danger hover:bg-danger/90 text-white' : 'bg-primary hover:bg-primary/90 text-black'}`}
+        >
+          <Play className="w-4 h-4" style={{ fill: running ? 'white' : 'black' }} />
+          {running ? 'Stop' : 'Run'}
+        </button>
+        <span className="text-xs">
+          {running
+            ? <span className="flex items-center gap-1 text-primary font-medium"><span className="w-2 h-2 rounded-full bg-primary animate-pulse inline-block" />Bot is running</span>
+            : <span className="text-[#8899AA]">Bot is not running</span>}
+        </span>
       </div>
-
-      {/* Market selector */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-        {MARKETS.map((m) => (
-          <button
-            key={m}
-            onClick={() => setSelectedMarket(m)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all shrink-0 ${selectedMarket === m ? 'bg-primary text-black' : 'bg-card border border-border text-muted-foreground hover:text-white'}`}
-          >
-            {m}
+      <div className="flex border-b border-[#1E2A40]">
+        {(['summary', 'transactions', 'journal'] as Tab[]).map((t) => (
+          <button key={t} onClick={() => setRightTab(t)}
+            className={`flex-1 py-2.5 text-xs font-medium capitalize transition-all border-b-2 ${rightTab === t ? 'border-primary text-primary' : 'border-transparent text-[#8899AA] hover:text-white'}`}>
+            {t}
           </button>
         ))}
       </div>
-
-      {/* AI Insights */}
-      <div>
-        <h2 className="text-white font-bold mb-4 flex items-center gap-2">
-          <Zap className="w-5 h-5 text-gold" />
-          AI Market Insights
-        </h2>
-        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {INSIGHTS.map((insight, i) => (
-            <Card key={i} className={`border ${insight.type === 'bullish' ? 'border-success/20' : insight.type === 'bearish' ? 'border-danger/20' : 'border-border'}`}>
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <div className="text-white font-bold text-sm">{insight.market}</div>
-                  <div className={`flex items-center gap-1 mt-1 text-sm font-bold ${insight.type === 'bullish' ? 'text-success' : insight.type === 'bearish' ? 'text-danger' : 'text-warning'}`}>
-                    {insight.type === 'bullish' ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                    {insight.signal}
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className={`text-lg font-bold font-mono ${insight.confidence >= 75 ? 'text-success' : insight.confidence >= 65 ? 'text-warning' : 'text-danger'}`}>
-                    {insight.confidence}%
-                  </div>
-                  <div className="text-muted-foreground text-xs">confidence</div>
-                </div>
-              </div>
-              <div className="w-full h-1.5 bg-border rounded-full mb-3">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${insight.confidence}%`,
-                    backgroundColor: insight.confidence >= 75 ? '#00E676' : insight.confidence >= 65 ? '#F59E0B' : '#EF4444',
-                  }}
-                />
-              </div>
-              <p className="text-muted-foreground text-xs leading-relaxed">{insight.reason}</p>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Digit analysis + Radar */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Digit frequency */}
-        <Card>
-          <h2 className="text-white font-bold mb-1 flex items-center gap-2">
-            <BarChart2 className="w-5 h-5 text-primary" />
-            Digit Frequency — {selectedMarket}
-          </h2>
-          <p className="text-muted-foreground text-xs mb-4">Last 500 ticks</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={DIGIT_STATS} barSize={22}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1E2A40" vertical={false} />
-              <XAxis dataKey="digit" tick={{ fill: '#8899AA', fontSize: 12 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#8899AA', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="count" radius={[4, 4, 0, 0]}>
-                {DIGIT_STATS.map((entry, i) => (
-                  <rect key={i} fill={entry.count > 60 ? '#00E676' : entry.count > 40 ? '#F59E0B' : '#8899AA'} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-          <div className="flex gap-4 mt-2 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-success inline-block" />High freq</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-warning inline-block" />Medium</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-muted-foreground inline-block" />Low</span>
-          </div>
-        </Card>
-
-        {/* Radar chart */}
-        <Card>
-          <h2 className="text-white font-bold mb-1">Market Strength Radar</h2>
-          <p className="text-muted-foreground text-xs mb-2">Multi-factor analysis comparison</p>
-          <ResponsiveContainer width="100%" height={220}>
-            <RadarChart data={RADAR_DATA}>
-              <PolarGrid stroke="#1E2A40" />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: '#8899AA', fontSize: 11 }} />
-              <Radar name="V10" dataKey="V10" stroke="#00E676" fill="#00E676" fillOpacity={0.15} />
-              <Radar name="V25" dataKey="V25" stroke="#FFD700" fill="#FFD700" fillOpacity={0.1} />
-              <Radar name="Boom" dataKey="Boom" stroke="#60A5FA" fill="#60A5FA" fillOpacity={0.1} />
-            </RadarChart>
-          </ResponsiveContainer>
-          <div className="flex gap-4 mt-1 text-xs">
-            <span className="flex items-center gap-1 text-primary"><span className="w-2 h-2 rounded-full bg-primary inline-block" />V10</span>
-            <span className="flex items-center gap-1 text-gold"><span className="w-2 h-2 rounded-full bg-gold inline-block" />V25</span>
-            <span className="flex items-center gap-1 text-blue-400"><span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />Boom</span>
-          </div>
-        </Card>
-      </div>
-
-      {/* Pattern alerts */}
-      <Card>
-        <h2 className="text-white font-bold mb-4 flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-warning" />
-          Pattern Alerts
-        </h2>
-        <div className="space-y-3">
-          {[
-            { market: 'Volatility 10', pattern: 'Consecutive Overs', count: 5, action: 'Consider UNDER next', severity: 'warning' },
-            { market: 'Boom 1000', pattern: 'Long no-spike streak', count: 847, action: 'Spike probability HIGH', severity: 'success' },
-            { market: 'Volatility 25', pattern: 'Digit 7 hot streak', count: 4, action: 'Digit 7 match opportunity', severity: 'info' },
-          ].map((alert, i) => (
-            <div key={i} className={`flex items-center gap-3 p-3 rounded-xl border ${
-              alert.severity === 'warning' ? 'border-warning/20 bg-warning/5' :
-              alert.severity === 'success' ? 'border-success/20 bg-success/5' :
-              'border-blue-400/20 bg-blue-400/5'
-            }`}>
-              <div className={`w-2 h-2 rounded-full shrink-0 ${
-                alert.severity === 'warning' ? 'bg-warning' :
-                alert.severity === 'success' ? 'bg-success' : 'bg-blue-400'
-              }`} />
-              <div className="flex-1">
-                <div className="text-white text-sm font-medium">{alert.market} — {alert.pattern}</div>
-                <div className="text-muted-foreground text-xs">{alert.count} occurrences · {alert.action}</div>
-              </div>
-              <Badge variant={alert.severity === 'warning' ? 'yellow' : alert.severity === 'success' ? 'green' : 'blue'}>
-                {alert.severity === 'warning' ? 'Caution' : alert.severity === 'success' ? 'Opportunity' : 'Info'}
-              </Badge>
+      <div className="flex-1 overflow-auto flex flex-col">
+        {rightTab === 'summary' && (
+          <>
+            <div className="flex-1 flex items-center justify-center p-6 text-center">
+              <p className="text-[#8899AA] text-sm leading-relaxed">
+                When you&apos;re ready to trade, hit <strong className="text-white">Run</strong>.<br />
+                You&apos;ll be able to track your bot&apos;s performance here.
+              </p>
             </div>
+            <div className="border-t border-[#1E2A40] p-4">
+              <div className="flex justify-end mb-2"><button className="text-xs text-primary hover:underline">What&apos;s this?</button></div>
+              <div className="grid grid-cols-3 gap-3 text-center mb-3">
+                {[['Total stake','0.00 AUD'],['Total payout','0.00 AUD'],['No. of runs','0']].map(([l,v]) => (
+                  <div key={l}><div className="text-xs text-[#8899AA]">{l}</div><div className="text-sm font-semibold text-white">{v}</div></div>
+                ))}
+              </div>
+              <div className="grid grid-cols-3 gap-3 text-center">
+                {[['Contracts lost','0'],['Contracts won','0'],['Total profit/loss','0.00 AUD']].map(([l,v]) => (
+                  <div key={l}><div className="text-xs text-[#8899AA]">{l}</div><div className="text-sm font-semibold text-white">{v}</div></div>
+                ))}
+              </div>
+              <button className="w-full mt-4 py-2 border border-[#1E2A40] rounded text-sm text-[#8899AA] hover:bg-white/5 flex items-center justify-center gap-1 transition-all">
+                <RotateCcw className="w-3.5 h-3.5" />Reset
+              </button>
+            </div>
+          </>
+        )}
+        {rightTab === 'transactions' && <div className="flex-1 flex items-center justify-center p-6 text-center"><p className="text-[#8899AA] text-sm">No transactions yet.</p></div>}
+        {rightTab === 'journal' && <div className="flex-1 flex items-center justify-center p-6 text-center"><p className="text-[#8899AA] text-sm">Journal is empty.</p></div>}
+      </div>
+    </div>
+  )
+
+  return (
+    <div className="flex h-[calc(100vh-96px)] bg-[#f0f0f0] overflow-hidden relative">
+
+      {/* Main area */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+
+        {/* Tool tabs */}
+        <div className="flex border-b border-gray-300 bg-white">
+          {[{key:'smart',label:'Smart Analysis'},{key:'manual',label:'Manual'}].map(({key,label}) => (
+            <button key={key} onClick={() => setToolTab(key as ToolTab)}
+              className={`flex-1 max-w-xs py-3 text-sm font-medium transition-all border-b-2 ${
+                toolTab === key ? 'bg-[#1a237e] text-white border-[#1a237e]' : 'text-gray-600 border-transparent hover:bg-gray-50'
+              }`}>
+              {label}
+            </button>
           ))}
         </div>
-      </Card>
+
+        <div className="flex-1 overflow-auto bg-[#f0f0f0]">
+
+          {/* Smart Analysis tab */}
+          {toolTab === 'smart' && (
+            <div className="p-3 space-y-3">
+
+              {/* Top controls bar */}
+              <div className="flex items-center gap-3 flex-wrap bg-white rounded border border-gray-200 px-3 py-2">
+                {/* Market selector */}
+                <select
+                  value={market}
+                  onChange={(e) => setMarket(e.target.value)}
+                  className="border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:border-blue-500 bg-white min-w-[140px]"
+                >
+                  <option value="">SELECT MARKET</option>
+                  {MARKETS.map((m) => <option key={m}>{m}</option>)}
+                </select>
+
+                {/* Ticks */}
+                <div className="flex items-center gap-1">
+                  <span className="text-xs text-gray-500">Ticks</span>
+                  <input type="number" value={ticks} onChange={(e) => setTicks(Number(e.target.value))}
+                    className="w-16 border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none" />
+                </div>
+
+                {/* Price */}
+                <div className="flex items-center gap-1">
+                  <span className="text-xs font-bold text-gray-600">PRICE</span>
+                  <span className="text-xs text-blue-600 font-semibold">
+                    {market && price ? price.toFixed(2) : 'Updating...'}
+                  </span>
+                </div>
+
+                {/* Manual LDP dropdown */}
+                <select className="border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none bg-white">
+                  <option>Select an Option</option>
+                  <option>Manual LDP</option>
+                  <option>Auto LDP</option>
+                </select>
+
+                {/* Upload / Download / Strategies */}
+                <div className="flex items-center gap-2 ml-auto">
+                  <button className="flex flex-col items-center gap-0.5 text-red-500 hover:opacity-80 transition-all">
+                    <Upload className="w-5 h-5" />
+                    <span className="text-xs">Upload</span>
+                  </button>
+                  <button className="flex flex-col items-center gap-0.5 text-green-500 hover:opacity-80 transition-all">
+                    <Download className="w-5 h-5" />
+                    <span className="text-xs">Download</span>
+                  </button>
+                  <button className="flex flex-col items-center gap-0.5 text-green-600 hover:opacity-80 transition-all">
+                    <div className="w-5 h-5 bg-green-500 rounded flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">S</span>
+                    </div>
+                    <span className="text-xs">Strategies</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* LDP controls */}
+              <div className="flex items-center gap-4 bg-white rounded border border-gray-200 px-4 py-2">
+                {[
+                  { label: 'LDP:', value: ldp, set: setLdp, min: 0, max: 9 },
+                  { label: 'Ticks', value: ldpTicks, set: setLdpTicks, min: 1, max: 100 },
+                  { label: 'Stake', value: stake, set: setStake, min: 0.35, max: 100, step: 0.5 },
+                  { label: 'Martingale', value: martingale, set: setMartingale, min: 1, max: 5, step: 0.1 },
+                ].map(({ label, value, set, min, max, step }) => (
+                  <div key={label} className="flex items-center gap-1.5">
+                    <span className="text-xs text-gray-500 whitespace-nowrap">{label}</span>
+                    <input
+                      type="number" value={value} min={min} max={max} step={step ?? 1}
+                      onChange={(e) => set(parseFloat(e.target.value))}
+                      className="w-14 border border-gray-300 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none text-center"
+                    />
+                  </div>
+                ))}
+                <button className="ml-auto text-gray-400 hover:text-gray-600">
+                  <Settings className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Main grid: 2 columns */}
+              <div className="grid grid-cols-2 gap-3">
+
+                {/* Left: Digit selector */}
+                <div className="bg-white rounded border border-gray-200 p-4">
+                  <h3 className="text-sm font-semibold text-gray-700 text-center mb-4">Click on circles to select Prediction</h3>
+                  <div className="grid grid-cols-5 gap-3">
+                    {Array.from({ length: 10 }, (_, i) => {
+                      const stat = digitStats[i]
+                      const isSelected = selectedDigit === i
+                      const pct = stat.pct.toFixed(1)
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => setSelectedDigit(isSelected ? null : i)}
+                          className={`flex flex-col items-center justify-center w-14 h-14 rounded-full border-2 transition-all mx-auto ${
+                            isSelected
+                              ? 'bg-purple-600 border-purple-400 text-white shadow-lg scale-110'
+                              : 'bg-gray-700 border-gray-600 text-white hover:bg-gray-600'
+                          }`}
+                        >
+                          <span className="text-base font-bold leading-none">{i}</span>
+                          <span className="text-xs opacity-80">{market ? `${pct}%` : 'NaN%'}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Right: Trade buttons */}
+                <div className="bg-white rounded border border-gray-200 p-4 flex flex-col">
+                  <h3 className="text-sm font-semibold text-gray-700 text-center mb-4">Click on the button to take a trade</h3>
+                  <div className="flex gap-2 mt-auto">
+                    <button className="flex-1 py-3 bg-green-500 hover:bg-green-600 text-white text-sm font-bold rounded transition-all">
+                      Over {market ? `${overPct.toFixed(1)}%` : 'NaN%'}
+                    </button>
+                    <button className="flex-1 py-3 bg-red-500 hover:bg-red-600 text-white text-sm font-bold rounded transition-all">
+                      Under {market ? `${underPct.toFixed(1)}%` : 'NaN%'}
+                    </button>
+                    <button className="flex-1 py-3 bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold rounded transition-all">
+                      Matches {market ? `${matchPct.toFixed(1)}%` : 'NaN%'}
+                    </button>
+                    <button className="w-10 py-3 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded transition-all">
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom grid: Even/Odd + Rise/Fall */}
+              <div className="grid grid-cols-2 gap-3">
+
+                {/* Even/Odd */}
+                <div className="bg-white rounded border border-gray-200 p-4">
+                  <h3 className="text-sm font-semibold text-gray-700 text-center mb-3">Even Odd</h3>
+                  <div className="flex items-center gap-4 mb-3 justify-center">
+                    {[
+                      { label: 'Ticks', value: 1 },
+                      { label: 'Stake', value: 0.5 },
+                      { label: 'Martingale', value: 1.2 },
+                    ].map(({ label, value }) => (
+                      <div key={label} className="flex items-center gap-1">
+                        <span className="text-xs text-gray-500">{label}</span>
+                        <input type="number" defaultValue={value}
+                          className="w-12 border border-gray-300 rounded px-1 py-0.5 text-xs text-center focus:outline-none" />
+                      </div>
+                    ))}
+                    <Settings className="w-4 h-4 text-gray-400" />
+                  </div>
+                  <p className="text-xs text-gray-500 text-center mb-3">Click on the button to take a trade</p>
+                  <div className="flex rounded overflow-hidden">
+                    <button className="flex-1 py-2.5 bg-green-500 hover:bg-green-600 text-white text-xs font-bold transition-all">
+                      Even {market ? `${evenPct.toFixed(1)}%` : 'NaN%'}
+                    </button>
+                    <button className="flex-1 py-2.5 bg-red-500 hover:bg-red-600 text-white text-xs font-bold transition-all">
+                      Odd {market ? `${oddPct.toFixed(1)}%` : 'NaN%'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Rise/Fall */}
+                <div className="bg-white rounded border border-gray-200 p-4">
+                  <h3 className="text-sm font-semibold text-gray-700 text-center mb-3">Rise/Fall</h3>
+                  <div className="flex items-center gap-4 mb-3 justify-center">
+                    {[
+                      { label: 'Ticks', value: 1 },
+                      { label: 'Stake', value: 0.5 },
+                      { label: 'Martingale', value: 1.2 },
+                    ].map(({ label, value }) => (
+                      <div key={label} className="flex items-center gap-1">
+                        <span className="text-xs text-gray-500">{label}</span>
+                        <input type="number" defaultValue={value}
+                          className="w-12 border border-gray-300 rounded px-1 py-0.5 text-xs text-center focus:outline-none" />
+                      </div>
+                    ))}
+                    <Settings className="w-4 h-4 text-gray-400" />
+                  </div>
+                  <p className="text-xs text-gray-500 text-center mb-3">Click on the button to take a trade</p>
+                  <div className="flex rounded overflow-hidden">
+                    <button className="flex-1 py-2.5 bg-green-500 hover:bg-green-600 text-white text-xs font-bold transition-all">
+                      Rise {market ? `${overPct.toFixed(2)}%` : '0.00%'}
+                    </button>
+                    <button className="flex-1 py-2.5 bg-red-500 hover:bg-red-600 text-white text-xs font-bold transition-all">
+                      Fall {market ? `${underPct.toFixed(2)}%` : '0.00%'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Manual tab */}
+          {toolTab === 'manual' && (
+            <div className="p-6 max-w-2xl mx-auto">
+              <div className="bg-white rounded border border-gray-200 p-6">
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">Manual Trading</h2>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="text-sm text-gray-600 mb-1 block">Market</label>
+                    <select value={market} onChange={(e) => setMarket(e.target.value)}
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+                      <option value="">Select Market</option>
+                      {MARKETS.map((m) => <option key={m}>{m}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-sm text-gray-600 mb-1 block">Stake</label>
+                    <input type="number" value={stake} onChange={(e) => setStake(parseFloat(e.target.value))}
+                      className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500" />
+                  </div>
+                </div>
+                {market && price && (
+                  <div className="mb-4 p-3 bg-gray-50 rounded border">
+                    <div className="text-xs text-gray-500">Current Price</div>
+                    <div className="text-2xl font-bold text-blue-600 font-mono">{price.toFixed(2)}</div>
+                  </div>
+                )}
+                <div className="grid grid-cols-2 gap-3">
+                  <button className="py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded transition-all">Rise</button>
+                  <button className="py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded transition-all">Fall</button>
+                  <button className="py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded transition-all">Even</button>
+                  <button className="py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded transition-all">Odd</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {rightPanelOpen && <RightPanel />}
+
+      <button
+        onClick={() => setRightPanelOpen(!rightPanelOpen)}
+        className="absolute top-1/2 -translate-y-1/2 w-5 h-10 bg-gray-200 border border-gray-300 rounded-l flex items-center justify-center hover:bg-gray-300 transition-all z-10"
+        style={{ right: rightPanelOpen ? '288px' : '0' }}
+      >
+        <ChevronLeft className={`w-3 h-3 text-gray-500 transition-transform ${!rightPanelOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {showDisclaimer && (
+        <div className="fixed bottom-4 left-4 z-50">
+          <div className="flex items-center gap-2 bg-yellow-400 text-yellow-900 px-3 py-2 rounded-lg text-xs font-semibold shadow-lg">
+            <AlertTriangle className="w-3.5 h-3.5" />Risk Disclaimer
+            <button onClick={() => setShowDisclaimer(false)} className="ml-1 hover:opacity-70"><X className="w-3 h-3" /></button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

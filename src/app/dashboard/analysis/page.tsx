@@ -1,235 +1,338 @@
 'use client'
-import { useState } from 'react'
-import {
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip,
-  ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell, Legend
-} from 'recharts'
-import Card from '@/components/ui/Card'
-import Badge from '@/components/ui/Badge'
-import { TrendingUp, TrendingDown, Activity, Target } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Play, RotateCcw, ChevronLeft, AlertTriangle, X } from 'lucide-react'
 
-const MARKETS = ['All', 'V10', 'V25', 'V75', 'Boom 1000', 'Crash 500', 'Step Index']
+type Tab = 'summary' | 'transactions' | 'journal'
+type ToolTab = 'analysis' | 'ldp' | 'stats'
 
-const PNL_DATA = [
-  { date: 'Jan 1', pnl: 1200 }, { date: 'Jan 5', pnl: 2800 }, { date: 'Jan 10', pnl: 2100 },
-  { date: 'Jan 15', pnl: 4200 }, { date: 'Jan 20', pnl: 3600 }, { date: 'Jan 25', pnl: 5800 },
-  { date: 'Jan 30', pnl: 5200 }, { date: 'Feb 5', pnl: 7100 }, { date: 'Feb 10', pnl: 6400 },
-  { date: 'Feb 15', pnl: 8900 }, { date: 'Feb 20', pnl: 8200 }, { date: 'Feb 25', pnl: 10500 },
-]
-
-const WIN_RATE_BY_MARKET = [
-  { market: 'V10', win_rate: 68, trades: 420 },
-  { market: 'V25', win_rate: 61, trades: 310 },
-  { market: 'V75', win_rate: 55, trades: 180 },
-  { market: 'Boom 1000', win_rate: 72, trades: 240 },
-  { market: 'Crash 500', win_rate: 65, trades: 195 },
-  { market: 'Step', win_rate: 58, trades: 130 },
-]
-
-const STRATEGY_BREAKDOWN = [
-  { name: 'Over/Under', value: 38, color: '#00E676' },
-  { name: 'Rise/Fall', value: 28, color: '#FFD700' },
-  { name: 'Even/Odd', value: 20, color: '#60A5FA' },
-  { name: 'Digit Match', value: 14, color: '#F59E0B' },
-]
-
-const HOURLY_DATA = Array.from({ length: 24 }, (_, h) => ({
-  hour: `${h}:00`,
-  wins: Math.floor(Math.random() * 20 + 5),
-  losses: Math.floor(Math.random() * 10 + 2),
-}))
-
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload?.length) {
-    return (
-      <div className="bg-card border border-border rounded-lg px-3 py-2 text-xs">
-        <p className="text-muted-foreground mb-1">{label}</p>
-        {payload.map((p: any) => (
-          <p key={p.name} style={{ color: p.color }} className="font-bold font-mono">
-            {p.name}: {p.value}
-          </p>
-        ))}
-      </div>
-    )
-  }
-  return null
+const MARKETS = ['Volatility 10','Volatility 25','Volatility 50','Volatility 75','Volatility 100','Crash 500','Crash 1000','Boom 500','Boom 1000','Step Index']
+const TRADE_TYPES = ['Even/Odd','Over/Under','Rise/Fall','Digit Match']
+const BASE_PRICES: Record<string, number> = {
+  'Volatility 10': 4904.49, 'Volatility 25': 2345.67, 'Volatility 50': 3456.78,
+  'Volatility 75': 1234.56, 'Volatility 100': 567.89, 'Crash 500': 8765.43,
+  'Crash 1000': 9876.54, 'Boom 500': 7654.32, 'Boom 1000': 6543.21, 'Step Index': 1000.00,
 }
 
 export default function AnalysisPage() {
-  const [market, setMarket] = useState('All')
-  const [period, setPeriod] = useState('30d')
+  const [toolTab, setToolTab] = useState<ToolTab>('analysis')
+  const [rightTab, setRightTab] = useState<Tab>('summary')
+  const [running, setRunning] = useState(false)
+  const [rightPanelOpen, setRightPanelOpen] = useState(true)
+  const [showDisclaimer, setShowDisclaimer] = useState(true)
+  const [market, setMarket] = useState('Volatility 10')
+  const [tradeType, setTradeType] = useState('Even/Odd')
+  const [ticks, setTicks] = useState(120)
+  const [price, setPrice] = useState(4904.49)
+  const [digits, setDigits] = useState<number[]>(Array.from({ length: 30 }, () => Math.floor(Math.random() * 10)))
 
-  const totalTrades = WIN_RATE_BY_MARKET.reduce((s, m) => s + m.trades, 0)
-  const avgWinRate = Math.round(WIN_RATE_BY_MARKET.reduce((s, m) => s + m.win_rate, 0) / WIN_RATE_BY_MARKET.length)
+  useEffect(() => {
+    setPrice(BASE_PRICES[market] ?? 1000)
+    setDigits(Array.from({ length: 30 }, () => Math.floor(Math.random() * 10)))
+    const interval = setInterval(() => {
+      setPrice((p) => parseFloat((p + (Math.random() - 0.48) * p * 0.001).toFixed(2)))
+      setDigits((d) => [Math.floor(Math.random() * 10), ...d.slice(0, 29)])
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [market])
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Analysis</h1>
-          <p className="text-muted-foreground text-sm mt-1">Deep dive into your trading performance</p>
-        </div>
-        <div className="flex gap-2">
-          {['7d', '30d', '90d', 'All'].map((p) => (
-            <button
-              key={p}
-              onClick={() => setPeriod(p)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${period === p ? 'bg-primary text-black' : 'bg-card border border-border text-muted-foreground hover:text-white'}`}
-            >
-              {p}
-            </button>
-          ))}
-        </div>
+  const evenCount = digits.filter((d) => d % 2 === 0).length
+  const oddCount = digits.filter((d) => d % 2 !== 0).length
+  const overCount = digits.filter((d) => d > 4).length
+  const underCount = digits.filter((d) => d <= 4).length
+  const lastDigit = digits[0] ?? 0
+  const digitFreq = Array.from({ length: 10 }, (_, i) => ({ digit: i, count: digits.filter((d) => d === i).length }))
+
+  const RightPanel = () => (
+    <div className="w-72 border-l border-[#1E2A40] bg-[#121829] flex flex-col shrink-0">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-[#1E2A40]">
+        <button
+          onClick={() => setRunning(!running)}
+          className={`flex items-center gap-2 px-5 py-2 rounded font-semibold text-sm transition-all ${running ? 'bg-danger hover:bg-danger/90 text-white' : 'bg-primary hover:bg-primary/90 text-black'}`}
+        >
+          <Play className="w-4 h-4" style={{ fill: running ? 'white' : 'black' }} />
+          {running ? 'Stop' : 'Run'}
+        </button>
+        <span className="text-xs">
+          {running
+            ? <span className="flex items-center gap-1 text-primary font-medium"><span className="w-2 h-2 rounded-full bg-primary animate-pulse inline-block" />Bot is running</span>
+            : <span className="text-[#8899AA]">Bot is not running</span>}
+        </span>
       </div>
-
-      {/* Summary stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { label: 'Total Trades', value: totalTrades.toLocaleString(), icon: Activity, color: 'text-primary', bg: 'bg-primary/10', change: '+124 this week' },
-          { label: 'Avg Win Rate', value: `${avgWinRate}%`, icon: Target, color: 'text-success', bg: 'bg-success/10', change: '+2.3% vs last month' },
-          { label: 'Total Profit', value: 'KES 45,230', icon: TrendingUp, color: 'text-gold', bg: 'bg-gold/10', change: '+KES 8,400 this month' },
-          { label: 'Avg Daily P&L', value: 'KES 1,508', icon: TrendingDown, color: 'text-blue-400', bg: 'bg-blue-400/10', change: 'Based on 30 days' },
-        ].map(({ label, value, icon: Icon, color, bg, change }) => (
-          <Card key={label}>
-            <div className={`w-9 h-9 rounded-lg ${bg} flex items-center justify-center mb-3`}>
-              <Icon className={`w-5 h-5 ${color}`} />
-            </div>
-            <div className={`text-xl font-bold font-mono ${color}`}>{value}</div>
-            <div className="text-white text-xs font-medium mt-0.5">{label}</div>
-            <div className="text-muted-foreground text-xs mt-1">{change}</div>
-          </Card>
-        ))}
-      </div>
-
-      {/* Market filter */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-        {MARKETS.map((m) => (
-          <button
-            key={m}
-            onClick={() => setMarket(m)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all shrink-0 ${market === m ? 'bg-primary text-black' : 'bg-card border border-border text-muted-foreground hover:text-white'}`}
-          >
-            {m}
+      <div className="flex border-b border-[#1E2A40]">
+        {(['summary','transactions','journal'] as Tab[]).map((t) => (
+          <button key={t} onClick={() => setRightTab(t)}
+            className={`flex-1 py-2.5 text-xs font-medium capitalize transition-all border-b-2 ${rightTab === t ? 'border-primary text-primary' : 'border-transparent text-[#8899AA] hover:text-white'}`}>
+            {t}
           </button>
         ))}
       </div>
-
-      {/* P&L Chart */}
-      <Card>
-        <h2 className="text-white font-bold mb-5">Cumulative P&L (KES)</h2>
-        <ResponsiveContainer width="100%" height={240}>
-          <LineChart data={PNL_DATA}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1E2A40" />
-            <XAxis dataKey="date" tick={{ fill: '#8899AA', fontSize: 11 }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fill: '#8899AA', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v / 1000}k`} />
-            <Tooltip content={<CustomTooltip />} />
-            <Line type="monotone" dataKey="pnl" stroke="#00E676" strokeWidth={2.5} dot={false} activeDot={{ r: 5, fill: '#00E676' }} />
-          </LineChart>
-        </ResponsiveContainer>
-      </Card>
-
-      {/* Win rate by market + Strategy breakdown */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        <Card>
-          <h2 className="text-white font-bold mb-5">Win Rate by Market</h2>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={WIN_RATE_BY_MARKET} barSize={28}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1E2A40" vertical={false} />
-              <XAxis dataKey="market" tick={{ fill: '#8899AA', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#8899AA', fontSize: 11 }} axisLine={false} tickLine={false} domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="win_rate" name="Win Rate %" radius={[4, 4, 0, 0]}>
-                {WIN_RATE_BY_MARKET.map((entry, i) => (
-                  <Cell key={i} fill={entry.win_rate >= 65 ? '#00E676' : entry.win_rate >= 58 ? '#F59E0B' : '#EF4444'} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </Card>
-
-        <Card>
-          <h2 className="text-white font-bold mb-5">Strategy Breakdown</h2>
-          <div className="flex items-center gap-4">
-            <ResponsiveContainer width="50%" height={180}>
-              <PieChart>
-                <Pie data={STRATEGY_BREAKDOWN} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value" paddingAngle={3}>
-                  {STRATEGY_BREAKDOWN.map((entry, i) => (
-                    <Cell key={i} fill={entry.color} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="space-y-3 flex-1">
-              {STRATEGY_BREAKDOWN.map((s) => (
-                <div key={s.name} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
-                    <span className="text-muted-foreground text-xs">{s.name}</span>
-                  </div>
-                  <span className="text-white text-xs font-bold font-mono">{s.value}%</span>
-                </div>
-              ))}
+      <div className="flex-1 overflow-auto flex flex-col">
+        {rightTab === 'summary' && (
+          <>
+            <div className="flex-1 flex items-center justify-center p-6 text-center">
+              <p className="text-[#8899AA] text-sm leading-relaxed">When you&apos;re ready to trade, hit <strong className="text-white">Run</strong>.<br />You&apos;ll be able to track your bot&apos;s performance here.</p>
             </div>
-          </div>
-        </Card>
+            <div className="border-t border-[#1E2A40] p-4">
+              <div className="flex justify-end mb-2"><button className="text-xs text-primary hover:underline">What&apos;s this?</button></div>
+              <div className="grid grid-cols-3 gap-3 text-center mb-3">
+                {[['Total stake','0.00'],['Total payout','0.00'],['No. of runs','0']].map(([l,v]) => (
+                  <div key={l}><div className="text-xs text-[#8899AA]">{l}</div><div className="text-sm font-semibold text-white">{v}</div></div>
+                ))}
+              </div>
+              <div className="grid grid-cols-3 gap-3 text-center">
+                {[['Contracts lost','0'],['Contracts won','0'],['Profit/loss','0.00']].map(([l,v]) => (
+                  <div key={l}><div className="text-xs text-[#8899AA]">{l}</div><div className="text-sm font-semibold text-white">{v}</div></div>
+                ))}
+              </div>
+              <button className="w-full mt-4 py-2 border border-[#1E2A40] rounded text-sm text-[#8899AA] hover:bg-white/5 flex items-center justify-center gap-1 transition-all">
+                <RotateCcw className="w-3.5 h-3.5" />Reset
+              </button>
+            </div>
+          </>
+        )}
+        {rightTab === 'transactions' && <div className="flex-1 flex items-center justify-center p-6 text-center"><p className="text-[#8899AA] text-sm">No transactions yet.</p></div>}
+        {rightTab === 'journal' && <div className="flex-1 flex items-center justify-center p-6 text-center"><p className="text-[#8899AA] text-sm">Journal is empty.</p></div>}
+      </div>
+    </div>
+  )
+
+  return (
+    <div className="flex h-[calc(100vh-96px)] bg-[#0A0E1A] text-white overflow-hidden relative">
+      <div className="flex-1 flex flex-col overflow-hidden">
+
+        {/* Tool tabs */}
+        <div className="flex border-b border-[#1E2A40] bg-[#121829]">
+          {[{key:'analysis',label:'AnalysisTool'},{key:'ldp',label:'LDP Tool'},{key:'stats',label:'Stats'}].map(({key,label}) => (
+            <button key={key} onClick={() => setToolTab(key as ToolTab)}
+              className={`flex-1 max-w-xs py-3 text-sm font-medium transition-all border-b-2 ${
+                toolTab === key ? 'bg-[#1a237e] text-white border-primary' : 'text-[#8899AA] border-transparent hover:text-white hover:bg-white/5'
+              }`}>
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex-1 overflow-auto bg-[#0A0E1A]">
+
+          {/* AnalysisTool */}
+          {toolTab === 'analysis' && (
+            <div className="max-w-4xl mx-auto p-6 space-y-4">
+              <div className="text-center py-4">
+                <h1 className="text-3xl font-extrabold" style={{
+                  background: 'linear-gradient(90deg, #00E676, #FFD700)',
+                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                  fontFamily: 'Arial Black, sans-serif', letterSpacing: '1px',
+                }}>
+                  Binarytool Analysistool 🌐
+                </h1>
+              </div>
+
+              {/* Market + Trade Type */}
+              <div className="bg-[#121829] rounded-lg border border-[#1E2A40] p-5">
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <label className="text-sm font-medium text-[#8899AA] mb-2 block">Synthetic Market</label>
+                    <select value={market} onChange={(e) => setMarket(e.target.value)}
+                      className="w-full border border-[#1E2A40] bg-[#0A0E1A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary">
+                      {MARKETS.map((m) => <option key={m} className="bg-[#121829]">{m}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-[#8899AA] mb-2 block">Trade Type</label>
+                    <select value={tradeType} onChange={(e) => setTradeType(e.target.value)}
+                      className="w-full border border-[#1E2A40] bg-[#0A0E1A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary">
+                      {TRADE_TYPES.map((t) => <option key={t} className="bg-[#121829]">{t}</option>)}
+                    </select>
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <label className="text-sm font-medium text-[#8899AA] mb-2 block">Number of Ticks to Analyze</label>
+                  <input type="number" value={ticks} onChange={(e) => setTicks(Number(e.target.value))}
+                    className="w-full border border-[#1E2A40] bg-[#0A0E1A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary" />
+                </div>
+              </div>
+
+              {/* Price + counts */}
+              <div className="bg-[#121829] rounded-lg border border-[#1E2A40] p-5">
+                <div className="text-xs font-semibold text-[#8899AA] uppercase tracking-wider mb-1">CURRENT PRICE</div>
+                <div className="text-4xl font-bold text-primary mb-4 font-mono">{price.toFixed(2)}</div>
+                {tradeType === 'Even/Odd' && (
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    <div><div className="text-sm text-[#8899AA] mb-1">Even</div><div className="text-3xl font-bold text-white">{evenCount}</div></div>
+                    <div><div className="text-sm text-[#8899AA] mb-1">Odd</div><div className="text-3xl font-bold text-white">{oddCount}</div></div>
+                  </div>
+                )}
+                {tradeType === 'Over/Under' && (
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    <div><div className="text-sm text-[#8899AA] mb-1">Over</div><div className="text-3xl font-bold text-success">{overCount}</div></div>
+                    <div><div className="text-sm text-[#8899AA] mb-1">Under</div><div className="text-3xl font-bold text-warning">{underCount}</div></div>
+                  </div>
+                )}
+                {tradeType === 'Rise/Fall' && (
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    <div><div className="text-sm text-[#8899AA] mb-1">Rise</div><div className="text-3xl font-bold text-success">{overCount}</div></div>
+                    <div><div className="text-sm text-[#8899AA] mb-1">Fall</div><div className="text-3xl font-bold text-danger">{underCount}</div></div>
+                  </div>
+                )}
+                {tradeType === 'Digit Match' && (
+                  <div className="grid grid-cols-5 gap-2 text-center">
+                    {digitFreq.map(({digit,count}) => (
+                      <div key={digit} className="bg-[#0A0E1A] rounded p-2 border border-[#1E2A40]">
+                        <div className="text-xs text-[#8899AA]">Digit {digit}</div>
+                        <div className="text-lg font-bold text-white">{count}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Pattern */}
+              <div className="bg-[#121829] rounded-lg border border-[#1E2A40] p-5">
+                <div className="text-sm font-semibold text-[#8899AA] mb-4">
+                  ⊞ {tradeType === 'Even/Odd' ? 'Even/Odd' : tradeType === 'Over/Under' ? 'Over/Under' : tradeType === 'Rise/Fall' ? 'Rise/Fall' : 'Digit'} Pattern
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {digits.map((d, i) => {
+                    let label = ''
+                    let bg = ''
+                    if (tradeType === 'Even/Odd') { label = d % 2 === 0 ? 'E' : 'O'; bg = d % 2 === 0 ? 'bg-blue-500' : 'bg-red-500' }
+                    else if (tradeType === 'Over/Under') { label = d > 4 ? 'O' : 'U'; bg = d > 4 ? 'bg-green-500' : 'bg-orange-500' }
+                    else if (tradeType === 'Rise/Fall') { label = i === 0 ? '→' : digits[i] > (digits[i-1] ?? d) ? '↑' : '↓'; bg = i === 0 ? 'bg-gray-500' : digits[i] > (digits[i-1] ?? d) ? 'bg-green-500' : 'bg-red-500' }
+                    else { label = d.toString(); bg = ['bg-blue-500','bg-purple-500','bg-green-500','bg-yellow-500','bg-red-500','bg-pink-500','bg-indigo-500','bg-teal-500','bg-orange-500','bg-cyan-500'][d] }
+                    return (
+                      <div key={i} className={`w-8 h-8 rounded-full ${bg} flex items-center justify-center text-white text-xs font-bold ${i === 0 ? 'ring-2 ring-offset-1 ring-gold ring-offset-[#121829] scale-110' : ''}`}>
+                        {label}
+                      </div>
+                    )
+                  })}
+                </div>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold ${lastDigit % 2 === 0 ? 'bg-blue-500' : 'bg-red-500'}`}>{lastDigit}</div>
+                  <div>
+                    <div className="text-sm font-semibold text-white">Last Digit: {lastDigit}</div>
+                    <div className={`text-xs font-medium ${lastDigit % 2 === 0 ? 'text-primary' : 'text-danger'}`}>
+                      {tradeType === 'Even/Odd' ? (lastDigit % 2 === 0 ? '→ EVEN' : '→ ODD') : tradeType === 'Over/Under' ? (lastDigit > 4 ? '→ OVER' : '→ UNDER') : `→ Digit ${lastDigit}`}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Streak */}
+              <div className="bg-[#121829] rounded-lg border border-[#1E2A40] p-5">
+                <div className="text-sm font-semibold text-[#8899AA] mb-3">Streak Analysis</div>
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div className="bg-[#0A0E1A] rounded-lg p-3 border border-[#1E2A40]">
+                    <div className="text-xs text-[#8899AA]">{tradeType === 'Even/Odd' ? 'Even %' : tradeType === 'Rise/Fall' ? 'Rise %' : 'Over %'}</div>
+                    <div className="text-2xl font-bold text-primary">{Math.round((evenCount / digits.length) * 100)}%</div>
+                  </div>
+                  <div className="bg-[#0A0E1A] rounded-lg p-3 border border-[#1E2A40]">
+                    <div className="text-xs text-[#8899AA]">{tradeType === 'Even/Odd' ? 'Odd %' : tradeType === 'Rise/Fall' ? 'Fall %' : 'Under %'}</div>
+                    <div className="text-2xl font-bold text-danger">{Math.round((oddCount / digits.length) * 100)}%</div>
+                  </div>
+                  <div className="bg-[#0A0E1A] rounded-lg p-3 border border-[#1E2A40]">
+                    <div className="text-xs text-[#8899AA]">Bias</div>
+                    <div className={`text-lg font-bold ${evenCount > oddCount ? 'text-primary' : 'text-danger'}`}>
+                      {evenCount > oddCount ? (tradeType === 'Even/Odd' ? 'EVEN' : tradeType === 'Rise/Fall' ? 'RISE' : 'OVER') : (tradeType === 'Even/Odd' ? 'ODD' : tradeType === 'Rise/Fall' ? 'FALL' : 'UNDER')}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* LDP Tool */}
+          {toolTab === 'ldp' && (
+            <div className="max-w-4xl mx-auto p-6 space-y-4">
+              <div className="bg-[#121829] rounded-lg border border-[#1E2A40] p-5">
+                <h2 className="text-lg font-bold text-white mb-4">Last Digit Prediction (LDP)</h2>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="text-sm font-medium text-[#8899AA] mb-1 block">Market</label>
+                    <select value={market} onChange={(e) => setMarket(e.target.value)}
+                      className="w-full border border-[#1E2A40] bg-[#0A0E1A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary">
+                      {MARKETS.map((m) => <option key={m} className="bg-[#121829]">{m}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-[#8899AA] mb-1 block">Ticks</label>
+                    <input type="number" value={ticks} onChange={(e) => setTicks(Number(e.target.value))}
+                      className="w-full border border-[#1E2A40] bg-[#0A0E1A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary" />
+                  </div>
+                </div>
+                <div className="text-xs font-semibold text-[#8899AA] uppercase mb-2">Current Price</div>
+                <div className="text-3xl font-bold text-primary font-mono mb-4">{price.toFixed(2)}</div>
+                <div className="grid grid-cols-5 gap-2">
+                  {digitFreq.map(({digit,count}) => {
+                    const pct = Math.round((count / digits.length) * 100)
+                    return (
+                      <div key={digit} className={`rounded-lg p-3 text-center border-2 ${digit === lastDigit ? 'border-primary bg-primary/10' : 'border-[#1E2A40] bg-[#0A0E1A]'}`}>
+                        <div className="text-lg font-bold text-white">{digit}</div>
+                        <div className="text-xs text-[#8899AA]">{count}x</div>
+                        <div className="text-xs font-semibold text-primary">{pct}%</div>
+                        <div className="mt-1 h-1 bg-[#1E2A40] rounded-full overflow-hidden">
+                          <div className="h-full bg-primary rounded-full" style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Stats */}
+          {toolTab === 'stats' && (
+            <div className="max-w-4xl mx-auto p-6 space-y-4">
+              <div className="bg-[#121829] rounded-lg border border-[#1E2A40] p-5">
+                <h2 className="text-lg font-bold text-white mb-4">Market Statistics</h2>
+                <div className="mb-4">
+                  <label className="text-sm font-medium text-[#8899AA] mb-1 block">Market</label>
+                  <select value={market} onChange={(e) => setMarket(e.target.value)}
+                    className="w-full border border-[#1E2A40] bg-[#0A0E1A] rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-primary max-w-xs">
+                    {MARKETS.map((m) => <option key={m} className="bg-[#121829]">{m}</option>)}
+                  </select>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    {label:'Current Price', value:price.toFixed(2), color:'text-primary'},
+                    {label:'Last Digit', value:lastDigit, color:'text-white'},
+                    {label:'Even Count', value:evenCount, color:'text-blue-400'},
+                    {label:'Odd Count', value:oddCount, color:'text-danger'},
+                    {label:'Over Count', value:overCount, color:'text-success'},
+                    {label:'Under Count', value:underCount, color:'text-warning'},
+                    {label:'Even %', value:`${Math.round((evenCount/digits.length)*100)}%`, color:'text-primary'},
+                    {label:'Odd %', value:`${Math.round((oddCount/digits.length)*100)}%`, color:'text-danger'},
+                  ].map(({label,value,color}) => (
+                    <div key={label} className="bg-[#0A0E1A] rounded-lg p-3 text-center border border-[#1E2A40]">
+                      <div className="text-xs text-[#8899AA] mb-1">{label}</div>
+                      <div className={`text-xl font-bold font-mono ${color}`}>{value}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Hourly performance */}
-      <Card>
-        <h2 className="text-white font-bold mb-5">Hourly Trade Distribution (24h)</h2>
-        <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={HOURLY_DATA} barSize={10}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1E2A40" vertical={false} />
-            <XAxis dataKey="hour" tick={{ fill: '#8899AA', fontSize: 10 }} axisLine={false} tickLine={false} interval={3} />
-            <YAxis tick={{ fill: '#8899AA', fontSize: 11 }} axisLine={false} tickLine={false} />
-            <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey="wins" name="Wins" fill="#00E676" radius={[2, 2, 0, 0]} stackId="a" />
-            <Bar dataKey="losses" name="Losses" fill="#EF4444" radius={[2, 2, 0, 0]} stackId="a" />
-          </BarChart>
-        </ResponsiveContainer>
-        <div className="flex gap-4 mt-3">
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><div className="w-3 h-3 rounded-sm bg-success" />Wins</div>
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><div className="w-3 h-3 rounded-sm bg-danger" />Losses</div>
-        </div>
-      </Card>
+      {rightPanelOpen && <RightPanel />}
 
-      {/* Market breakdown table */}
-      <Card>
-        <h2 className="text-white font-bold mb-5">Market Performance Breakdown</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border">
-                {['Market', 'Trades', 'Win Rate', 'Avg Profit', 'Total P&L', 'Status'].map((h) => (
-                  <th key={h} className="text-left px-3 py-3 text-muted-foreground text-xs font-semibold uppercase tracking-wider">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {WIN_RATE_BY_MARKET.map((row) => (
-                <tr key={row.market} className="hover:bg-white/3 transition-all">
-                  <td className="px-3 py-3 text-white font-medium text-sm">{row.market}</td>
-                  <td className="px-3 py-3 text-muted-foreground font-mono text-sm">{row.trades}</td>
-                  <td className="px-3 py-3">
-                    <Badge variant={row.win_rate >= 65 ? 'green' : row.win_rate >= 58 ? 'yellow' : 'red'}>
-                      {row.win_rate}%
-                    </Badge>
-                  </td>
-                  <td className="px-3 py-3 text-success font-mono text-sm">+KES {Math.round(row.win_rate * 12)}</td>
-                  <td className="px-3 py-3 text-success font-bold font-mono text-sm">+KES {(row.trades * row.win_rate * 0.12).toFixed(0)}</td>
-                  <td className="px-3 py-3">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                      <span className="text-success text-xs">Active</span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <button
+        onClick={() => setRightPanelOpen(!rightPanelOpen)}
+        className="absolute top-1/2 -translate-y-1/2 w-5 h-10 bg-[#1E2A40] border border-[#1E2A40] rounded-l flex items-center justify-center hover:bg-[#2a3a50] transition-all z-10"
+        style={{ right: rightPanelOpen ? '288px' : '0' }}
+      >
+        <ChevronLeft className={`w-3 h-3 text-[#8899AA] transition-transform ${!rightPanelOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {showDisclaimer && (
+        <div className="fixed bottom-4 left-4 z-50">
+          <div className="flex items-center gap-2 bg-warning text-black px-3 py-2 rounded-lg text-xs font-semibold shadow-lg">
+            <AlertTriangle className="w-3.5 h-3.5" />Risk Disclaimer
+            <button onClick={() => setShowDisclaimer(false)} className="ml-1 hover:opacity-70"><X className="w-3 h-3" /></button>
+          </div>
         </div>
-      </Card>
+      )}
     </div>
   )
 }
