@@ -32,10 +32,10 @@ export default function AffiliatePage() {
           ],
         },
       ]}
-      ctaTitle="Want to become a partner?"
-      ctaDescription="Reach out with your audience type, size, and how you plan to present the platform responsibly."
-      primaryHref="/contact"
-      primaryLabel="Apply As Affiliate"
+      ctaTitle="Ready to share Deriv with your network?"
+      ctaDescription="Use your affiliate link to send traders to Deriv and track referrals through your partner flow."
+      primaryHref={process.env.NEXT_PUBLIC_DERIV_URL ?? '/contact'}
+      primaryLabel="Open Deriv Affiliate Link"
     />
   )
 }

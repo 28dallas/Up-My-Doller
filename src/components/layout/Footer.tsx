@@ -32,6 +32,7 @@ const socialLinks = [
   ['YouTube', process.env.NEXT_PUBLIC_YOUTUBE_URL],
   ['TikTok', process.env.NEXT_PUBLIC_TIKTOK_URL],
   ['X', process.env.NEXT_PUBLIC_TWITTER_URL],
+  ['Deriv', process.env.NEXT_PUBLIC_DERIV_URL],
 ].filter(([, href]) => Boolean(href))
 
 export default function Footer() {
