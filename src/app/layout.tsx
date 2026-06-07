@@ -6,10 +6,34 @@ export const metadata: Metadata = {
   title: 'Pips Dollar Printer — Deriv Bot Builder & Copy Trading',
   description: 'Build profitable Deriv trading bots without coding. Copy top traders, download 500+ free bots, and automate your trading on Deriv.com.',
   keywords: 'Deriv bot builder, copy trading, trading bots Kenya, Deriv automation, binary options bot',
+  metadataBase: new URL('https://up-my-doller-yn86.vercel.app'),
   openGraph: {
     title: 'Pips Dollar Printer — Deriv Bot Builder & Copy Trading',
     description: 'Build profitable Deriv trading bots without coding.',
     type: 'website',
+    locale: 'en_KE',
+    siteName: 'Pips Dollar Printer',
+    url: 'https://up-my-doller-yn86.vercel.app',
+  },
+  twitter: {
+    site: '@pipsdollarprinter',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  authors: [{ name: 'Pips Dollar Printer' }],
+  publisher: 'Pips Dollar Printer',
+  creator: 'Pips Dollar Printer',
+  verification: {
+    google: 'YOUR_GOOGLE_VERIFICATION_CODE',
   },
 }
 

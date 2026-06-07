@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 
 const STATS = [
   { value: 12000, suffix: '+', label: 'Active Users', prefix: '' },
-  { value: 45, suffix: 'M+', label: 'KES Paid Out', prefix: 'KES ' },
+  { value: 48, suffix: 'M+', label: 'KES Paid Out', prefix: 'KES ' },
   { value: 500, suffix: '+', label: 'Trading Bots', prefix: '' },
   { value: 98, suffix: '%', label: 'Satisfaction Rate', prefix: '' },
 ]
@@ -33,7 +33,7 @@ function AnimatedCounter({ target, prefix, suffix }: { target: number; prefix: s
           }, duration / steps)
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.1 }
     )
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()

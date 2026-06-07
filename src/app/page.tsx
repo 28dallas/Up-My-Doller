@@ -1,6 +1,8 @@
 import Footer from '@/components/layout/Footer'
 import HeroSection from '@/components/sections/HeroSection'
 import FeaturesSection from '@/components/sections/FeaturesSection'
+import WhyChooseUsSection from '@/components/sections/WhyChooseUsSection'
+import LivePlatformStats from '@/components/sections/LivePlatformStats'
 import HowItWorksSection from '@/components/sections/HowItWorksSection'
 import FreeBotShowcase from '@/components/sections/FreeBotShowcase'
 import CopyTradingSection from '@/components/sections/CopyTradingSection'
@@ -15,6 +17,8 @@ export default function HomePage() {
     <main className="min-h-screen bg-background pt-24">
       <HeroSection />
       <FeaturesSection />
+      <WhyChooseUsSection />
+      <LivePlatformStats />
       <HowItWorksSection />
       <StatsBanner />
       <FreeBotShowcase />

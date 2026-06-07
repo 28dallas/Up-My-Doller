@@ -37,7 +37,20 @@ export default function CommunityCTASection() {
               </Link>
             </div>
 
-            <div className="flex items-center justify-center gap-6 mt-8 text-sm text-muted-foreground">
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-8 text-sm text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <span className="text-xs">✅</span> No credit card required
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="text-xs">🎮</span> Free demo account included
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="text-xs">❌</span> Cancel anytime
+              </span>
+            </div>
+
+            <div className="flex items-center justify-center gap-6 mt-8 pt-6 border-t border-border/40 text-sm text-muted-foreground">
               <span>💬 WhatsApp Group</span>
               <span>🎮 Discord Server</span>
               <span>📺 YouTube Channel</span>
