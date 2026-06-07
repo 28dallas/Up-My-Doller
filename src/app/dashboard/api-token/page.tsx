@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Key, Eye, EyeOff, CheckCircle, AlertTriangle, Copy, Trash2, Plus, ExternalLink } from 'lucide-react'
+import { Key, Eye, EyeOff, CheckCircle, AlertTriangle, Copy, Trash2, Plus, ExternalLink, MessageCircle } from 'lucide-react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
@@ -105,12 +105,20 @@ export default function APITokenPage() {
               <li>3. Create a new token with <strong className="text-white">Read</strong> and <strong className="text-white">Trade</strong> scopes</li>
               <li>4. Copy the token and paste it below</li>
             </ol>
-            <a href="https://app.deriv.com/account/api-token" target="_blank" rel="noopener noreferrer">
-              <Button variant="gold" size="sm">
-                <ExternalLink className="w-3.5 h-3.5" />
-                Open Deriv API Token Page
-              </Button>
-            </a>
+            <div className="flex flex-wrap gap-2.5">
+              <a href="https://app.deriv.com/account/api-token" target="_blank" rel="noopener noreferrer">
+                <Button variant="gold" size="sm">
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Open Deriv API Token Page
+                </Button>
+              </a>
+              <a href="https://t.me/TRENDIF" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="sm" className="border-[#0088cc] text-[#0088cc] hover:bg-[#0088cc] hover:text-black transition-all">
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  Join Telegram Community
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       </Card>

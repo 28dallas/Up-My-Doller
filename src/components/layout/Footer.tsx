@@ -47,8 +47,8 @@ export default function Footer() {
               Africa&apos;s #1 Deriv bot builder and copy trading platform.
             </p>
             <div className="flex items-center gap-3">
-              <a href="https://t.me/pipsdollarprinter" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-border flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground text-xs font-bold">TG</a>
-              <a href="https://whatsapp.com/channel/0029VaDPnZ02Up5nSg7x0v2w" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-border flex items-center justify-center hover:bg-[#25d366]/20 hover:text-[#25d366] transition-all text-muted-foreground text-xs font-bold">WA</a>
+              <a href="https://t.me/TRENDIF" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-border flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground text-xs font-bold">TG</a>
+              <a href="https://wa.me/254107646264" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-border flex items-center justify-center hover:bg-[#25d366]/20 hover:text-[#25d366] transition-all text-muted-foreground text-xs font-bold">WA</a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-border flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all text-muted-foreground text-xs font-bold">X</a>
               <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-border flex items-center justify-center hover:bg-danger/20 hover:text-danger transition-all text-muted-foreground text-xs font-bold">YT</a>
               <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-border flex items-center justify-center hover:bg-white/20 hover:text-white transition-all text-muted-foreground text-xs font-bold">TK</a>

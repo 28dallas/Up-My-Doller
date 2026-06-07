@@ -33,7 +33,7 @@ export default function SupportPage() {
       {/* Quick links */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { icon: MessageCircle, label: 'Telegram Support', sub: 'Fastest response', href: 'https://t.me/pipsdollarprinter', color: 'text-blue-400', bg: 'bg-blue-400/10' },
+          { icon: MessageCircle, label: 'Telegram Support', sub: 'Fastest response', href: 'https://t.me/TRENDIF', color: 'text-blue-400', bg: 'bg-blue-400/10' },
           { icon: Mail, label: 'Email Support', sub: 'support@pipsdollarprinter.com', href: 'mailto:support@pipsdollarprinter.com', color: 'text-primary', bg: 'bg-primary/10' },
           { icon: BookOpen, label: 'Documentation', sub: 'Guides & tutorials', href: '/blog', color: 'text-gold', bg: 'bg-gold/10' },
         ].map(({ icon: Icon, label, sub, href, color, bg }) => (

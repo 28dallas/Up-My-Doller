@@ -21,8 +21,8 @@ const FEATURED_MEMBERS = [
 ]
 
 const CHANNELS = [
-  { icon: 'TG', name: 'Telegram Group', members: '12,000+', desc: 'Main community hub. Signals, strategies, and support.', link: 'https://t.me/pipsdollarprinter', cta: 'Join Telegram' },
-  { icon: 'WA', name: 'WhatsApp Group', members: '3,500+', desc: 'Quick updates and mobile-friendly trading tips.', link: '#', cta: 'Join WhatsApp' },
+  { icon: 'TG', name: 'Telegram Group', members: '12,000+', desc: 'Main community hub. Signals, strategies, and support.', link: 'https://t.me/TRENDIF', cta: 'Join Telegram' },
+  { icon: 'WA', name: 'WhatsApp Group', members: '3,500+', desc: 'Quick updates and mobile-friendly trading tips.', link: 'https://wa.me/254107646264', cta: 'Join WhatsApp' },
   { icon: 'DC', name: 'Discord Server', members: '1,200+', desc: 'Deep strategy discussions and bot development.', link: '#', cta: 'Join Discord' },
 ]
 
@@ -41,7 +41,7 @@ export default function CommunityPage() {
             Connect with 12,000+ traders across Africa. Share strategies, get signals, and grow together.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href="https://t.me/pipsdollarprinter" target="_blank" rel="noopener noreferrer">
+            <a href="https://t.me/TRENDIF" target="_blank" rel="noopener noreferrer">
               <Button variant="primary" size="lg">
                 <MessageCircle className="w-5 h-5" />
                 Join Telegram Group

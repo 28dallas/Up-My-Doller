@@ -147,7 +147,7 @@ export default function HeroSection() {
               {/* Social Join Row */}
               <div className="flex flex-wrap gap-3">
                 <a
-                  href="https://t.me/pipsdollarprinter"
+                  href="https://t.me/TRENDIF"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border border-[#0088cc]/30 hover:bg-[#0088cc]/15 text-white transition-all"
@@ -158,7 +158,7 @@ export default function HeroSection() {
                   Join Telegram &rarr;
                 </a>
                 <a
-                  href="https://whatsapp.com/channel/0029VaDPnZ02Up5nSg7x0v2w"
+                  href="https://wa.me/254107646264"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border border-[#25d366]/30 hover:bg-[#25d366]/15 text-white transition-all"

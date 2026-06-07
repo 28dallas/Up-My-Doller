@@ -47,7 +47,7 @@ export default function Navbar() {
 
           {/* Telegram Button */}
           <a
-            href="https://t.me/pipsdollarprinter"
+            href="https://t.me/TRENDIF"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded text-white text-xs font-semibold border border-[#0088cc]/30 hover:bg-[#0088cc]/15 transition-all"
@@ -60,7 +60,7 @@ export default function Navbar() {
 
           {/* WhatsApp Button */}
           <a
-            href="https://whatsapp.com/channel/0029VaDPnZ02Up5nSg7x0v2w"
+            href="https://wa.me/254107646264"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded text-white text-xs font-semibold hover:bg-[#25d366]/10 transition-all"
