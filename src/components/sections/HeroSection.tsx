@@ -140,16 +140,31 @@ export default function HeroSection() {
                   <TrendingUp className="w-5 h-5" />
                   Open Free Deriv Account →
                 </a>
-                <button className="flex items-center gap-2 border border-border text-white font-semibold px-7 py-3.5 rounded-lg hover:bg-white/5 transition-all group">
-                  <div className="w-8 h-8 rounded-full border border-primary flex items-center justify-center group-hover:bg-primary/20 transition-all">
-                    <Play className="w-3 h-3 text-primary fill-primary" />
+                <a
+                  href="https://youtu.be/uXlXWFHmXNk?si=08FuFrRUFXbSDcns"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 border border-border text-white font-semibold px-6 py-3 rounded-full hover:bg-white/5 transition-all group"
+                >
+                  <div className="flex items-center justify-center w-9 h-9 rounded-full border border-primary bg-black/10 text-primary shadow-sm transition-all group-hover:bg-primary/15">
+                    <Play className="w-4 h-4" />
                   </div>
-                  Watch Demo
-                </button>
+                  <div className="flex flex-col leading-tight">
+                    <span>Watch Demo</span>
+                    <span className="mt-0.5 text-[11px] uppercase tracking-[0.16em] text-primary font-semibold">
+                      Video Tutorial
+                    </span>
+                  </div>
+                </a>
               </div>
-              <p className="text-sm text-muted-foreground max-w-xl">
-                Free to join • No credit card • Trusted by Deriv
-              </p>
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground max-w-xl">
+                  Free to join • No credit card • Trusted by Deriv
+                </p>
+                <p className="text-sm text-muted-foreground max-w-xl">
+                  Quick tutorial preview: watch how to set up your free Deriv bot, connect your account, and start trading with proven strategies in minutes.
+                </p>
+              </div>
 
               {/* Social Join Row */}
               <div className="flex flex-wrap gap-3">
