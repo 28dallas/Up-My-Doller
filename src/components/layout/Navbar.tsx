@@ -6,6 +6,7 @@ import {
   Menu, X, LayoutDashboard, Wrench, Gift, BarChart2,
   TrendingUp, Cpu, Zap, Target, LineChart, Copy, Bolt
 } from 'lucide-react'
+import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
 const NAV_ITEMS = [
   { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -83,12 +84,14 @@ export default function Navbar() {
           >
             API Token
           </Link>
-          <Link
-            href="/auth/signup"
-            className="hidden sm:inline-flex items-center px-4 py-1.5 rounded text-white text-sm font-medium bg-[#2a3090] hover:bg-[#3a40a0] transition-all"
+          <a
+            href={DERIV_AFFILIATE_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center px-4 py-1.5 rounded text-black text-sm font-semibold bg-[#00c853] hover:bg-[#00e676] transition-all"
           >
             Sign up
-          </Link>
+          </a>
 
           {/* Mobile hamburger */}
           <button
@@ -144,7 +147,15 @@ export default function Navbar() {
             <div className="pt-3 flex flex-col gap-2 border-t border-[#1a2060] mt-2">
               <Link href="/auth/login" onClick={() => setIsOpen(false)} className="text-center py-2 rounded border border-[#2a3080] text-white text-sm hover:bg-[#1a2060] transition-all">Log in</Link>
               <Link href="/dashboard/api-token" onClick={() => setIsOpen(false)} className="text-center py-2 rounded bg-[#1a2060] text-white text-sm hover:bg-[#2a3080] transition-all">API Token</Link>
-              <Link href="/auth/signup" onClick={() => setIsOpen(false)} className="text-center py-2 rounded bg-[#2a3090] text-white text-sm hover:bg-[#3a40a0] transition-all">Sign up</Link>
+              <a
+                href={DERIV_AFFILIATE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="text-center py-2 rounded bg-[#00c853] text-black text-sm font-semibold hover:bg-[#00e676] transition-all"
+              >
+                Sign up
+              </a>
             </div>
           </div>
         </div>

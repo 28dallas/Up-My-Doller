@@ -1,8 +1,8 @@
 'use client'
-import Link from 'next/link'
 import { Check } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
+import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
 const CHECKLIST = [
   "Instant M-Pesa deposits and fast withdrawals",
@@ -43,11 +43,16 @@ export default function WhyChooseUsSection() {
             </p>
             
             <div className="pt-2">
-              <Link href="/auth/signup">
+              <a
+                href={DERIV_AFFILIATE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full sm:w-auto"
+              >
                 <Button variant="primary" size="lg" className="w-full sm:w-auto">
                   Open Free Account &rarr;
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
           

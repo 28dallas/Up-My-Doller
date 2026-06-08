@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { Play, TrendingUp, Users, Bot, Activity } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
 function AnimatedChart() {
   return (
@@ -129,13 +130,16 @@ export default function HeroSection() {
 
             {/* CTAs */}
             <div className="flex flex-col gap-4 mb-10">
-              <div className="flex flex-wrap gap-4">
-                <Link href="/auth/signup">
-                  <Button variant="primary" size="lg">
-                    <TrendingUp className="w-5 h-5" />
-                    Start Free
-                  </Button>
-                </Link>
+              <div className="flex flex-wrap gap-4 items-center">
+                <a
+                  href={DERIV_AFFILIATE_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#00c853] px-7 py-4 text-lg font-bold text-black shadow-[0_0_30px_rgba(0,200,83,0.3)] hover:shadow-[0_0_38px_rgba(0,200,83,0.45)] animate-pulse transition-all"
+                >
+                  <TrendingUp className="w-5 h-5" />
+                  Open Free Deriv Account →
+                </a>
                 <button className="flex items-center gap-2 border border-border text-white font-semibold px-7 py-3.5 rounded-lg hover:bg-white/5 transition-all group">
                   <div className="w-8 h-8 rounded-full border border-primary flex items-center justify-center group-hover:bg-primary/20 transition-all">
                     <Play className="w-3 h-3 text-primary fill-primary" />
@@ -143,6 +147,9 @@ export default function HeroSection() {
                   Watch Demo
                 </button>
               </div>
+              <p className="text-sm text-muted-foreground max-w-xl">
+                Free to join • No credit card • Trusted by Deriv
+              </p>
 
               {/* Social Join Row */}
               <div className="flex flex-wrap gap-3">

@@ -49,7 +49,7 @@ export const PRICING_TIERS = [
       'Email support',
     ],
     highlighted: false,
-    cta: 'Get Started Free',
+    cta: 'Get Started via Deriv (Free)',
   },
   {
     name: 'Pro',
@@ -66,7 +66,7 @@ export const PRICING_TIERS = [
       'Advanced strategies',
     ],
     highlighted: true,
-    cta: 'Start Pro Plan',
+    cta: 'Get Started via Deriv (Free)',
   },
   {
     name: 'Elite',
@@ -84,7 +84,7 @@ export const PRICING_TIERS = [
       'Dedicated account manager',
     ],
     highlighted: false,
-    cta: 'Go Elite',
+    cta: 'Get Started via Deriv (Free)',
   },
 ]
 

@@ -1,4 +1,5 @@
 import { Link2, Settings, TrendingUp, ArrowRight } from 'lucide-react'
+import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
 const STEPS = [
   {
@@ -60,6 +61,21 @@ export default function HowItWorksSection() {
 
               <h3 className="text-white font-bold text-xl mb-3">{step.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">{step.description}</p>
+              {index === 0 && (
+                <div className="mt-4">
+                  <a
+                    href={DERIV_AFFILIATE_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#00c853] px-4 py-2.5 text-sm font-semibold text-black shadow-[0_0_20px_rgba(0,200,83,0.25)] hover:shadow-[0_0_26px_rgba(0,200,83,0.32)] transition-all"
+                  >
+                    Create Your Free Deriv Account →
+                  </a>
+                  <p className="text-muted-foreground text-xs mt-2 max-w-[18rem]">
+                    Takes less than 2 minutes. Completely free.
+                  </p>
+                </div>
+              )}
 
               {/* Arrow between steps */}
               {index < STEPS.length - 1 && (

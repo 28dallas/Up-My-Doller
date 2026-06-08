@@ -1,11 +1,11 @@
 'use client'
 import { useState } from 'react'
-import Link from 'next/link'
 import { Check, Zap } from 'lucide-react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import { PRICING_TIERS } from '@/lib/data'
+import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
 export default function PricingSection() {
   const [annual, setAnnual] = useState(false)
@@ -88,14 +88,18 @@ export default function PricingSection() {
                     ))}
                   </ul>
 
-                  <Link href={tier.price_usd === 0 ? '/auth/signup' : '/pricing'}>
+                  <a href={DERIV_AFFILIATE_LINK} target="_blank" rel="noopener noreferrer">
                     <Button
                       variant={tier.highlighted ? 'primary' : 'outline'}
                       className="w-full"
                     >
                       {tier.cta}
                     </Button>
-                  </Link>
+                  </a>
+
+                  <p className="text-center text-muted-foreground text-xs mt-3">
+                    Requires a free Deriv account
+                  </p>
 
                   {tier.price_usd > 0 && (
                     <p className="text-center text-muted-foreground text-xs mt-3">

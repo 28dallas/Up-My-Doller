@@ -3,6 +3,7 @@ import { CheckCircle, TrendingUp, Users } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import { MOCK_TRADERS } from '@/lib/data'
+import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
 export default function CopyTradingSection() {
   const topTraders = MOCK_TRADERS.slice(0, 5)
@@ -35,14 +36,24 @@ export default function CopyTradingSection() {
                 </li>
               ))}
             </ul>
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a
+                href={DERIV_AFFILIATE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full sm:w-auto"
+              >
+                <Button variant="primary" className="w-full sm:w-auto">
+                  Start Copying
+                </Button>
+              </a>
               <Link href="/copy-trading">
-                <Button variant="primary">Start Copying</Button>
-              </Link>
-              <Link href="/copy-trading">
-                <Button variant="outline">View All Traders →</Button>
+                <Button variant="outline" className="w-full sm:w-auto">View All Traders →</Button>
               </Link>
             </div>
+            <p className="text-muted-foreground text-xs mt-3 max-w-xl">
+              You&apos;ll need a free Deriv account to start copying trades.
+            </p>
           </div>
 
           {/* Right: Leaderboard */}

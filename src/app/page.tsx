@@ -9,6 +9,7 @@ import CopyTradingSection from '@/components/sections/CopyTradingSection'
 import PricingSection from '@/components/sections/PricingSection'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import StatsBanner from '@/components/sections/StatsBanner'
+import DerivLiveFeed from '@/components/sections/DerivLiveFeed'
 import BlogPreviewSection from '@/components/sections/BlogPreviewSection'
 import CommunityCTASection from '@/components/sections/CommunityCTASection'
 
@@ -21,6 +22,7 @@ export default function HomePage() {
       <LivePlatformStats />
       <HowItWorksSection />
       <StatsBanner />
+      <DerivLiveFeed />
       <FreeBotShowcase />
       <CopyTradingSection />
       <PricingSection />

@@ -6,6 +6,7 @@ import Card from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
 import Button from '@/components/ui/Button'
 import { MOCK_BOTS, MARKET_LABELS, STRATEGY_LABELS } from '@/lib/data'
+import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
 const FILTER_TABS = [
   { label: 'All', value: 'all' },
@@ -29,6 +30,7 @@ function getRiskBadge(risk: string) {
 
 export default function FreeBotShowcase() {
   const [activeTab, setActiveTab] = useState('all')
+  const [activeBot, setActiveBot] = useState<typeof MOCK_BOTS[number] | null>(null)
 
   const filtered = MOCK_BOTS.filter((bot) => {
     if (activeTab === 'all') return true
@@ -102,15 +104,66 @@ export default function FreeBotShowcase() {
                   <Download className="w-3.5 h-3.5" />
                   {bot.download_count.toLocaleString()} downloads
                 </div>
-                <Button variant={bot.is_free ? 'primary' : 'outline'} size="sm">
-                  <Download className="w-3.5 h-3.5" />
-                  {bot.is_free ? 'Download Free' : 'Unlock Pro'}
-                </Button>
+                {bot.is_free ? (
+                  <button
+                    type="button"
+                    onClick={() => setActiveBot(bot)}
+                    className="inline-flex items-center gap-2 rounded-lg bg-[#00c853] px-4 py-2.5 text-sm font-semibold text-black transition-all hover:scale-[1.01] hover:shadow-[0_0_18px_rgba(0,200,83,0.25)]"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    Download Free
+                  </button>
+                ) : (
+                  <Button variant="outline" size="sm">
+                    <Download className="w-3.5 h-3.5" />
+                    Unlock Pro
+                  </Button>
+                )}
               </div>
             </Card>
           ))}
         </div>
       </div>
+
+      {activeBot && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-3xl bg-card border border-border p-8 shadow-2xl">
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Create a Free Deriv Account</h2>
+                <p className="text-muted-foreground mt-2 text-sm max-w-xl">
+                  To download this bot you need a free Deriv account — it only takes 2 minutes to sign up.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveBot(null)}
+                className="text-muted-foreground hover:text-white text-2xl leading-none"
+                aria-label="Close modal"
+              >
+                ×
+              </button>
+            </div>
+            <div className="flex flex-col gap-4">
+              <a
+                href={DERIV_AFFILIATE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full bg-[#00c853] px-6 py-4 text-base font-semibold text-black shadow-[0_0_30px_rgba(0,200,83,0.25)] hover:shadow-[0_0_38px_rgba(0,200,83,0.38)] transition-all"
+              >
+                Create Free Deriv Account →
+              </a>
+              <button
+                type="button"
+                onClick={() => setActiveBot(null)}
+                className="text-sm text-muted-foreground underline underline-offset-4"
+              >
+                Maybe later
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
