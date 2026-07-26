@@ -64,7 +64,7 @@ export default function DisclaimerPage() {
           <div>
             <p className="text-warning font-semibold text-sm mb-1">High Risk Warning</p>
             <p className="text-warning/80 text-sm leading-relaxed">
-              Trading synthetic indices and other financial instruments involves substantial risk of loss and is not suitable for all investors. Only trade with money you can afford to lose completely.
+              Deriv products include CFDs and synthetic indices with a high risk of loss and may not be suitable for all investors. Ensure you understand the risks involved before trading. Only trade with money you can afford to lose completely.
             </p>
           </div>
         </div>

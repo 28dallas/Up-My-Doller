@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Play, TrendingUp, Users, Bot, Activity } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
+import DerivConnectButton from '@/components/shared/DerivConnectButton'
 
 function AnimatedChart() {
   return (
@@ -129,7 +130,7 @@ export default function HeroSection() {
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col gap-4 mb-10">
+              <div className="flex flex-col gap-4 mb-10">
               <div className="flex flex-wrap gap-4 items-center">
                 <a
                   href={DERIV_AFFILIATE_LINK}
@@ -157,6 +158,7 @@ export default function HeroSection() {
                   </div>
                 </a>
               </div>
+              <DerivConnectButton className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-primary/40 px-5 py-2.5 text-sm font-semibold text-primary hover:bg-primary/10 transition-all">Connect existing Deriv account</DerivConnectButton>
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground max-w-xl">
                   Free to join • No credit card • Trusted by Deriv

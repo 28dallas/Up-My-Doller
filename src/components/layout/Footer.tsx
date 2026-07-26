@@ -25,7 +25,7 @@ const FOOTER_LINKS = {
     { label: 'Terms of Service', href: '/terms' },
     { label: 'Disclaimer', href: '/disclaimer' },
     { label: 'Cookie Policy', href: '/cookies' },
-    { label: 'Sitemap', href: 'https://up-my-doller-yn86.vercel.app/sitemap.xml' },
+    { label: 'Sitemap', href: '/sitemap.xml' },
   ],
 }
 

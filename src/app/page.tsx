@@ -12,11 +12,14 @@ import StatsBanner from '@/components/sections/StatsBanner'
 import DerivLiveFeed from '@/components/sections/DerivLiveFeed'
 import BlogPreviewSection from '@/components/sections/BlogPreviewSection'
 import CommunityCTASection from '@/components/sections/CommunityCTASection'
+import MpesaGuideSection from '@/components/sections/MpesaGuideSection'
+import RiskNotice from '@/components/shared/RiskNotice'
 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-background pt-24">
       <HeroSection />
+      <RiskNotice />
       <FeaturesSection />
       <WhyChooseUsSection />
       <LivePlatformStats />
@@ -25,6 +28,7 @@ export default function HomePage() {
       <DerivLiveFeed />
       <FreeBotShowcase />
       <CopyTradingSection />
+      <MpesaGuideSection />
       <PricingSection />
       <TestimonialsSection />
       <BlogPreviewSection />

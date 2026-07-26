@@ -58,7 +58,7 @@ export default function WhyChooseUsSection() {
           
           {/* Right Column (7 cols) */}
           <div className="lg:col-span-7">
-            <Card glow="green" className="border-primary/20 bg-card/65 backdrop-blur-md">
+            <Card glow="emerald" className="border-primary/20 bg-card/65 backdrop-blur-md">
               <div className="grid sm:grid-cols-2 gap-4">
                 {CHECKLIST.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3 p-1">

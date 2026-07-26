@@ -7,6 +7,7 @@ import {
   TrendingUp, Cpu, Zap, Target, LineChart, Copy, Bolt
 } from 'lucide-react'
 import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
+import DerivConnectButton from '@/components/shared/DerivConnectButton'
 
 const NAV_ITEMS = [
   { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -72,12 +73,7 @@ export default function Navbar() {
             <span className="hidden sm:inline">WhatsApp</span>
           </a>
 
-          <Link
-            href="/auth/login"
-            className="hidden sm:inline-flex items-center px-4 py-1.5 rounded text-white text-sm font-medium border border-[#2a3080] hover:bg-[#1a2060] transition-all"
-          >
-            Log in
-          </Link>
+          <div className="hidden sm:block"><DerivConnectButton className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded text-white text-sm font-medium border border-[#2a3080] hover:bg-[#1a2060] transition-all">Connect Deriv</DerivConnectButton></div>
           <Link
             href="/dashboard/api-token"
             className="hidden sm:inline-flex items-center px-4 py-1.5 rounded text-white text-sm font-medium bg-[#1a2060] hover:bg-[#2a3080] border border-[#2a3080] transition-all"

@@ -107,7 +107,7 @@ export default function APITokenPage() {
             </ol>
             <div className="flex flex-wrap gap-2.5">
               <a href="https://app.deriv.com/account/api-token" target="_blank" rel="noopener noreferrer">
-                <Button variant="gold" size="sm">
+                <Button variant="primary" size="sm">
                   <ExternalLink className="w-3.5 h-3.5" />
                   Open Deriv API Token Page
                 </Button>
@@ -236,7 +236,7 @@ export default function APITokenPage() {
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-4 h-4 text-warning shrink-0 mt-0.5" />
           <p className="text-muted-foreground text-xs leading-relaxed">
-            <strong className="text-warning">Security Notice:</strong> Your API tokens are encrypted and stored securely. We never share your tokens with third parties. Revoke access anytime by deleting the token here or from your Deriv account settings.
+            <strong className="text-warning">Security Notice:</strong> Do not paste a token into an untrusted device. This screen is a connection setup preview; use the secure Deriv OAuth connection above to keep your password private. You can revoke access anytime in Deriv account settings.
           </p>
         </div>
       </Card>

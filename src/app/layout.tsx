@@ -3,18 +3,20 @@ import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pipsdollarprinter.com'
+
 export const metadata: Metadata = {
   title: 'Pips Dollar Printer — Deriv Bot Builder & Copy Trading',
   description: 'Build profitable Deriv trading bots without coding. Copy top traders, download 500+ free bots, and automate your trading on Deriv.com.',
   keywords: 'Deriv bot builder, copy trading, trading bots Kenya, Deriv automation, binary options bot',
-  metadataBase: new URL('https://up-my-doller-yn86.vercel.app'),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: 'Pips Dollar Printer — Deriv Bot Builder & Copy Trading',
     description: 'Build profitable Deriv trading bots without coding.',
     type: 'website',
     locale: 'en_KE',
     siteName: 'Pips Dollar Printer',
-    url: 'https://up-my-doller-yn86.vercel.app',
+    url: siteUrl,
   },
   twitter: {
     site: '@pipsdollarprinter',
