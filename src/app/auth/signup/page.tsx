@@ -1,12 +1,16 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { TrendingUp, Eye, EyeOff, Mail, Lock, User, Phone, Gift } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Eye, EyeOff, Mail, Lock, User, Phone, Gift } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import { supabase } from '@/lib/supabase'
 
 export default function SignupPage() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [agreed, setAgreed] = useState(false)
   const [form, setForm] = useState({
     full_name: '',
@@ -19,11 +23,36 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (form.password !== form.confirm_password) return alert('Passwords do not match')
-    if (!agreed) return alert('Please accept the Terms of Service')
+    if (form.password !== form.confirm_password) return setError('Passwords do not match')
+    if (!agreed) return setError('Please accept the Terms of Service')
     setLoading(true)
-    // TODO: Supabase auth
-    setTimeout(() => setLoading(false), 1500)
+    setError('')
+
+    const { error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+      options: {
+        data: {
+          full_name: form.full_name,
+          phone: form.phone,
+          referral_code: form.referral_code,
+        },
+      },
+    })
+
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+    } else {
+      router.push('/dashboard')
+    }
+  }
+
+  const handleGoogle = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}/dashboard` },
+    })
   }
 
   const update = (field: string, value: string) => setForm({ ...form, [field]: value })
@@ -36,19 +65,21 @@ export default function SignupPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-black" />
+              <span className="text-primary-foreground font-extrabold">DB</span>
             </div>
             <span className="font-bold text-white text-lg">
-              Pips <span className="text-primary">Dollar</span> Printer
+              DB<span className="text-primary">Traders</span>
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-white">Create your account</h1>
-          <p className="text-muted-foreground text-sm mt-1">Start trading smarter today — it&apos;s free</p>
+          <p className="text-muted-foreground text-sm mt-1">Start copy trading and automate your Deriv strategies</p>
         </div>
 
         <div className="bg-card border border-border rounded-2xl p-8">
-          {/* Google OAuth */}
-          <button className="w-full flex items-center justify-center gap-3 border border-border rounded-lg py-3 text-white text-sm font-medium hover:bg-white/5 transition-all mb-6">
+          <button
+            onClick={handleGoogle}
+            className="w-full flex items-center justify-center gap-3 border border-border rounded-lg py-3 text-white text-sm font-medium hover:bg-white/5 transition-all mb-6"
+          >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -63,6 +94,12 @@ export default function SignupPage() {
             <span className="text-muted-foreground text-xs">or sign up with email</span>
             <div className="flex-1 h-px bg-border" />
           </div>
+
+          {error && (
+            <div className="mb-4 p-3 bg-danger/10 border border-danger/30 rounded-lg text-danger text-sm">
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {[

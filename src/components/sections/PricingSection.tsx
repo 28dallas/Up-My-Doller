@@ -44,7 +44,7 @@ export default function PricingSection() {
               <div key={tier.name} className={`relative ${tier.highlighted ? 'md:-mt-4 md:mb-4' : ''}`}>
                 {tier.highlighted && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                    <Badge variant="gold" className="px-4 py-1 text-xs font-bold">
+                    <Badge variant="green" className="px-4 py-1 text-xs font-bold">
                       <Zap className="w-3 h-3 mr-1" />
                       MOST POPULAR
                     </Badge>

@@ -1,70 +1,58 @@
-import { Bot, Copy, Gift, BarChart3, Bell, Shield } from 'lucide-react'
+import { Bot, Copy, LineChart, Shield, Zap, Users } from 'lucide-react'
 import Card from '@/components/ui/Card'
 
 const FEATURES = [
   {
-    icon: Bot,
-    title: 'No-Code Bot Builder',
-    description: 'Drag & drop strategy builder. Create complex trading bots in minutes without writing a single line of code.',
-    color: 'text-primary',
-    bg: 'bg-primary/10',
-  },
-  {
     icon: Copy,
     title: 'Copy Trading',
-    description: 'Copy top-performing traders automatically. Mirror their trades in real-time and earn while you learn.',
-    color: 'text-blue-400',
-    bg: 'bg-blue-400/10',
+    description: 'Mirror top-performing strategy providers in real-time. Set stake limits and let the pros trade for you.',
   },
   {
-    icon: Gift,
-    title: 'Free Bots Library',
-    description: 'Download 500+ ready-made bot strategies. Tested, backtested, and optimized for Deriv markets.',
-    color: 'text-gold',
-    bg: 'bg-gold/10',
+    icon: Zap,
+    title: 'Zero-Delay Execution',
+    description: 'Lightning-fast trade execution with no lag. Your bots react to market moves instantly.',
   },
   {
-    icon: BarChart3,
-    title: 'Real-Time Stats',
-    description: 'Live P&L, win rate, and drawdown tracking. Know exactly how your bots are performing at all times.',
-    color: 'text-success',
-    bg: 'bg-success/10',
+    icon: Bot,
+    title: '100+ Trading Bots',
+    description: 'Pre-built, backtested bots for Volatility, Boom/Crash, Forex, and Step Index markets.',
   },
   {
-    icon: Bell,
-    title: 'Telegram Alerts',
-    description: 'Get notified on every trade via Telegram. Never miss a win or a loss — stay in control 24/7.',
-    color: 'text-purple-400',
-    bg: 'bg-purple-400/10',
+    icon: LineChart,
+    title: 'Live Performance Stats',
+    description: 'Real-time win rate, drawdown, and return tracking. Know exactly how strategies perform.',
   },
   {
     icon: Shield,
-    title: 'Secure & Private',
-    description: 'OAuth login, no API key exposure. Your Deriv credentials are never stored on our servers.',
-    color: 'text-warning',
-    bg: 'bg-warning/10',
+    title: 'Secure OAuth Login',
+    description: 'Connect your Deriv account securely. API tokens are encrypted and never exposed.',
+  },
+  {
+    icon: Users,
+    title: 'Community & Mentorship',
+    description: 'Join live sessions, Telegram signals, and mentorship programs from verified traders.',
   },
 ]
 
 export default function FeaturesSection() {
   return (
-    <section className="py-20 relative">
+    <section className="py-20 border-t border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
-          <h2 className="section-heading">Everything You Need to Trade Like a Pro</h2>
-          <p className="section-subheading text-muted-foreground text-lg mt-3 max-w-2xl mx-auto">
-            A complete trading automation suite built specifically for Deriv.com traders across Africa.
+          <h2 className="section-heading">Powerful Tools for Every Trader</h2>
+          <p className="section-subheading mx-auto">
+            Everything you need to trade smarter — copy trading, automated bots, and real-time analytics in one platform.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {FEATURES.map((feature) => (
-            <Card key={feature.title} glow="green" className="group">
-              <div className={`w-12 h-12 rounded-xl ${feature.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                <feature.icon className={`w-6 h-6 ${feature.color}`} />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {FEATURES.map(({ icon: Icon, title, description }) => (
+            <Card key={title} glow="emerald" className="group">
+              <div className="w-11 h-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <Icon className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-white font-bold text-lg mb-2">{feature.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
+              <h3 className="text-white font-bold text-lg mb-2">{title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
             </Card>
           ))}
         </div>

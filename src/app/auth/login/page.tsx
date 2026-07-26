@@ -1,45 +1,64 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { TrendingUp, Eye, EyeOff, Mail, Lock } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import { supabase } from '@/lib/supabase'
 
 export default function LoginPage() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({ email: '', password: '' })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    // TODO: Supabase auth
-    setTimeout(() => setLoading(false), 1500)
+    setError('')
+    const { error } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    })
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+    } else {
+      router.push('/dashboard')
+    }
+  }
+
+  const handleGoogle = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}/dashboard` },
+    })
   }
 
   return (
     <div className="min-h-screen bg-background grid-bg flex items-center justify-center px-4 pt-24">
-      {/* Background glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
 
       <div className="relative w-full max-w-md">
-        {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-black" />
+              <span className="text-primary-foreground font-extrabold">DB</span>
             </div>
             <span className="font-bold text-white text-lg">
-              Pips <span className="text-primary">Dollar</span> Printer
+              DB<span className="text-primary">Traders</span>
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-white">Welcome back</h1>
-          <p className="text-muted-foreground text-sm mt-1">Sign in to your trading dashboard</p>
+          <p className="text-muted-foreground text-sm mt-1">Sign in to access your trading dashboard</p>
         </div>
 
-        {/* Card */}
         <div className="bg-card border border-border rounded-2xl p-8">
-          {/* Google OAuth */}
-          <button className="w-full flex items-center justify-center gap-3 border border-border rounded-lg py-3 text-white text-sm font-medium hover:bg-white/5 transition-all mb-6">
+          <button
+            onClick={handleGoogle}
+            className="w-full flex items-center justify-center gap-3 border border-border rounded-lg py-3 text-white text-sm font-medium hover:bg-white/5 transition-all mb-6"
+          >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -54,6 +73,12 @@ export default function LoginPage() {
             <span className="text-muted-foreground text-xs">or sign in with email</span>
             <div className="flex-1 h-px bg-border" />
           </div>
+
+          {error && (
+            <div className="mb-4 p-3 bg-danger/10 border border-danger/30 rounded-lg text-danger text-sm">
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>

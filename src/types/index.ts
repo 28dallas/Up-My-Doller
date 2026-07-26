@@ -117,3 +117,43 @@ export interface PricingTier {
   highlighted: boolean
   cta: string
 }
+
+export type StrategyMarket = 'volatility' | 'boom_crash' | 'forex' | 'step_index' | 'synthetic'
+export type StrategyStatus = 'active' | 'paused' | 'full'
+
+export interface Strategy {
+  id: string
+  name: string
+  provider: string
+  market: StrategyMarket
+  win_rate: number
+  total_return: number
+  drawdown: number
+  followers: number
+  min_stake: number
+  is_verified: boolean
+  status: StrategyStatus
+  last_updated: string
+}
+
+export interface OpenTrade {
+  id: string
+  strategy_id: string
+  strategy_name: string
+  market: string
+  direction: 'CALL' | 'PUT' | 'OVER' | 'UNDER'
+  stake: number
+  profit_loss: number
+  status: 'open' | 'won' | 'lost'
+  opened_at: string
+}
+
+export interface LiveMarketSnapshot {
+  timestamp: string
+  balance: number
+  today_pnl: number
+  win_rate: number
+  active_trades: number
+  strategies: Strategy[]
+  open_trades: OpenTrade[]
+}

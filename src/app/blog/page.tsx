@@ -53,7 +53,7 @@ export default function BlogPage() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {MOCK_BLOG_POSTS.map((post) => (
-            <Card key={post.id} glow="green" className="flex flex-col group">
+            <Card key={post.id} glow="emerald" className="flex flex-col group">
               <div className="w-full h-44 rounded-lg bg-gradient-to-br from-primary/10 to-gold/10 border border-border mb-4 flex items-center justify-center">
                 <div className="text-3xl font-bold text-primary">Chart</div>
               </div>

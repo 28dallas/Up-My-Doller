@@ -54,7 +54,7 @@ export default function CommunityPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-12">
         <div className="grid sm:grid-cols-3 gap-5">
           {CHANNELS.map((channel) => (
-            <Card key={channel.name} glow="green" className="text-center">
+            <Card key={channel.name} glow="emerald" className="text-center">
               <div className="text-4xl mb-3 font-bold text-primary">{channel.icon}</div>
               <h3 className="text-white font-bold mb-1">{channel.name}</h3>
               <div className="text-primary font-mono text-sm font-bold mb-2">{channel.members} members</div>

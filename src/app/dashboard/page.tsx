@@ -1,42 +1,33 @@
 'use client'
-import { TrendingUp, TrendingDown, Bot, Copy, Plus, Wallet, Activity } from 'lucide-react'
+
+import { useEffect } from 'react'
 import Link from 'next/link'
+import {
+  TrendingUp, TrendingDown, Bot, Copy, Plus, Wallet, Activity, Radio,
+} from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
+import { useTradingStore } from '@/stores/trading-store'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import StrategyTable from '@/components/trading/StrategyTable'
 
 const CHART_DATA = [
-  { day: 'Mon', pnl: 1200 },
-  { day: 'Tue', pnl: 2100 },
-  { day: 'Wed', pnl: 1800 },
-  { day: 'Thu', pnl: 3200 },
-  { day: 'Fri', pnl: 2800 },
-  { day: 'Sat', pnl: 4100 },
-  { day: 'Sun', pnl: 3750 },
+  { day: 'Mon', pnl: 120 },
+  { day: 'Tue', pnl: 210 },
+  { day: 'Wed', pnl: 180 },
+  { day: 'Thu', pnl: 320 },
+  { day: 'Fri', pnl: 280 },
+  { day: 'Sat', pnl: 410 },
+  { day: 'Sun', pnl: 342 },
 ]
 
-const RECENT_ACTIVITY = [
-  { type: 'win', bot: 'Volatility Crusher v3', market: 'V10', profit: '+KES 340', time: '2 min ago' },
-  { type: 'loss', bot: 'Boom Rider Pro', market: 'Boom 1000', profit: '-KES 120', time: '8 min ago' },
-  { type: 'win', bot: 'Even Odd Master', market: 'V25', profit: '+KES 210', time: '15 min ago' },
-  { type: 'win', bot: 'Volatility Crusher v3', market: 'V10', profit: '+KES 290', time: '22 min ago' },
-  { type: 'win', bot: 'Step Index Scalper', market: 'Step', profit: '+KES 180', time: '31 min ago' },
-]
-
-const STATS = [
-  { label: 'Active Bots', value: '3', icon: Bot, color: 'text-primary', bg: 'bg-primary/10', change: null },
-  { label: "Today's P&L", value: '+KES 1,240', icon: TrendingUp, color: 'text-success', bg: 'bg-success/10', change: '+12.4%' },
-  { label: 'Win Rate (7d)', value: '71.3%', icon: Activity, color: 'text-gold', bg: 'bg-gold/10', change: '+2.1%' },
-  { label: 'Account Balance', value: 'KES 45,230', icon: Wallet, color: 'text-blue-400', bg: 'bg-blue-400/10', change: null },
-]
-
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: { value: number }[]; label?: string }) => {
   if (active && payload?.length) {
     return (
       <div className="bg-card border border-border rounded-lg px-3 py-2">
         <p className="text-muted-foreground text-xs">{label}</p>
-        <p className="text-success font-bold font-mono text-sm">KES {payload[0].value.toLocaleString()}</p>
+        <p className="text-primary font-bold font-mono text-sm">${payload[0].value.toLocaleString()}</p>
       </div>
     )
   }
@@ -44,43 +35,64 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 }
 
 export default function DashboardOverview() {
+  const { snapshot, isLive, startPolling, copiedStrategies } = useTradingStore()
+
+  useEffect(() => startPolling(4000), [startPolling])
+
+  const balance = snapshot?.balance ?? 12450.75
+  const todayPnl = snapshot?.today_pnl ?? 342.18
+  const winRate = snapshot?.win_rate ?? 74.2
+  const activeTrades = snapshot?.active_trades ?? 2
+  const openTrades = snapshot?.open_trades ?? []
+
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
 
+  const stats = [
+    { label: 'Account Balance', value: `$${balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, icon: Wallet, color: 'text-primary', bg: 'bg-primary/10' },
+    { label: "Today's P&L", value: `${todayPnl >= 0 ? '+' : ''}$${todayPnl.toFixed(2)}`, icon: TrendingUp, color: todayPnl >= 0 ? 'text-primary' : 'text-danger', bg: todayPnl >= 0 ? 'bg-primary/10' : 'bg-danger/10', change: todayPnl >= 0 ? `+${((todayPnl / balance) * 100).toFixed(1)}%` : undefined },
+    { label: 'Win Rate', value: `${winRate.toFixed(1)}%`, icon: Activity, color: 'text-accent', bg: 'bg-accent/10', change: isLive ? 'Live' : undefined },
+    { label: 'Active Trades', value: String(activeTrades), icon: Bot, color: 'text-blue-400', bg: 'bg-blue-400/10' },
+  ]
+
   return (
     <div className="space-y-6">
-      {/* Welcome header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">{greeting}, James</h1>
-          <p className="text-muted-foreground text-sm mt-1">Here&apos;s your trading performance today</p>
+          <div className="flex items-center gap-3 mb-1">
+            <h1 className="text-2xl font-bold text-white">{greeting}, Trader</h1>
+            {isLive && <Badge variant="live">LIVE</Badge>}
+          </div>
+          <p className="text-muted-foreground text-sm">Real-time trading performance — updates every 4 seconds</p>
         </div>
         <div className="flex gap-3">
           <Link href="/dashboard/bot-builder">
             <Button variant="primary" size="sm">
               <Plus className="w-4 h-4" />
-              Add New Bot
+              Add Bot
             </Button>
           </Link>
-          <Link href="/copy-trading">
+          <Link href="/dashboard/copy-trading">
             <Button variant="outline" size="sm">
               <Copy className="w-4 h-4" />
-              Copy Trader
+              Copy Strategy
             </Button>
           </Link>
         </div>
       </div>
 
-      {/* Stats cards */}
+      {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {STATS.map((stat) => (
+        {stats.map((stat) => (
           <Card key={stat.label} className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <div className={`w-9 h-9 rounded-lg ${stat.bg} flex items-center justify-center`}>
                 <stat.icon className={`w-5 h-5 ${stat.color}`} />
               </div>
               {stat.change && (
-                <Badge variant="green" className="text-xs">{stat.change}</Badge>
+                <Badge variant={stat.change === 'Live' ? 'live' : 'green'} className="text-xs">
+                  {stat.change}
+                </Badge>
               )}
             </div>
             <div>
@@ -91,55 +103,70 @@ export default function DashboardOverview() {
         ))}
       </div>
 
-      {/* Chart + Activity */}
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* P&L Chart */}
         <Card className="lg:col-span-2">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-white font-bold">7-Day P&L Performance</h2>
-            <Badge variant="green">+KES 18,450 this week</Badge>
+            <h2 className="text-white font-bold">7-Day P&L</h2>
+            <Badge variant="green">+${CHART_DATA.reduce((s, d) => s + d.pnl, 0).toLocaleString()} this week</Badge>
           </div>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={CHART_DATA}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1E2A40" />
-              <XAxis dataKey="day" tick={{ fill: '#8899AA', fontSize: 12 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#8899AA', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v/1000}k`} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+              <XAxis dataKey="day" tick={{ fill: '#a1a1aa', fontSize: 12 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: '#a1a1aa', fontSize: 11 }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
-              <Line
-                type="monotone"
-                dataKey="pnl"
-                stroke="#00E676"
-                strokeWidth={2.5}
-                dot={{ fill: '#00E676', r: 4 }}
-                activeDot={{ r: 6, fill: '#00E676' }}
-              />
+              <Line type="monotone" dataKey="pnl" stroke="#10b981" strokeWidth={2.5} dot={{ fill: '#10b981', r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         </Card>
 
-        {/* Recent Activity */}
         <Card>
-          <h2 className="text-white font-bold mb-4">Recent Activity</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-white font-bold">Open Trades</h2>
+            <Radio className="w-4 h-4 text-primary animate-pulse" />
+          </div>
           <div className="space-y-3">
-            {RECENT_ACTIVITY.map((item, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${item.type === 'win' ? 'bg-success/20' : 'bg-danger/20'}`}>
-                  {item.type === 'win'
-                    ? <TrendingUp className="w-3.5 h-3.5 text-success" />
-                    : <TrendingDown className="w-3.5 h-3.5 text-danger" />
-                  }
+            {openTrades.length === 0 ? (
+              <p className="text-muted-foreground text-sm text-center py-6">No open trades</p>
+            ) : (
+              openTrades.map((trade) => (
+                <div key={trade.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-surface border border-border">
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                    trade.profit_loss >= 0 ? 'bg-primary/15' : 'bg-danger/15'
+                  }`}>
+                    {trade.profit_loss >= 0
+                      ? <TrendingUp className="w-3.5 h-3.5 text-primary" />
+                      : <TrendingDown className="w-3.5 h-3.5 text-danger" />
+                    }
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-white text-xs font-medium truncate">{trade.strategy_name}</div>
+                    <div className="text-muted-foreground text-xs">{trade.market} · {trade.direction}</div>
+                  </div>
+                  <div className={`text-xs font-bold font-mono ${trade.profit_loss >= 0 ? 'text-primary' : 'text-danger'}`}>
+                    {trade.profit_loss >= 0 ? '+' : ''}${Math.abs(trade.profit_loss).toFixed(2)}
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-white text-xs font-medium truncate">{item.bot}</div>
-                  <div className="text-muted-foreground text-xs">{item.market} | {item.time}</div>
-                </div>
-                <div className={`text-xs font-bold font-mono shrink-0 ${item.type === 'win' ? 'text-success' : 'text-danger'}`}>
-                  {item.profit}
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </Card>
+      </div>
+
+      {/* Copied strategies summary */}
+      {copiedStrategies.length > 0 && (
+        <Card glow="emerald">
+          <h2 className="text-white font-bold mb-2">Active Copy Subscriptions</h2>
+          <p className="text-muted-foreground text-sm">
+            You are copying {copiedStrategies.length} strateg{copiedStrategies.length === 1 ? 'y' : 'ies'}.
+            Trades mirror automatically with zero delay.
+          </p>
+        </Card>
+      )}
+
+      <div>
+        <h2 className="text-white font-bold text-lg mb-4">Strategy Providers</h2>
+        <StrategyTable showLive compact />
       </div>
     </div>
   )

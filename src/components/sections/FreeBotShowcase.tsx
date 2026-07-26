@@ -74,7 +74,7 @@ export default function FreeBotShowcase() {
         {/* Bot cards grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.map((bot) => (
-            <Card key={bot.id} glow="green" className="flex flex-col gap-4">
+            <Card key={bot.id} glow="emerald" className="flex flex-col gap-4">
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-white font-bold text-base mb-1">{bot.name}</h3>

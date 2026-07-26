@@ -6,7 +6,7 @@ export default function CommunityCTASection() {
   return (
     <section className="py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative bg-gradient-to-br from-primary/10 via-card to-gold/10 border border-primary/20 rounded-3xl p-10 md:p-16 text-center overflow-hidden">
+        <div className="relative bg-gradient-to-br from-primary/10 via-card to-primary/5 border border-primary/20 rounded-3xl p-10 md:p-16 text-center overflow-hidden">
           {/* Background decoration */}
           <div className="absolute inset-0 grid-bg opacity-30" />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
@@ -17,10 +17,10 @@ export default function CommunityCTASection() {
             </div>
 
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
-              Join 12,000+ Traders on Telegram
+              Join the DBTraders Community
             </h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-              Get free trading signals, bot updates, strategy discussions, and connect with profitable traders across Africa.
+              Get live signals, strategy updates, mentorship sessions, and connect with profitable Deriv traders.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

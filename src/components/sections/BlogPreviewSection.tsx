@@ -34,7 +34,7 @@ export default function BlogPreviewSection() {
 
         <div className="grid md:grid-cols-3 gap-6">
           {MOCK_BLOG_POSTS.map((post) => (
-            <Card key={post.id} glow="green" className="flex flex-col group">
+            <Card key={post.id} glow="emerald" className="flex flex-col group">
               {/* Cover image placeholder */}
               <div className="w-full h-40 rounded-lg bg-gradient-to-br from-primary/10 to-gold/10 border border-border mb-4 flex items-center justify-center">
                 <div className="text-4xl">📈</div>
