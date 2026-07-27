@@ -99,7 +99,7 @@ export default function SpeedbotPage() {
             <Zap className="w-6 h-6 text-gold" />
             Speedbot
           </h1>
-          <p className="text-muted-foreground text-sm mt-1">High-frequency automated trading bot</p>
+          <p className="text-muted-foreground text-sm mt-1">Strategy simulator — no live orders are sent</p>
         </div>
         <Badge variant={running ? 'green' : 'default'}>
           {running ? (
@@ -164,19 +164,19 @@ export default function SpeedbotPage() {
             {running ? (
               <Button variant="ghost" className="w-full border border-danger/30 text-danger hover:bg-danger/10" onClick={stopBot}>
                 <Square className="w-4 h-4" />
-                Stop Bot
+                Stop Simulation
               </Button>
             ) : (
               <Button variant="primary" className="w-full" onClick={startBot}>
                 <Play className="w-4 h-4" />
-                Start Speedbot
+                Start Simulation
               </Button>
             )}
           </div>
 
           <div className="flex items-start gap-2 p-3 bg-warning/5 border border-warning/20 rounded-xl">
             <AlertTriangle className="w-4 h-4 text-warning shrink-0 mt-0.5" />
-            <p className="text-muted-foreground text-xs">High-frequency trading carries significant risk. Use small stakes.</p>
+            <p className="text-muted-foreground text-xs">This is a simulation. High-frequency trading carries significant risk; use a demo account when live execution is added.</p>
           </div>
         </Card>
 

@@ -133,7 +133,7 @@ export default function BotBuilderPage() {
                     className="w-full border border-[#1E2A40] bg-[#121829] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-primary" />
                 </div>
                 <button onClick={() => setRunning(true)} className="w-full bg-primary hover:bg-primary/90 text-black font-semibold py-2.5 rounded-lg transition-all">
-                  Apply Strategy
+                  Preview Strategy
                 </button>
               </div>
             </div>
@@ -150,12 +150,12 @@ export default function BotBuilderPage() {
               className={`flex items-center gap-2 px-5 py-2 rounded font-semibold text-sm transition-all ${running ? 'bg-danger hover:bg-danger/90 text-white' : 'bg-primary hover:bg-primary/90 text-black'}`}
             >
               <Play className="w-4 h-4" style={{ fill: running ? 'white' : 'black' }} />
-              {running ? 'Stop' : 'Run'}
+              {running ? 'Stop Preview' : 'Run Preview'}
             </button>
             <span className="text-xs">
               {running
-                ? <span className="flex items-center gap-1 text-primary font-medium"><span className="w-2 h-2 rounded-full bg-primary animate-pulse inline-block" />Bot is running</span>
-                : <span className="text-[#8899AA]">Bot is not running</span>}
+                ? <span className="flex items-center gap-1 text-primary font-medium"><span className="w-2 h-2 rounded-full bg-primary animate-pulse inline-block" />Preview is running</span>
+                : <span className="text-[#8899AA]">Preview is not running</span>}
             </span>
           </div>
 

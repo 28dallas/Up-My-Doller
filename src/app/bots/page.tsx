@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { Play, RotateCcw, ChevronLeft, AlertTriangle, X, Search } from 'lucide-react'
+import DemoModeNotice from '@/components/shared/DemoModeNotice'
 
 type Tab = 'summary' | 'transactions' | 'journal'
 
@@ -35,6 +36,7 @@ export default function FreeBotsPage() {
 
       {/* Main area */}
       <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="px-4 pt-3"><DemoModeNotice /></div>
         {/* Search */}
         <div className="px-4 py-3 border-b border-[#1E2A40] bg-[#121829]">
           <div className="relative max-w-sm">
@@ -98,12 +100,12 @@ export default function FreeBotsPage() {
               } ${!loadedBot ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <Play className="w-4 h-4" style={{ fill: running ? 'white' : 'black' }} />
-              {running ? 'Stop' : 'Run'}
+              {running ? 'Stop Preview' : 'Run Preview'}
             </button>
             <span className="text-xs">
               {running
-                ? <span className="flex items-center gap-1 text-primary font-medium"><span className="w-2 h-2 rounded-full bg-primary animate-pulse inline-block" />Bot is running</span>
-                : <span className="text-[#8899AA]">Bot is not running</span>}
+                ? <span className="flex items-center gap-1 text-primary font-medium"><span className="w-2 h-2 rounded-full bg-primary animate-pulse inline-block" />Preview is running</span>
+                : <span className="text-[#8899AA]">Preview is not running</span>}
             </span>
           </div>
 

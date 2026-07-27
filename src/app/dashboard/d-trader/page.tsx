@@ -106,7 +106,7 @@ export default function DTraderPage() {
         <h1 className="text-2xl font-bold text-white">D-Trader</h1>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
-          <span className="text-success text-xs font-medium">Live Trading</span>
+          <span className="text-warning text-xs font-medium">Simulated trading</span>
         </div>
       </div>
 
@@ -190,7 +190,7 @@ export default function DTraderPage() {
         {/* Right: Trade panel */}
         <div className="space-y-4">
           <Card>
-            <h2 className="text-white font-bold mb-4">Place Trade</h2>
+            <h2 className="text-white font-bold mb-4">Simulate Trade</h2>
 
             {/* Contract type */}
             <div className="mb-4">
