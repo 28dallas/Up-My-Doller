@@ -37,8 +37,8 @@ export default function StrategiesPage() {
             Proven <span className="gradient-text">Trading Strategies</span> for Deriv
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            Five battle-tested strategies used by successful Deriv traders. Each includes win rates, step-by-step guides, risk levels, and a
-            video tutorial.
+Seven battle-tested strategies used by successful Deriv traders — from beginner-friendly market plays to advanced recovery
+            systems like Alembert and Oscar&apos;s Grind. Each includes win rates, step-by-step guides, risk levels, and a video tutorial.
           </p>
         </div>
       </section>

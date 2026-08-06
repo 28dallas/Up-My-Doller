@@ -84,8 +84,24 @@ const FULL_CONTENT: Record<string, string[]> = {
     'Pick a bot that trades a market matching your schedule. Synthetic indices run 24/7; forex follows specific sessions.',
     '## 4. Test on Demo',
     'Always run any bot on a Deriv demo account first. Observe its performance over several days before risking real money.',
-    '## 5. Manage Your Risk',
+'## 5. Manage Your Risk',
     'Whatever bot you choose, set a stop loss and take profit. Never risk more than you can afford to lose, regardless of a bot\'s win rate.',
+  ],
+  'alembert-vs-martingale-vs-oscars-grind': [
+    'Recovery (or "progression") strategies are how many automated traders turn a near-50/50 win rate into steady profits. But not all recovery systems are created equal — and the riskiest one, Martingale, is also the most popular.',
+    '## Martingale: The Double-or-Nothing\nMartingale doubles your stake after every loss. One win recovers all previous losses plus a profit. The problem: after just 5 consecutive losses your stake has grown 32x. A long losing streak can wipe out your entire bankroll.',
+    '## Alembert: The Flat Progression\nAlembert increases your stake by just one fixed unit after a loss, and decreases it by one unit after a win. Risk grows linearly, not exponentially. It is far safer for beginners, though it recovers losses more slowly.',
+    '## Oscar&apos;s Grind: Only Increase After Wins\nOscar&apos;s Grind only increases your stake after a win, and resets once you reach your profit target. Because you never compound on losses, it is one of the safest progression systems available.',
+    '## Which Should You Choose?\nIf you have a large budget and trade short, aggressive sessions, Martingale can work — but only with a strict cap. If you want steady, low-risk growth, Alembert or Oscar&apos;s Grind are the smarter, safer choices.',
+    '## The Golden Rule\nWhatever system you use, always cap your maximum stake and set a hard stop loss. No recovery strategy is guaranteed. Only trade money you can afford to lose.',
+  ],
+  'what-is-alembert-strategy': [
+    'The Alembert (or D&apos;Alembert) strategy is a flat-progression recovery method that is significantly safer than Martingale. Instead of doubling your stake after every loss, you only increase it by a single fixed unit.',
+    '## How Alembert Works\nWith a $1 base stake: after a loss your next stake becomes $2, then $3, $4, and so on. After a win, you step back down by one unit. This keeps your risk growing slowly and linearly rather than exponentially.',
+    '## Why It&apos;s Safer Than Martingale\nAfter 5 losses, Martingale would have you staking 32x your base. Alembert would only have you at 6x. This dramatically reduces the chance that a losing streak wipes out your account.',
+    '## Best Markets for Alembert\nAlembert works best on near-50/50 strategies like Over/Under or Even/Odd on low-volatility indices (Volatility 10, Volatility 25), where your win rate is stable enough for the flat progression to succeed.',
+    '## The Trade-Off\nAlembert recovers losses more slowly than Martingale. It requires patience and enough trades to smooth out variance. But for most traders, that slow, steady approach is exactly what makes it sustainable.',
+    '## Try It With a Bot\nYou can automate Alembert easily. Use our risk calculator to plan your stake sequence, then apply it to a matching bot from our recommended list.',
   ],
 }
 

@@ -43,3 +43,18 @@
 - [x] `npm run build` — compiled successfully, types passed, 52 static pages generated
 - [x] Educational pages all generate without errors
 - [x] Pre-existing Supabase env error on `/auth/login` & `/auth/signup` (needs `.env.local`, unrelated to this task)
+
+## Phase 6 - Reference-Inspired Enhancements
+- [x] Added Alembert & Oscar's Grind recovery strategies to `/strategies` & `/strategies/[slug]`
+- [x] Added strategy comparison section to risk calculator (Martingale vs Alembert vs Oscar's Grind)
+- [x] Added recovery-strategy blog posts (Alembert vs Martingale, What is Alembert)
+- [x] Updated sitemap with new strategy slugs
+- [x] Final `npm run build` verification — completed successfully, 52 pages generated, all routes present
+
+## Phase 7 - Floating AI Trading Assistant
+- [x] Created `src/components/learn/FloatingAI.tsx` — floating chat widget (like dbtraders.com's LiveChat)
+- [x] Rule-based AI answers about markets, strategies, martingale, risk, bots, and account setup
+- [x] Quick-action chips for common questions
+- [x] Added to `src/app/layout.tsx` so it floats on every page (bottom-left, no overlap with account CTA)
+- [x] Built with inline bold rendering and typing indicator
+- [x] `npm run build` verified — compiled, types passed, 52/52 pages generated

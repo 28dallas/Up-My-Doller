@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Navbar from '@/components/layout/Navbar'
+import FloatingAI from '@/components/learn/FloatingAI'
 import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pipsdollarprinter.com'
@@ -55,8 +56,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-background text-white antialiased">
+<body className="bg-background text-white antialiased">
         <Navbar />
+        <FloatingAI />
         <a
           href={DERIV_AFFILIATE_LINK}
           target="_blank"

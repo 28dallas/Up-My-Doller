@@ -1,11 +1,12 @@
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import { AlertTriangle, TrendingUp, ShieldCheck } from 'lucide-react'
+import { AlertTriangle, TrendingUp, ShieldCheck, Scale } from 'lucide-react'
 import RiskCalculator from '@/components/learn/RiskCalculator'
 import EducationalCTA from '@/components/learn/EducationalCTA'
 import RelatedTools from '@/components/learn/RelatedTools'
 import AffiliateDisclosure from '@/components/learn/AffiliateDisclosure'
 import Newsletter from '@/components/learn/Newsletter'
+import Link from 'next/link'
 
 export default function RiskCalculatorPage() {
   return (
@@ -100,7 +101,68 @@ export default function RiskCalculatorPage() {
         </div>
       </section>
 
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+{/* Recovery strategy comparison */}
+      <section className="pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-card border border-border rounded-3xl p-8 sm:p-12">
+          <div className="flex items-center gap-3 mb-2">
+            <Scale className="w-6 h-6 text-primary" />
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">Choosing a Recovery Strategy</h2>
+          </div>
+          <p className="text-muted-foreground leading-relaxed mb-8 max-w-3xl">
+            Martingale isn&apos;t your only option. Two gentler recovery systems — <strong className="text-white">Alembert</strong> and{' '}
+            <strong className="text-white">Oscar&apos;s Grind</strong> — increase risk far more slowly and are much safer for beginners. Compare
+            them below.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Martingale',
+                risk: 'High',
+                riskColor: 'text-danger border-danger/40 bg-danger/10',
+                how: 'Doubles your stake after every loss.',
+                best: 'Best for short, aggressive sessions with a large budget.',
+                cons: 'Exponential risk — a losing streak can wipe out your bankroll fast.',
+              },
+              {
+                name: 'Alembert',
+                risk: 'Low',
+                riskColor: 'text-primary border-primary/40 bg-primary/10',
+                how: 'Adds one fixed unit after a loss; subtracts one after a win.',
+                best: 'Best for beginners who want slow, linear risk growth.',
+                cons: 'Recovers losses more slowly, needs many trades.',
+              },
+              {
+                name: 'Oscar\u2019s Grind',
+                risk: 'Low',
+                riskColor: 'text-warning border-warning/40 bg-warning/10',
+                how: 'Increases stake only after a win; resets on target profit.',
+                best: 'Best for steady, conservative grinders who hate chasing losses.',
+                cons: 'Slowest to grow profits, requires patience and volume.',
+              },
+            ].map((s) => (
+              <div key={s.name} className="bg-background/50 border border-border rounded-2xl p-6">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-white font-bold text-lg">{s.name}</h3>
+                  <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${s.riskColor}`}>{s.risk} Risk</span>
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">{s.how}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-2"><span className="text-primary font-semibold">Tip:</span> {s.best}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed"><span className="text-warning font-semibold">Watch out:</span> {s.cons}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/strategies/alembert" className="inline-flex items-center gap-1 text-primary text-sm font-semibold hover:underline">
+              Learn Alembert in depth →
+            </Link>
+            <Link href="/strategies/oscars-grind" className="inline-flex items-center gap-1 text-primary text-sm font-semibold hover:underline">
+              Learn Oscar&apos;s Grind in depth →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AffiliateDisclosure />
       </div>
 
