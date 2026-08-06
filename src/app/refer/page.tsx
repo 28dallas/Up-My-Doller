@@ -4,6 +4,8 @@ import Footer from '@/components/layout/Footer'
 import { ArrowRight, Gift, Users, CheckCircle, Copy, Share2 } from 'lucide-react'
 import EducationalCTA from '@/components/learn/EducationalCTA'
 import RelatedTools from '@/components/learn/RelatedTools'
+import AffiliateDisclosure from '@/components/learn/AffiliateDisclosure'
+import Newsletter from '@/components/learn/Newsletter'
 import { REFERRAL_TIERS } from '@/lib/learn-data'
 
 const HOW_IT_WORKS = [
@@ -134,12 +136,18 @@ export default function ReferPage() {
         </div>
       </section>
 
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AffiliateDisclosure />
+      </div>
+
       <EducationalCTA
         title="Build your trading edge"
         description="Open a free Deriv account and start your trading journey — then invite friends to unlock premium rewards."
         secondaryHref="/learn"
         secondaryLabel="Start Learning"
+        utmSource="refer"
       />
+      <Newsletter className="pt-4" />
       <RelatedTools />
       <Footer />
     </main>

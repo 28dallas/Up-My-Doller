@@ -4,7 +4,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Eye, EyeOff, Mail, Lock, User, Phone, Gift } from 'lucide-react'
 import Button from '@/components/ui/Button'
-import { supabase } from '@/lib/supabase'
+import { getSupabaseClient } from '@/lib/supabase'
+
+export const dynamic = 'force-dynamic'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -28,6 +30,13 @@ export default function SignupPage() {
     setLoading(true)
     setError('')
 
+    const supabase = getSupabaseClient()
+    if (!supabase) {
+      setError('Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.')
+      setLoading(false)
+      return
+    }
+
     const { error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
@@ -49,6 +58,12 @@ export default function SignupPage() {
   }
 
   const handleGoogle = async () => {
+    const supabase = getSupabaseClient()
+    if (!supabase) {
+      setError('Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.')
+      return
+    }
+
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: `${window.location.origin}/dashboard` },

@@ -4,6 +4,8 @@ import { AlertTriangle, TrendingUp, ShieldCheck } from 'lucide-react'
 import RiskCalculator from '@/components/learn/RiskCalculator'
 import EducationalCTA from '@/components/learn/EducationalCTA'
 import RelatedTools from '@/components/learn/RelatedTools'
+import AffiliateDisclosure from '@/components/learn/AffiliateDisclosure'
+import Newsletter from '@/components/learn/Newsletter'
 
 export default function RiskCalculatorPage() {
   return (
@@ -98,12 +100,18 @@ export default function RiskCalculatorPage() {
         </div>
       </section>
 
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AffiliateDisclosure />
+      </div>
+
       <EducationalCTA
         title="Trade with confidence"
         description="Use these risk principles to trade responsibly on a free Deriv account."
         secondaryHref="/tools/trading-times"
         secondaryLabel="Best Trading Times"
+        utmSource="tools-risk-calculator"
       />
+      <Newsletter className="pt-4" />
       <RelatedTools />
       <Footer />
     </main>

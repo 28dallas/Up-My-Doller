@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { ArrowRight, GraduationCap } from 'lucide-react'
-import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
+import { ArrowRight, GraduationCap, Info } from 'lucide-react'
+import { getAffiliateLink } from '@/lib/constants'
 
 interface EducationalCTAProps {
   primaryLabel?: string
@@ -9,17 +9,25 @@ interface EducationalCTAProps {
   secondaryLabel?: string
   title?: string
   description?: string
+  /** Per-page UTM attribution term, e.g. 'strategies-over-under' */
+  utmSource?: string
+  /** Show the affiliate disclosure note under the CTAs */
+  disclosure?: boolean
 }
 
 export default function EducationalCTA({
   primaryLabel = 'Open Free Deriv Account',
-  primaryHref = DERIV_AFFILIATE_LINK,
+  primaryHref,
   secondaryHref = '/learn',
   secondaryLabel = 'Continue Learning',
   title = 'Ready to put this into practice?',
   description = 'Open a free Deriv account in minutes, then explore our bot library, strategies, and tools to start trading smarter.',
+  utmSource,
+  disclosure = true,
 }: EducationalCTAProps) {
-  const isExternal = primaryHref.startsWith('http')
+  // If no explicit href, build a per-page tagged affiliate link.
+  const resolvedHref = primaryHref ?? (utmSource ? getAffiliateLink(utmSource) : getAffiliateLink('default'))
+  const isExternal = resolvedHref.startsWith('http')
   return (
     <section className="py-14">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,7 +42,7 @@ export default function EducationalCTA({
             <div className="flex flex-col sm:flex-row justify-center gap-3">
               {isExternal ? (
                 <a
-                  href={primaryHref}
+                  href={resolvedHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#00c853] px-6 py-3 text-sm font-bold text-black hover:bg-[#00e676] transition-all"
@@ -43,7 +51,7 @@ export default function EducationalCTA({
                 </a>
               ) : (
                 <Link
-                  href={primaryHref}
+                  href={resolvedHref}
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-black hover:bg-accent transition-all"
                 >
                   {primaryLabel} <ArrowRight className="w-4 h-4" />
@@ -56,6 +64,12 @@ export default function EducationalCTA({
                 {secondaryLabel}
               </Link>
             </div>
+            {disclosure && (
+              <p className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground">
+                <Info className="w-3 h-3 shrink-0" />
+                If you open an account through a link on this page, we may earn a commission at no extra cost to you.
+              </p>
+            )}
           </div>
         </div>
       </div>

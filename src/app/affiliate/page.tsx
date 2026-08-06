@@ -2,6 +2,9 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import { DollarSign, Users, BarChart2, CheckCircle, ArrowRight, Gift } from 'lucide-react'
 import Link from 'next/link'
+import EducationalCTA from '@/components/learn/EducationalCTA'
+import AffiliateDisclosure from '@/components/learn/AffiliateDisclosure'
+import Newsletter from '@/components/learn/Newsletter'
 import { REFERRAL_TIERS } from '@/lib/learn-data'
 
 const TIERS = [
@@ -177,7 +180,7 @@ export default function AffiliatePage() {
         </div>
       </section>
 
-      {/* CTA */}
+{/* CTA */}
       <section className="py-16 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 text-center">
         <div className="bg-gradient-to-br from-primary/10 to-card border border-primary/20 rounded-2xl p-10">
           <h2 className="text-2xl font-bold text-white mb-3">Ready to start earning?</h2>
@@ -187,6 +190,18 @@ export default function AffiliatePage() {
           </Link>
         </div>
       </section>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AffiliateDisclosure />
+      </div>
+
+      <EducationalCTA
+        title="Start trading while you earn"
+        description="Open a free Deriv account, trade with proven bots, and refer friends to unlock premium features and commissions."
+        secondaryHref="/refer"
+        secondaryLabel="See Referral Rewards"
+        utmSource="affiliate"
+      />
 
       <Footer />
     </main>

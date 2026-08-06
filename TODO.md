@@ -7,9 +7,13 @@
 - [x] Create `src/components/learn/EducationalCTA.tsx`
 - [x] Create `src/components/learn/RiskCalculator.tsx`
 - [x] Create `src/components/learn/RelatedTools.tsx`
+- [x] Create `src/components/learn/AffiliateDisclosure.tsx`
+- [x] Create `src/components/learn/Newsletter.tsx`
+- [x] Create `src/components/learn/ComparisonPage.tsx`
 
 ## Phase 2 - Data Layer
 - [x] Create `src/lib/learn-data.ts`
+- [x] Create `src/lib/comparison-data.ts`
 
 ## Phase 3 - New Pages
 - [x] Create `/learn` - `src/app/learn/page.tsx`
@@ -20,6 +24,9 @@
 - [x] Create `/tools/trading-times` - `src/app/tools/trading-times/page.tsx`
 - [x] Create `/bots/recommended` - `src/app/bots/recommended/page.tsx`
 - [x] Create `/refer` - `src/app/refer/page.tsx`
+- [x] Create `/comparisons/deriv-vs-pocketoption` - SEO comparison page
+- [x] Create `/comparisons/deriv-vs-binomo` - SEO comparison page
+- [x] Create `/comparisons/deriv-vs-olymptrade` - SEO comparison page
 
 ## Phase 4 - Upgrade Existing Pages
 - [x] Update `src/app/layout.tsx` - educational metadata
@@ -33,4 +40,6 @@
 - [x] Update `src/app/sitemap.ts` - new routes
 
 ## Phase 5 - Verification
-- [x] `npm run build` to verify no errors
+- [x] `npm run build` — compiled successfully, types passed, 52 static pages generated
+- [x] Educational pages all generate without errors
+- [x] Pre-existing Supabase env error on `/auth/login` & `/auth/signup` (needs `.env.local`, unrelated to this task)

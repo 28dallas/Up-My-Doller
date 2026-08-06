@@ -6,7 +6,9 @@ import StepGuide from '@/components/learn/StepGuide'
 import YouTubeEmbed from '@/components/learn/YouTubeEmbed'
 import EducationalCTA from '@/components/learn/EducationalCTA'
 import RelatedTools from '@/components/learn/RelatedTools'
-import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
+import AffiliateDisclosure from '@/components/learn/AffiliateDisclosure'
+import Newsletter from '@/components/learn/Newsletter'
+import { getAffiliateLink } from '@/lib/constants'
 
 const ACCOUNT_TYPES = [
   {
@@ -141,9 +143,9 @@ export default function DerivBasicsPage() {
               </div>
             </section>
 
-            {/* CTA */}
+{/* CTA */}
             <a
-              href={DERIV_AFFILIATE_LINK}
+              href={getAffiliateLink('deriv-basics')}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-primary/20 to-card border border-primary/30 p-6 hover:border-primary/50 transition-all group"
@@ -190,7 +192,12 @@ export default function DerivBasicsPage() {
         </div>
       </div>
 
-      <EducationalCTA />
+<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AffiliateDisclosure className="mt-10" />
+      </div>
+
+      <EducationalCTA utmSource="deriv-basics" />
+      <Newsletter className="pt-4" />
       <RelatedTools />
       <Footer />
     </main>

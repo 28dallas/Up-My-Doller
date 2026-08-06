@@ -6,6 +6,8 @@ import Badge from '@/components/ui/Badge'
 import YouTubeEmbed from '@/components/learn/YouTubeEmbed'
 import EducationalCTA from '@/components/learn/EducationalCTA'
 import RelatedTools from '@/components/learn/RelatedTools'
+import AffiliateDisclosure from '@/components/learn/AffiliateDisclosure'
+import Newsletter from '@/components/learn/Newsletter'
 import { RECOMMENDED_BOTS } from '@/lib/learn-data'
 
 const RISK_COLORS: Record<string, 'green' | 'yellow' | 'red'> = {
@@ -148,12 +150,18 @@ export default function RecommendedBotsPage() {
         </div>
       </section>
 
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AffiliateDisclosure />
+      </div>
+
       <EducationalCTA
         title="Find your perfect bot"
         description="Open a free Deriv account and explore our full library of 500+ free bots."
         secondaryHref="/strategies"
         secondaryLabel="Learn the Strategies"
+        utmSource="bots-recommended"
       />
+      <Newsletter className="pt-4" />
       <RelatedTools />
       <Footer />
     </main>

@@ -1,13 +1,16 @@
 import Link from 'next/link'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import { ArrowLeft, ArrowRight, Check, X, Play } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, X, Play, Star, Quote } from 'lucide-react'
 import Badge from '@/components/ui/Badge'
 import StepGuide from '@/components/learn/StepGuide'
 import YouTubeEmbed from '@/components/learn/YouTubeEmbed'
 import EducationalCTA from '@/components/learn/EducationalCTA'
 import RelatedTools from '@/components/learn/RelatedTools'
+import AffiliateDisclosure from '@/components/learn/AffiliateDisclosure'
+import Newsletter from '@/components/learn/Newsletter'
 import { STRATEGIES } from '@/lib/learn-data'
+import { MOCK_TESTIMONIALS } from '@/lib/data'
 
 interface PageProps {
   params: { slug: string }
@@ -159,12 +162,48 @@ export default function StrategyPage({ params }: PageProps) {
         </div>
       </div>
 
+{/* Testimonials strip */}
+      <section className="py-14 border-y border-border bg-surface/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3 mb-8">
+            <Quote className="w-5 h-5 text-primary" />
+            <h2 className="text-2xl font-bold text-white">Traders Using This Strategy</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {MOCK_TESTIMONIALS.slice(0, 3).map((t) => (
+              <div key={t.id} className="bg-card border border-border rounded-2xl p-5">
+                <div className="flex items-center gap-1 mb-3">
+                  {Array.from({ length: t.rating }).map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-gold fill-current" />
+                  ))}
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">&ldquo;{t.quote}&rdquo;</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">{t.avatar}</div>
+                  <div>
+                    <div className="text-white text-sm font-semibold">{t.name}</div>
+                    <div className="text-muted-foreground text-xs">{t.flag} {t.country}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        <AffiliateDisclosure />
+      </div>
+
       <EducationalCTA
         title={`Ready to trade ${strategy.name}?`}
         description="Open a free Deriv account and start applying this strategy with a demo or real account."
         secondaryHref="/bots/recommended"
         secondaryLabel="Find a Matching Bot"
+        utmSource={`strategies-${strategy.slug}`}
       />
+
+      <Newsletter className="pt-4" />
       <RelatedTools />
       <Footer />
     </main>

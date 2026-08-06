@@ -5,6 +5,7 @@ import { ArrowRight, BookOpen, Target, Calculator, Clock, Bot, Rocket, BookMarke
 import InfoCard from '@/components/learn/InfoCard'
 import EducationalCTA from '@/components/learn/EducationalCTA'
 import RelatedTools from '@/components/learn/RelatedTools'
+import Newsletter from '@/components/learn/Newsletter'
 import { DERIV_MARKETS } from '@/lib/learn-data'
 
 const LEARNING_PATHS = [
@@ -147,13 +148,15 @@ export default function LearnPage() {
       </section>
 
       {/* Educational CTA */}
-      <EducationalCTA
+<EducationalCTA
         title="Start your Deriv journey today"
         description="Open a free Deriv account in minutes and follow our learning path to start trading with confidence."
         secondaryHref="/strategies"
         secondaryLabel="View Strategies"
+        utmSource="learn-hub"
       />
 
+      <Newsletter className="pt-4" />
       <RelatedTools />
       <Footer />
     </main>

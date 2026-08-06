@@ -5,6 +5,8 @@ import { ArrowRight, TrendingUp, Target, ShieldAlert, Play } from 'lucide-react'
 import Badge from '@/components/ui/Badge'
 import EducationalCTA from '@/components/learn/EducationalCTA'
 import RelatedTools from '@/components/learn/RelatedTools'
+import AffiliateDisclosure from '@/components/learn/AffiliateDisclosure'
+import Newsletter from '@/components/learn/Newsletter'
 import { STRATEGIES } from '@/lib/learn-data'
 
 const DIFFICULTY_COLORS: Record<string, 'green' | 'blue' | 'yellow' | 'red' | 'gold'> = {
@@ -117,12 +119,18 @@ export default function StrategiesPage() {
         </div>
       </section>
 
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AffiliateDisclosure />
+      </div>
+
       <EducationalCTA
         title="Put a strategy into action"
         description="Open a free Deriv account and start applying these strategies with a real or demo account."
         secondaryHref="/bots/recommended"
         secondaryLabel="View Recommended Bots"
+        utmSource="strategies"
       />
+      <Newsletter className="pt-4" />
       <RelatedTools />
       <Footer />
     </main>

@@ -4,6 +4,8 @@ import { Clock, CalendarClock, AlertTriangle } from 'lucide-react'
 import InfoCard from '@/components/learn/InfoCard'
 import EducationalCTA from '@/components/learn/EducationalCTA'
 import RelatedTools from '@/components/learn/RelatedTools'
+import AffiliateDisclosure from '@/components/learn/AffiliateDisclosure'
+import Newsletter from '@/components/learn/Newsletter'
 import { TRADING_TIMES } from '@/lib/learn-data'
 
 export default function TradingTimesPage() {
@@ -102,12 +104,18 @@ export default function TradingTimesPage() {
         </div>
       </section>
 
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AffiliateDisclosure />
+      </div>
+
       <EducationalCTA
         title="Ready to trade at the right time?"
         description="Open a free Deriv account and start applying these timing principles to your strategies."
         secondaryHref="/strategies"
         secondaryLabel="View Strategies"
+        utmSource="tools-trading-times"
       />
+      <Newsletter className="pt-4" />
       <RelatedTools />
       <Footer />
     </main>
