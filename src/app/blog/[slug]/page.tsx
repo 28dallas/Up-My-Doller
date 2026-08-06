@@ -4,6 +4,9 @@ import Link from 'next/link'
 import { Clock, Tag, ArrowLeft, Share2 } from 'lucide-react'
 import Badge from '@/components/ui/Badge'
 import { MOCK_BLOG_POSTS } from '@/lib/data'
+import { EXTRA_BLOG_POSTS } from '@/lib/learn-data'
+
+const ALL_POSTS = [...EXTRA_BLOG_POSTS, ...MOCK_BLOG_POSTS]
 
 const FULL_CONTENT: Record<string, string[]> = {
   'top-5-volatility-strategies-2024': [
@@ -30,7 +33,59 @@ const FULL_CONTENT: Record<string, string[]> = {
     '## Boom 1000 vs Boom 500\nBoom 1000 spikes less frequently (every ~1000 ticks) but the spikes are larger. Boom 500 spikes more often with smaller moves. For bots, Boom 500 provides more trading opportunities.',
     '## Best Bot Strategies for Boom/Crash\nThe most effective strategy is to trade Rise on Boom indices and Fall on Crash indices — betting that the next spike will occur soon. This works best after a long period without a spike.',
     '## Risk Warning\nBoom and Crash indices are high-risk. A single spike against your position can wipe out multiple wins. Always use strict stop losses and never over-leverage.',
-    '## Recommended Settings\nFor Boom 1000: Stake $1, Take Profit $20, Stop Loss $10. For Crash 500: Stake $0.5, Take Profit $15, Stop Loss $8. These are conservative settings for learning.',
+'## Recommended Settings\nFor Boom 1000: Stake $1, Take Profit $20, Stop Loss $10. For Crash 500: Stake $0.5, Take Profit $15, Stop Loss $8. These are conservative settings for learning.',
+  ],
+  'deriv-for-beginners-guide': [
+    'Deriv is one of the most popular online trading platforms in the world, and it is especially beloved by traders in Africa. If you are brand new to trading, this guide will walk you through everything in plain language.',
+    '## What is Deriv?',
+    'Deriv is an online trading platform founded in 1999. It lets you trade synthetic indices, forex, commodities, and cryptocurrencies. It is regulated in multiple jurisdictions, making it a trusted choice for new traders.',
+    '## Why is Deriv so popular?',
+    'The biggest draw is synthetic indices — 24/7 markets that are not affected by real-world news. This predictability makes them ideal for automated bots and for beginners learning to trade.',
+    '## Account Types',
+    'Deriv offers a Demo account (with $10,000 virtual money) for practice, and Real accounts for actual trading. You can also use Deriv MT5 and Deriv X for different trading styles.',
+    '## Getting Started',
+    'Open a free account with just your email. Start on the demo account, learn the platform, and only move to real money when you are confident.',
+    '## A Word of Caution',
+    'Trading involves real risk of loss. Never trade with money you cannot afford to lose, and always start small while you learn.',
+  ],
+  'best-deriv-markets-for-beginners': [
+    'Not all Deriv markets are created equal for new traders. Some have chaotic price action that will destroy a beginner\'s account, while others are smooth and predictable.',
+    '## Best: Volatility 10',
+    'With the lowest volatility of all synthetic indices, Volatility 10 is the safest market for beginners. Its steady, smooth price action is ideal for Over/Under and simple strategies.',
+    '## Also Good: Volatility 25',
+    'Moderate volatility with more movement than Volatility 10. Great for Rise/Fall and Even/Odd strategies once you have a bit of experience.',
+    '## Caution: Boom & Crash',
+    'These index spike sharply and randomly. While exciting, they can wipe out a new account quickly. Avoid them until you fully understand spike timing and risk.',
+    '## Caution: Volatility 75 & 100',
+    'High-volatility markets move fast and can be brutal on beginners. Best left to experienced traders who can manage risk.',
+    '## The Bottom Line',
+    'Start with Volatility 10, master a simple strategy, and only expand to other markets as your skills and confidence grow.',
+  ],
+  'what-is-martingale-recovery-strategy': [
+    'Martingale is the single most talked-about strategy in automated trading. Understanding it — and its risks — is essential before you use it on a bot.',
+    '## What is Martingale?',
+    'Martingale is a recovery system that increases your stake after each loss. The idea is that a single win will recover all previous losses plus a small profit.',
+    '## How It Works',
+    'Start with a base stake. After a loss, multiply your stake by a factor (e.g., 1.5x). After a win, return to the base stake. This "recovers" losses quickly.',
+    '## Why It Can Be Dangerous',
+    'A long losing streak multiplies your stake rapidly. With a 1.5x multiplier over 5 levels, your total risk can exceed 13x your base stake — potentially blowing past your budget.',
+    '## Using It Responsibly',
+    'Always cap the number of recovery levels, set a strict daily budget, and use our risk calculator to plan ahead. Martingale is a tool, not a guarantee.',
+    '## Final Word',
+    'No strategy wins 100% of the time. Martingale can help in the short term, but only responsible risk management keeps you in the game long term.',
+  ],
+  'how-to-choose-deriv-bot': [
+    'With 500+ free bots available, choosing the right one can be overwhelming. Here is a practical framework to pick a bot that matches your goals.',
+    '## 1. Match the Risk Level',
+    'Start with a low-risk bot on a low-volatility market (like Volatility 10) if you are new. Only consider high-risk bots once you have experience.',
+    '## 2. Understand the Strategy',
+    'Choose a bot whose strategy you understand. Over/Under is simple; Digit Match is high-risk/high-reward. Learn the strategy before running the bot.',
+    '## 3. Check the Market',
+    'Pick a bot that trades a market matching your schedule. Synthetic indices run 24/7; forex follows specific sessions.',
+    '## 4. Test on Demo',
+    'Always run any bot on a Deriv demo account first. Observe its performance over several days before risking real money.',
+    '## 5. Manage Your Risk',
+    'Whatever bot you choose, set a stop loss and take profit. Never risk more than you can afford to lose, regardless of a bot\'s win rate.',
   ],
 }
 
@@ -49,9 +104,9 @@ const CATEGORY_LABELS: Record<string, string> = {
 }
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = MOCK_BLOG_POSTS.find((p) => p.slug === params.slug) ?? MOCK_BLOG_POSTS[0]
-  const content = FULL_CONTENT[post.slug] ?? FULL_CONTENT[MOCK_BLOG_POSTS[0].slug]
-  const related = MOCK_BLOG_POSTS.filter((p) => p.slug !== post.slug)
+  const post = ALL_POSTS.find((p) => p.slug === params.slug) ?? ALL_POSTS[0]
+  const content = FULL_CONTENT[post.slug] ?? FULL_CONTENT[ALL_POSTS[0].slug]
+  const related = ALL_POSTS.filter((p) => p.slug !== post.slug)
 
   const headings = content
     .filter((p) => p.startsWith('## '))

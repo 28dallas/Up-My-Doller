@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Link from 'next/link'
 import { Play, RotateCcw, ChevronLeft, AlertTriangle, X, Search } from 'lucide-react'
 import DemoModeNotice from '@/components/shared/DemoModeNotice'
 
@@ -31,8 +32,17 @@ export default function FreeBotsPage() {
 
   const filtered = FREE_BOTS.filter((b) => b.toLowerCase().includes(search.toLowerCase()))
 
-  return (
+return (
     <div className="flex h-[calc(100vh-96px)] bg-[#0A0E1A] overflow-hidden relative">
+      {/* Educational banner */}
+      <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-r from-primary/10 via-transparent to-gold/10 border-b border-primary/20 px-4 py-2.5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs">
+        <span className="text-muted-foreground font-medium">New to Deriv bots?</span>
+        <Link href="/learn" className="text-primary hover:underline font-semibold">Learn the basics</Link>
+        <span className="text-[#8899AA] hidden sm:inline">·</span>
+        <Link href="/bots/recommended" className="text-primary hover:underline font-semibold">View recommended bots</Link>
+        <span className="text-[#8899AA] hidden sm:inline">·</span>
+        <Link href="/strategies" className="text-primary hover:underline font-semibold">Browse strategies</Link>
+      </div>
 
       {/* Main area */}
       <div className="flex-1 flex flex-col overflow-hidden">

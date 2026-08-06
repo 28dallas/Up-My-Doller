@@ -5,6 +5,7 @@ import { Clock, Tag } from 'lucide-react'
 import Card from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
 import { MOCK_BLOG_POSTS } from '@/lib/data'
+import { EXTRA_BLOG_POSTS } from '@/lib/learn-data'
 
 const CATEGORIES = ['All', 'Strategy', 'Tutorial', 'Market Analysis', 'News']
 
@@ -21,6 +22,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   market_analysis: 'Market Analysis',
   news: 'News',
 }
+
+const ALL_POSTS = [...EXTRA_BLOG_POSTS, ...MOCK_BLOG_POSTS]
 
 export default function BlogPage() {
   return (
@@ -51,8 +54,8 @@ export default function BlogPage() {
           ))}
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {MOCK_BLOG_POSTS.map((post) => (
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {ALL_POSTS.map((post) => (
             <Card key={post.id} glow="emerald" className="flex flex-col group">
               <div className="w-full h-44 rounded-lg bg-gradient-to-br from-primary/10 to-gold/10 border border-border mb-4 flex items-center justify-center">
                 <div className="text-3xl font-bold text-primary">Chart</div>

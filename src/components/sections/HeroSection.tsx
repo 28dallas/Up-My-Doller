@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Play, TrendingUp, Users, Bot, Activity } from 'lucide-react'
+import { Play, TrendingUp, Users, Bot, Activity, GraduationCap } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 import DerivConnectButton from '@/components/shared/DerivConnectButton'
@@ -130,7 +130,7 @@ export default function HeroSection() {
             </p>
 
             {/* CTAs */}
-              <div className="flex flex-col gap-4 mb-10">
+<div className="flex flex-col gap-4 mb-10">
               <div className="flex flex-wrap gap-4 items-center">
                 <a
                   href={DERIV_AFFILIATE_LINK}
@@ -141,6 +141,13 @@ export default function HeroSection() {
                   <TrendingUp className="w-5 h-5" />
                   Open Free Deriv Account →
                 </a>
+                <Link
+                  href="/learn"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-6 py-3 text-lg font-bold text-primary hover:bg-primary/20 transition-all"
+                >
+                  <GraduationCap className="w-5 h-5" />
+                  Start Learning →
+                </Link>
                 <a
                   href="https://youtu.be/uXlXWFHmXNk?si=08FuFrRUFXbSDcns"
                   target="_blank"

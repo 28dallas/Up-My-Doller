@@ -6,13 +6,13 @@ import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pipsdollarprinter.com'
 
 export const metadata: Metadata = {
-  title: 'Pips Dollar Printer — Deriv Bot Builder & Copy Trading',
-  description: 'Build profitable Deriv trading bots without coding. Copy top traders, download 500+ free bots, and automate your trading on Deriv.com.',
-  keywords: 'Deriv bot builder, copy trading, trading bots Kenya, Deriv automation, binary options bot',
+  title: 'Pips Dollar Printer — Deriv Bot Builder, Copy Trading & Trading Education',
+  description: 'Learn to trade Deriv like a pro. Build profitable Deriv trading bots without coding, copy top traders, access free bots, trading strategies, a risk calculator, and beginner education — all in one place.',
+  keywords: 'Deriv bot builder, copy trading, trading bots Kenya, Deriv automation, binary options bot, learn Deriv, Deriv strategies, Deriv risk calculator, Deriv tutorial',
   metadataBase: new URL(siteUrl),
   openGraph: {
-    title: 'Pips Dollar Printer — Deriv Bot Builder & Copy Trading',
-    description: 'Build profitable Deriv trading bots without coding.',
+    title: 'Pips Dollar Printer — Deriv Bot Builder, Copy Trading & Trading Education',
+    description: 'Learn to trade Deriv like a pro. Build profitable Deriv trading bots, copy top traders, and access beginner education.',
     type: 'website',
     locale: 'en_KE',
     siteName: 'Pips Dollar Printer',

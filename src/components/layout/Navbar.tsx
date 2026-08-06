@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   Menu, X, LayoutDashboard, Wrench, Gift, BarChart2,
-  TrendingUp, Cpu, Zap, Target, LineChart, Copy, Bolt
+  TrendingUp, Cpu, Zap, Target, LineChart, Copy, Bolt,
+  BookOpen, GraduationCap, Calculator
 } from 'lucide-react'
 import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 import DerivConnectButton from '@/components/shared/DerivConnectButton'
@@ -21,6 +22,12 @@ const NAV_ITEMS = [
   { label: 'Charts', href: '/dashboard/charts', icon: LineChart },
   { label: 'Copy Trading', href: '/dashboard/copy-trading', icon: Copy },
   { label: 'Speedbot', href: '/dashboard/speedbot', icon: Bolt },
+]
+
+const LEARN_ITEMS = [
+  { label: 'Learn Deriv', href: '/learn', icon: BookOpen },
+  { label: 'Strategies', href: '/strategies', icon: GraduationCap },
+  { label: 'Tools', href: '/tools/risk-calculator', icon: Calculator },
 ]
 
 export default function Navbar() {
@@ -99,7 +106,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Bottom bar: Nav items */}
+{/* Bottom bar: Nav items */}
       <div className="hidden sm:flex items-center gap-0 px-2 h-10 overflow-x-auto scrollbar-hide bg-[#0d1235]">
         {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + '/')
@@ -111,6 +118,24 @@ export default function Navbar() {
                 active
                   ? 'text-white border-primary bg-white/5'
                   : 'text-[#8899cc] border-transparent hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5 shrink-0" />
+              {label}
+            </Link>
+          )
+        })}
+        <div className="mx-1 h-5 w-px bg-[#2a3080] shrink-0" />
+        {LEARN_ITEMS.map(({ label, href, icon: Icon }) => {
+          const active = pathname === href || pathname.startsWith(href + '/')
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`flex items-center gap-1.5 px-3 h-full text-xs font-medium whitespace-nowrap transition-all border-b-2 ${
+                active
+                  ? 'text-primary border-primary bg-primary/5'
+                  : 'text-[#8899cc] border-transparent hover:text-primary hover:bg-primary/5'
               }`}
             >
               <Icon className="w-3.5 h-3.5 shrink-0" />
@@ -139,7 +164,26 @@ export default function Navbar() {
                   {label}
                 </Link>
               )
-            })}
+})}
+            <div className="pt-3 flex flex-col gap-2 border-t border-[#1a2060] mt-2">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#8899cc] px-3 pt-1">Learn</div>
+              {LEARN_ITEMS.map(({ label, href, icon: Icon }) => {
+                const active = pathname === href
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                      active ? 'bg-primary/15 text-primary' : 'text-[#8899cc] hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 shrink-0" />
+                    {label}
+                  </Link>
+                )
+              })}
+            </div>
             <div className="pt-3 flex flex-col gap-2 border-t border-[#1a2060] mt-2">
               <Link href="/auth/login" onClick={() => setIsOpen(false)} className="text-center py-2 rounded border border-[#2a3080] text-white text-sm hover:bg-[#1a2060] transition-all">Log in</Link>
               <Link href="/dashboard/api-token" onClick={() => setIsOpen(false)} className="text-center py-2 rounded bg-[#1a2060] text-white text-sm hover:bg-[#2a3080] transition-all">API Token</Link>

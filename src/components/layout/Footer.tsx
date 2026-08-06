@@ -8,11 +8,20 @@ const FOOTER_LINKS = {
     { label: 'Pricing', href: '/pricing' },
     { label: 'Dashboard', href: '/dashboard' },
   ],
-  Resources: [
+Resources: [
     { label: 'Blog', href: '/blog' },
     { label: 'Documentation', href: '/docs' },
     { label: 'Tutorials', href: '/blog?category=tutorial' },
     { label: 'Community', href: '/community' },
+  ],
+  Learn: [
+    { label: 'Learn Deriv', href: '/learn' },
+    { label: 'Deriv Basics', href: '/learn/deriv-basics' },
+    { label: 'Strategies', href: '/strategies' },
+    { label: 'Risk Calculator', href: '/tools/risk-calculator' },
+    { label: 'Trading Times', href: '/tools/trading-times' },
+    { label: 'Recommended Bots', href: '/bots/recommended' },
+    { label: 'Referral Program', href: '/refer' },
   ],
   Company: [
     { label: 'About Us', href: '/about' },
@@ -33,7 +42,7 @@ export default function Footer() {
   return (
     <footer className="bg-card border-t border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+<div className="grid grid-cols-2 md:grid-cols-6 gap-8">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">

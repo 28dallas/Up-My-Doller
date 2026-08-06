@@ -1,7 +1,8 @@
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import { DollarSign, Users, BarChart2, CheckCircle, ArrowRight } from 'lucide-react'
+import { DollarSign, Users, BarChart2, CheckCircle, ArrowRight, Gift } from 'lucide-react'
 import Link from 'next/link'
+import { REFERRAL_TIERS } from '@/lib/learn-data'
 
 const TIERS = [
   { name: 'Starter', commission: '20%', desc: 'For new affiliates getting started', min: '0 referrals/mo' },
@@ -140,6 +141,38 @@ export default function AffiliatePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+{/* Referral rewards */}
+      <section className="py-16 bg-surface/30 border-y border-border">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3 mb-4">
+            <Gift className="w-6 h-6 text-primary" />
+            <h2 className="text-3xl font-bold text-white">Unlock Premium by Referring Friends</h2>
+          </div>
+          <p className="text-muted-foreground max-w-2xl mb-10">
+            Beyond cash commissions, our referral program rewards you with premium platform features. Every friend you invite unlocks something valuable — including a free personalized AI bot.
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {REFERRAL_TIERS.map(({ name, reward, desc, icon, featured }) => (
+              <div
+                key={name}
+                className={`bg-card border rounded-2xl p-6 text-center ${featured ? 'border-primary/40 shadow-[0_0_20px_rgba(0,230,118,0.1)]' : 'border-border'}`}
+              >
+                <div className="text-3xl mb-3">{icon}</div>
+                {featured && <div className="text-xs font-bold text-primary mb-2 uppercase tracking-wider">Most Popular</div>}
+                <h3 className="text-white font-bold text-sm mb-2">{name}</h3>
+                <div className="text-primary font-extrabold text-base mb-2">{reward}</div>
+                <p className="text-muted-foreground text-xs leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link href="/refer" className="inline-flex items-center gap-2 px-6 py-3 bg-[#00c853] text-black font-bold rounded-xl hover:bg-[#00e676] transition-all">
+              See Full Referral Program <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

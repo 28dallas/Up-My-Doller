@@ -13,6 +13,7 @@ import DerivLiveFeed from '@/components/sections/DerivLiveFeed'
 import BlogPreviewSection from '@/components/sections/BlogPreviewSection'
 import CommunityCTASection from '@/components/sections/CommunityCTASection'
 import MpesaGuideSection from '@/components/sections/MpesaGuideSection'
+import StartLearningSection from '@/components/sections/StartLearningSection'
 import RiskNotice from '@/components/shared/RiskNotice'
 
 export default function HomePage() {
@@ -20,6 +21,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-background pt-24">
       <HeroSection />
       <RiskNotice />
+      <StartLearningSection />
       <FeaturesSection />
       <WhyChooseUsSection />
       <LivePlatformStats />
