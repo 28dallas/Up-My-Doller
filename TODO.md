@@ -58,3 +58,11 @@
 - [x] Added to `src/app/layout.tsx` so it floats on every page (bottom-left, no overlap with account CTA)
 - [x] Built with inline bold rendering and typing indicator
 - [x] `npm run build` verified — compiled, types passed, 52/52 pages generated
+
+## Phase 8 - Affiliate Conversion Steering in AI
+- [x] AI account answers now explicitly direct users to the on-site "Open Free Deriv Account" button (your affiliate link) instead of Deriv.com
+- [x] Persistent green affiliate CTA bar at the top of the chat panel (always visible)
+- [x] Post-answer affiliate CTA card appears after account-related questions
+- [x] Added "How do I open an account?" quick-action chip
+- [x] All affiliate CTAs use `DERIV_AFFILIATE_LINK` from constants
+- [x] `npm run build` verified — compiled successfully, types passed

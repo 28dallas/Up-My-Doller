@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { Bot, X, Send, Sparkles, TrendingUp, Percent, Clock, BookOpen } from 'lucide-react'
+import { Bot, X, Send, Sparkles, TrendingUp, Percent, Clock, BookOpen, UserPlus, Gift } from 'lucide-react'
+import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 
 type Message = {
   role: 'bot' | 'user'
@@ -13,6 +14,7 @@ const QUICK_ACTIONS = [
   'What is martingale?',
   'Which strategy is safest?',
   'Best time to trade forex?',
+  'How do I open an account?',
 ]
 
 const MARKET_ANSWERS: Record<string, string> = {
@@ -50,7 +52,8 @@ export default function FloatingAI() {
       text: 'Hi! I\'m your Deriv AI trading assistant. I can help you pick markets, compare strategies, understand risk, and find the right bot. What would you like to know?',
     },
   ])
-  const [typing, setTyping] = useState(false)
+const [typing, setTyping] = useState(false)
+  const [showAccountCTA, setShowAccountCTA] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -65,7 +68,10 @@ export default function FloatingAI() {
     if (/(safest|safe|low.?risk|which strategy)/.test(q)) return MARKET_ANSWERS.safest
     if (/(time|when|session|hours).*(forex|trade)/.test(q) || /best time/.test(q)) return MARKET_ANSWERS['forex-time']
     if (/(bot|recommend)/.test(q)) return 'For a first bot, try the **Volatility Crusher v3** (Over/Under on Volatility 10, 68% win rate, low risk). For martingale fans, **Even Odd Master** on Volatility 25. For spike traders, **Boom Rider Pro** on Boom 1000. You can browse all recommended bots on the /bots/recommended page.'
-    if (/(account|open|sign|start trading|join)/.test(q)) return 'To start trading, open a free Deriv account in minutes. No credit card required. I recommend starting with the demo account first to practice with virtual funds. You\'ll find the green "Open Free Deriv Account" button on every page.'
+    if (/(account|open|sign|start trading|join|register|create)/.test(q)) {
+      setShowAccountCTA(true)
+      return 'Great! Opening a free Deriv account is the first step. **Use the green "Open Free Deriv Account" button on this site** — it takes just 2 minutes, requires no credit card, and you get a free demo account with virtual funds to practice risk-free. I recommend starting on the demo account, then funding with a small amount once you\'re confident. Tap the button below to get started!'
+    }
     return DEFAULT_ANSWER
   }
 
@@ -75,6 +81,7 @@ export default function FloatingAI() {
     setMessages((m) => [...m, { role: 'user', text: msg }])
     setInput('')
     setTyping(true)
+    setShowAccountCTA(false)
     setTimeout(() => {
       setMessages((m) => [...m, { role: 'bot', text: getAnswer(msg) }])
       setTyping(false)
@@ -112,10 +119,23 @@ export default function FloatingAI() {
                 </div>
               </div>
             </div>
-            <button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-white transition-colors">
+<button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-white transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
+
+          {/* Persistent affiliate CTA bar */}
+          <a
+            href={DERIV_AFFILIATE_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between gap-2 px-4 py-2.5 bg-[#00c853] text-black hover:bg-[#00e676] transition-colors"
+          >
+            <span className="flex items-center gap-2 text-sm font-bold">
+              <UserPlus className="w-4 h-4" /> Open Free Deriv Account
+            </span>
+            <span className="text-sm font-extrabold">→</span>
+          </a>
 
           {/* Messages */}
           <div ref={scrollRef} className="h-80 overflow-y-auto px-4 py-4 space-y-3 bg-[#0d1235]">
@@ -132,7 +152,7 @@ export default function FloatingAI() {
                 </div>
               </div>
             ))}
-            {typing && (
+{typing && (
               <div className="flex justify-start">
                 <div className="bg-card border border-border rounded-2xl rounded-bl-sm px-4 py-3">
                   <div className="flex gap-1">
@@ -141,6 +161,23 @@ export default function FloatingAI() {
                     <span className="w-2 h-2 rounded-full bg-primary animate-bounce [animation-delay:0.3s]" />
                   </div>
                 </div>
+              </div>
+            )}
+            {showAccountCTA && !typing && (
+              <div className="rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/15 to-accent/10 p-4 text-center">
+                <Gift className="w-6 h-6 text-gold mx-auto mb-2" />
+                <div className="text-white font-bold text-sm mb-1">Get Your Free Deriv Account</div>
+                <p className="text-muted-foreground text-xs mb-3 leading-relaxed">
+                  Free to join · No credit card · 2 minutes · Demo account included
+                </p>
+                <a
+                  href={DERIV_AFFILIATE_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 w-full rounded-xl bg-[#00c853] px-4 py-2.5 text-sm font-bold text-black hover:bg-[#00e676] transition-all"
+                >
+                  <UserPlus className="w-4 h-4" /> Open Free Deriv Account →
+                </a>
               </div>
             )}
           </div>
