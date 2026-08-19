@@ -1,12 +1,13 @@
 import Link from 'next/link'
-import { BookOpen, Target, Calculator, Clock, Bot, ArrowRight } from 'lucide-react'
+import { BookOpen, Target, Calculator, Clock, Bot, ArrowRight, Compass } from 'lucide-react'
 
 const TOOLS = [
   { href: '/learn', label: 'Learn Deriv Basics', desc: 'Beginner hub for understanding Deriv', icon: BookOpen },
-  { href: '/strategies', label: 'Trading Strategies', desc: 'Explore 5 proven strategies', icon: Target },
-  { href: '/tools/risk-calculator', label: 'Risk Calculator', desc: 'Plan your staking & martingale', icon: Calculator },
+  { href: '/strategies', label: 'Trading Strategies', desc: 'Explore 7 proven strategies', icon: Target },
+  { href: '/tools/risk-calculator', label: 'Risk Calculator', desc: 'Compare Martingale, Alembert & Oscar\'s Grind', icon: Calculator },
   { href: '/tools/trading-times', label: 'Trading Times', desc: 'Best times for each market', icon: Clock },
   { href: '/bots/recommended', label: 'Recommended Bots', desc: 'Curated bots by use case', icon: Bot },
+  { href: '/comparisons', label: 'Platform Comparisons', desc: 'Deriv vs PocketOption, Binomo & more', icon: Compass },
 ]
 
 export default function RelatedTools() {
@@ -14,7 +15,7 @@ export default function RelatedTools() {
     <section className="py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-bold text-white mb-6">Explore More Tools</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {TOOLS.map(({ href, label, desc, icon: Icon }) => (
             <Link
               key={href}

@@ -21,6 +21,7 @@ Resources: [
     { label: 'Risk Calculator', href: '/tools/risk-calculator' },
     { label: 'Trading Times', href: '/tools/trading-times' },
     { label: 'Recommended Bots', href: '/bots/recommended' },
+    { label: 'Comparisons', href: '/comparisons' },
     { label: 'Referral Program', href: '/refer' },
   ],
   Company: [

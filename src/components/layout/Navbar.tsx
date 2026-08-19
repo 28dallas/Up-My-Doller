@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import {
   Menu, X, LayoutDashboard, Wrench, Gift, BarChart2,
   TrendingUp, Cpu, Zap, Target, LineChart, Copy, Bolt,
-  BookOpen, GraduationCap, Calculator
+  BookOpen, GraduationCap, Calculator, Scale
 } from 'lucide-react'
 import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
 import DerivConnectButton from '@/components/shared/DerivConnectButton'
@@ -28,6 +28,7 @@ const LEARN_ITEMS = [
   { label: 'Learn Deriv', href: '/learn', icon: BookOpen },
   { label: 'Strategies', href: '/strategies', icon: GraduationCap },
   { label: 'Tools', href: '/tools/risk-calculator', icon: Calculator },
+  { label: 'Comparisons', href: '/comparisons', icon: Scale },
 ]
 
 export default function Navbar() {

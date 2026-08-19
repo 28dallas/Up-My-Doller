@@ -23,15 +23,27 @@ const MARKET_ANSWERS: Record<string, string> = {
   'compare-markets':
     '**Volatility indices** (10/25/50/75) move steadily and are great for consistent Over/Under and Even/Odd strategies. **Boom & Crash** indices spike sharply every ~500/1000 ticks — high reward but high risk, best for experienced spike traders. **Step Index** moves in small steps, ideal for digit strategies. **Forex** follows real-world sessions (best during London–New York overlap).',
   martingale:
-    'Martingale doubles (or multiplies by a set factor) your stake after each loss, so one win recovers all previous losses. It works over short runs but a long losing streak can quickly exceed your budget. **Always cap your levels** (3-5 max), use a multiplier of 1.5x, and keep your total recovery within your daily budget. Safer alternatives: **Alembert** (adds 1 unit) and **Oscar\'s Grind** (increases stake only after a win).',
+    'Martingale doubles (or multiplies by a set factor) your stake after each loss, so one win recovers all previous losses. It works over short runs but a long losing streak can quickly exceed your budget. **Always cap your levels** (3-5 max), use a multiplier of 1.5x, and keep your total recovery within your daily budget. Safer alternatives: **Alembert** (adds 1 unit) and **Oscar\'s Grind** (increases stake only after a win). You can compare all three instantly in our Risk Calculator.',
+  alembert:
+    '**Alembert** is a flat-progression recovery strategy — after a loss you add one fixed unit to your stake (e.g. $1 → $2 → $3), and after a win you subtract one unit. Unlike Martingale it never doubles, so risk grows linearly instead of exponentially. It\'s much safer for beginners, but recovers losses more slowly and needs more trades. Full guide: /strategies/alembert.',
+  'oscars-grind':
+    '**Oscar\'s Grind** is the most conservative recovery strategy: your stake only increases after a win, never after a loss, and resets to base once you hit a target profit. Risk stays flat on losing streaks, making it the safest option — but profit grows slowly and it requires patience. Full guide: /strategies/oscars-grind.',
   safest:
     'The **Over/Under** strategy on **Volatility 10** is the safest combination on Deriv. It has near 50/50 odds, a 60-70% effective win rate with good stake management, and uses the lowest-volatility market. Avoid Digit Match (10% hit rate) and aggressive Boom/Crash until you have experience. Always set a take profit and stop loss.',
   'forex-time':
     'Forex is most active during the **London (8am-12pm GMT)** and **New York (1pm-4pm GMT)** sessions, especially the London–New York overlap. For gold and commodities, trade during the US session (1pm-5pm GMT). Synthetic indices (Volatility, Boom, Crash, Step) trade 24/7 with no session restrictions.',
+  bots:
+    'For a first bot, try the **Volatility Crusher v3** (Over/Under on Volatility 10, 68% win rate, low risk). For martingale fans, **Even Odd Master** on Volatility 25. For spike traders, **Boom Rider Pro** on Boom 1000. You can browse all recommended bots on the /bots/recommended page.',
+  comparison:
+    'We compare Deriv head-to-head with **Pocket Option**, **Binomo**, and **Olymp Trade**. Short version: Deriv wins on regulation, bot automation, and 24/7 synthetic indices — competitors sometimes win on payouts or UI simplicity. Read the full breakdowns on the /comparisons page.',
+  payout:
+    'Deriv payouts vary by instrument. **Over/Under** pays ~95%, **Rise/Fall** ~90%, **Even/Odd** ~90%, and **Digit Match** pays 9x your stake but only hits ~10% of the time. Always factor the payout into your stake sizing with our Risk Calculator.',
+  margin:
+    'Tip: keep your risk tiny. Never risk more than **1-2% of your account** per trade. Cap recovery levels at 3-5, use a 1.5x martingale multiplier, and always set a stop loss at 20-30% of your daily budget. Your account survives the losing streaks — that\'s what matters.',
 }
 
 const DEFAULT_ANSWER =
-  "I can help you understand Deriv markets, strategies, risk management, and bots. Try asking about Volatility indices, Boom/Crash, Step Index, forex, martingale, or the safest strategy. You can also ask me to compare markets or recommend a bot."
+  'I can help you understand Deriv markets, strategies, risk management, bots, payouts, and platform comparisons. Try asking about Volatility indices, Boom/Crash, Step Index, forex, martingale, Alembert, Oscar\'s Grind, or the safest strategy. You can also ask me to compare markets or recommend a bot.'
 
 function renderInline(text: string) {
   const parts = text.split('**')
@@ -52,7 +64,7 @@ export default function FloatingAI() {
       text: 'Hi! I\'m your Deriv AI trading assistant. I can help you pick markets, compare strategies, understand risk, and find the right bot. What would you like to know?',
     },
   ])
-const [typing, setTyping] = useState(false)
+  const [typing, setTyping] = useState(false)
   const [showAccountCTA, setShowAccountCTA] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -64,10 +76,15 @@ const [typing, setTyping] = useState(false)
     const q = raw.toLowerCase()
     if (/(volatility|vol 10|vol10)/.test(q) && /(beginner|start|new)/.test(q)) return MARKET_ANSWERS.beginner
     if (/(boom|crash).*volatility|compare.*(market|index)|volatility.*vs/.test(q)) return MARKET_ANSWERS['compare-markets']
+    if (/alembert/.test(q)) return MARKET_ANSWERS.alembert
+    if (/(oscar|grind)/.test(q)) return MARKET_ANSWERS['oscars-grind']
     if (/martingale/.test(q)) return MARKET_ANSWERS.martingale
+    if (/(payout|return|profit %)/.test(q)) return MARKET_ANSWERS.payout
     if (/(safest|safe|low.?risk|which strategy)/.test(q)) return MARKET_ANSWERS.safest
+    if (/(comparison|compare.*(pocket|binomo|olymp)|vs pocket|vs binomo|vs olymp)/.test(q)) return MARKET_ANSWERS.comparison
     if (/(time|when|session|hours).*(forex|trade)/.test(q) || /best time/.test(q)) return MARKET_ANSWERS['forex-time']
-    if (/(bot|recommend)/.test(q)) return 'For a first bot, try the **Volatility Crusher v3** (Over/Under on Volatility 10, 68% win rate, low risk). For martingale fans, **Even Odd Master** on Volatility 25. For spike traders, **Boom Rider Pro** on Boom 1000. You can browse all recommended bots on the /bots/recommended page.'
+    if (/(bot|recommend)/.test(q)) return MARKET_ANSWERS.bots
+    if (/(risk|money management|stake|budget|stop loss)/.test(q)) return MARKET_ANSWERS.margin
     if (/(account|open|sign|start trading|join|register|create)/.test(q)) {
       setShowAccountCTA(true)
       return 'Great! Opening a free Deriv account is the first step. **Use the green "Open Free Deriv Account" button on this site** — it takes just 2 minutes, requires no credit card, and you get a free demo account with virtual funds to practice risk-free. I recommend starting on the demo account, then funding with a small amount once you\'re confident. Tap the button below to get started!'
@@ -119,7 +136,7 @@ const [typing, setTyping] = useState(false)
                 </div>
               </div>
             </div>
-<button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-white transition-colors">
+            <button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-white transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -152,7 +169,7 @@ const [typing, setTyping] = useState(false)
                 </div>
               </div>
             ))}
-{typing && (
+            {typing && (
               <div className="flex justify-start">
                 <div className="bg-card border border-border rounded-2xl rounded-bl-sm px-4 py-3">
                   <div className="flex gap-1">

@@ -66,3 +66,15 @@
 - [x] Added "How do I open an account?" quick-action chip
 - [x] All affiliate CTAs use `DERIV_AFFILIATE_LINK` from constants
 - [x] `npm run build` verified — compiled successfully, types passed
+
+## Phase 9 - Feature Improvements
+- [x] **Risk Calculator multi-recovery support** — `src/components/learn/RiskCalculator.tsx` now supports Martingale, Alembert, and Oscar's Grind recovery strategies with dynamic labels, examples, and per-strategy educational info
+- [x] **New `/comparisons` index page** — `src/app/comparisons/page.tsx` card layout linking Deriv vs Pocket Option, Binomo, and Olymp Trade with SEO metadata
+- [x] **RelatedTools updated** — now shows 6 tools (added Platform Comparisons), fixed strategy count to 7, updated Risk Calculator description
+- [x] **Sitemap updated** — added `/comparisons` and all 3 comparison detail pages
+- [x] **Navbar Learn section** — added "Comparisons" link with Scale icon (desktop + mobile)
+- [x] **Footer Learn section** — added "Comparisons" link
+- [x] **Learn page** — fixed strategy count from "Five" to "Seven"
+- [x] **Risk calculator page copy** — updated hero and education cards to mention all 3 recovery strategies
+- [x] **Floating AI enhanced** — new answers for Alembert, Oscar's Grind, payouts, platform comparisons, risk management; cleaned indentation
+- [x] `npm run build` verified — compiled successfully, types passed, 53/53 static pages generated

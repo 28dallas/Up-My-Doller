@@ -20,7 +20,7 @@ const LEARNING_PATHS = [
   {
     href: '/strategies',
     title: 'Trading Strategies',
-    desc: 'Five proven strategies with win rates, step guides, and YouTube tutorials.',
+    desc: 'Seven proven strategies with win rates, step guides, and YouTube tutorials.',
     icon: Target,
     level: 'Beginner → Advanced',
     time: '20 min',

@@ -24,8 +24,8 @@ export default function RiskCalculatorPage() {
             Risk & Stake <span className="gradient-text">Calculator</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            Plan your stakes and understand your martingale recovery sequence before you risk a single dollar. Adjust the sliders to see your
-            potential loss at every level.
+            Plan your stakes and compare Martingale, Alembert, and Oscar's Grind recovery sequences before you risk a single dollar.
+            Adjust the sliders to see your potential loss at every level.
           </p>
         </div>
       </section>
@@ -45,7 +45,8 @@ export default function RiskCalculatorPage() {
             <h3 className="text-white font-bold text-base mb-2">What is Martingale?</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Martingale is a recovery strategy that multiplies your stake after each loss so that a single win recovers all previous losses plus a
-              profit. It&apos;s powerful but risky — a long losing streak can quickly exceed your budget.
+              profit. It's powerful but risky — a long losing streak can quickly exceed your budget. Use the calculator above to see exactly how fast
+              the risk grows.
             </p>
           </div>
           <div className="bg-card border border-border rounded-2xl p-6">
@@ -62,10 +63,11 @@ export default function RiskCalculatorPage() {
             <div className="w-11 h-11 rounded-xl bg-gold/15 flex items-center justify-center text-gold mb-4">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <h3 className="text-white font-bold text-base mb-2">Golden Rules</h3>
+            <h3 className="text-white font-bold text-base mb-2">Safer Alternatives</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Never risk more than 1-2% of your account per trade. Keep your recovery sequence within your daily budget. And always remember —
-              no strategy is guaranteed, so only trade money you can afford to lose.
+              Martingale isn't your only option — the calculator now supports <strong className="text-white">Alembert</strong> (adds a fixed
+              unit after losses) and <strong className="text-white">Oscar's Grind</strong> (stake stays flat on losses). Both grow risk far more
+              slowly and are much safer for beginners.
             </p>
           </div>
         </div>
