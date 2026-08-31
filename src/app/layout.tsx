@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Navbar from '@/components/layout/Navbar'
-import FloatingAI from '@/components/learn/FloatingAI'
-import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
+import SiteShell from '@/components/layout/SiteShell'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pipsdollarprinter.com'
 
@@ -56,30 +54,8 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-<body className="bg-background text-white antialiased">
-        <Navbar />
-        <FloatingAI />
-        <a
-          href={DERIV_AFFILIATE_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open Free Deriv Account"
-          className="fixed right-4 bottom-6 z-50 hidden items-center justify-center gap-2 rounded-full bg-[#00c853] px-6 py-3 text-sm font-semibold text-black shadow-[0_10px_30px_rgba(0,200,83,0.35)] transition-all hover:bg-[#00e676] hover:shadow-[0_12px_36px_rgba(0,200,83,0.45)] md:inline-flex"
-        >
-          Open Free Deriv Account →
-        </a>
-        <a
-          href={DERIV_AFFILIATE_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open Free Deriv Account"
-          className="fixed inset-x-4 bottom-4 z-50 inline-flex items-center justify-center gap-2 rounded-full bg-[#00c853] px-6 py-3 text-sm font-semibold text-black shadow-[0_10px_30px_rgba(0,200,83,0.35)] transition-all hover:bg-[#00e676] hover:shadow-[0_12px_36px_rgba(0,200,83,0.45)] md:hidden"
-        >
-          Open Free Deriv Account →
-        </a>
-        <div className="pb-28">
-          {children}
-        </div>
+      <body className="bg-background text-white antialiased">
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   )
