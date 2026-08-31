@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   publisher: 'Pips Dollar Printer',
   creator: 'Pips Dollar Printer',
   verification: {
-    google: 'YOUR_GOOGLE_VERIFICATION_CODE',
+    google: 'r4mSD5ui22z8z78JCH3czEYFBa4JpFOGwOP_Nxn1a18',
   },
 }
 
