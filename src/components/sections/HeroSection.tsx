@@ -130,20 +130,20 @@ export default function HeroSection() {
             </p>
 
             {/* CTAs */}
-<div className="flex flex-col gap-4 mb-10">
-              <div className="flex flex-wrap gap-4 items-center">
+            <div className="mb-10 flex flex-col gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <a
                   href={DERIV_AFFILIATE_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#00c853] px-7 py-4 text-lg font-bold text-black shadow-[0_0_30px_rgba(0,200,83,0.3)] hover:shadow-[0_0_38px_rgba(0,200,83,0.45)] animate-pulse transition-all"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#00c853] px-7 py-4 text-base font-bold text-black shadow-[0_0_30px_rgba(0,200,83,0.3)] hover:shadow-[0_0_38px_rgba(0,200,83,0.45)] animate-pulse transition-all sm:w-auto sm:text-lg"
                 >
                   <TrendingUp className="w-5 h-5" />
                   Open Free Deriv Account →
                 </a>
                 <Link
                   href="/learn"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-6 py-3 text-lg font-bold text-primary hover:bg-primary/20 transition-all"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-6 py-3 text-base font-bold text-primary transition-all hover:bg-primary/20 sm:w-auto sm:text-lg"
                 >
                   <GraduationCap className="w-5 h-5" />
                   Start Learning →
@@ -152,9 +152,9 @@ export default function HeroSection() {
                   href="https://youtu.be/uXlXWFHmXNk?si=08FuFrRUFXbSDcns"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 border border-border text-white font-semibold px-6 py-3 rounded-full hover:bg-white/5 transition-all group"
+                  className="flex w-full items-center justify-center gap-3 rounded-full border border-border px-6 py-3 text-white transition-all hover:bg-white/5 group sm:w-auto"
                 >
-                  <div className="flex items-center justify-center w-9 h-9 rounded-full border border-primary bg-black/10 text-primary shadow-sm transition-all group-hover:bg-primary/15">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-primary bg-black/10 text-primary shadow-sm transition-all group-hover:bg-primary/15">
                     <Play className="w-4 h-4" />
                   </div>
                   <div className="flex flex-col leading-tight">
@@ -165,7 +165,10 @@ export default function HeroSection() {
                   </div>
                 </a>
               </div>
-              <DerivConnectButton className="inline-flex w-fit items-center justify-center gap-2 rounded-full border border-primary/40 px-5 py-2.5 text-sm font-semibold text-primary hover:bg-primary/10 transition-all">Connect existing Deriv account</DerivConnectButton>
+
+              <DerivConnectButton className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/40 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:bg-primary/10 sm:w-fit">
+                Connect existing Deriv account
+              </DerivConnectButton>
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground max-w-xl">
                   Free to join • No credit card • Trusted by Deriv
