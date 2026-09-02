@@ -55,7 +55,7 @@ export default function HomePage() {
             <div className="p-8 md:p-10 lg:p-12">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">
                 <Sparkles className="h-3.5 w-3.5" />
-                Affiliate-first onboarding
+                Learn and Get Deriv bots
               </div>
 
               <h1 className="max-w-2xl text-4xl font-black tracking-[-0.06em] text-white md:text-6xl">
