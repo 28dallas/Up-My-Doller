@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   publisher: 'SmartTraders',
   creator: 'SmartTraders',
   verification: {
-    google: 'r4mSD5ui22z8z78JCH3czEYFBa4JpFOGwOP_Nxn1a18',
+    google: '7KAQmHAf5sUT1FBuVWlriG2X2VfsfNYhILE_LppahpY',
   },
 }
 
