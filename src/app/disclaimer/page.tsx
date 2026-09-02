@@ -6,7 +6,7 @@ import { AlertTriangle } from 'lucide-react'
 const SECTIONS = [
   {
     title: '1. No Financial Advice',
-    body: 'DBTraders is a software platform that provides trading tools, automation, signals, and educational content. Nothing on this platform constitutes financial advice, investment advice, or a recommendation to buy or sell any financial instrument. All content is for informational and educational purposes only.',
+    body: 'SmartTraders is a software platform that provides trading tools, automation, signals, and educational content. Nothing on this platform constitutes financial advice, investment advice, or a recommendation to buy or sell any financial instrument. All content is for informational and educational purposes only.',
   },
   {
     title: '2. Trading Risk Warning',
@@ -22,7 +22,7 @@ const SECTIONS = [
   },
   {
     title: '5. Copy Trading Risk',
-    body: 'When you copy a trader, you are mirroring their trading decisions on your own account. The trader you copy may experience losing streaks, change their strategy, or stop trading at any time. DBTraders does not vet, endorse, or guarantee the performance of any trader on the platform. You are solely responsible for the decision to copy any trader and for the resulting outcomes.',
+    body: 'When you copy a trader, you are mirroring their trading decisions on your own account. The trader you copy may experience losing streaks, change their strategy, or stop trading at any time. SmartTraders does not vet, endorse, or guarantee the performance of any trader on the platform. You are solely responsible for the decision to copy any trader and for the resulting outcomes.',
   },
   {
     title: '6. Signal Disclaimer',
@@ -30,15 +30,15 @@ const SECTIONS = [
   },
   {
     title: '7. Deriv Platform Risk',
-    body: 'DBTraders integrates with Deriv via API. We are not affiliated with, endorsed by, or responsible for Deriv\'s platform, pricing, availability, or terms. Any issues with Deriv\'s platform, including outages, pricing changes, or account restrictions, are outside our control.',
+    body: 'SmartTraders integrates with Deriv via API. We are not affiliated with, endorsed by, or responsible for Deriv\'s platform, pricing, availability, or terms. Any issues with Deriv\'s platform, including outages, pricing changes, or account restrictions, are outside our control.',
   },
   {
     title: '8. User Responsibility',
-    body: 'You are solely responsible for all trading decisions made using this platform. This includes the choice of bots, stake sizes, risk settings, traders to copy, and signals to act on. DBTraders provides tools — the decisions and their consequences are yours.',
+    body: 'You are solely responsible for all trading decisions made using this platform. This includes the choice of bots, stake sizes, risk settings, traders to copy, and signals to act on. SmartTraders provides tools — the decisions and their consequences are yours.',
   },
   {
     title: '9. Regulatory Notice',
-    body: 'DBTraders is a software tools provider and is not a licensed financial advisor, broker, or investment manager. We do not hold any financial services license. Users are responsible for ensuring that their trading activities comply with the laws and regulations of their country of residence.',
+    body: 'SmartTraders is a software tools provider and is not a licensed financial advisor, broker, or investment manager. We do not hold any financial services license. Users are responsible for ensuring that their trading activities comply with the laws and regulations of their country of residence.',
   },
 ]
 
@@ -80,7 +80,7 @@ export default function DisclaimerPage() {
 
         <div className="mt-10 bg-card border border-border rounded-xl p-6 text-center">
           <p className="text-muted-foreground text-sm mb-4">
-            By using DBTraders, you confirm that you have read and understood this disclaimer and accept full responsibility for your trading decisions.
+            By using SmartTraders, you confirm that you have read and understood this disclaimer and accept full responsibility for your trading decisions.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/dashboard/analysis" className="text-primary hover:underline text-sm font-medium">Open Analysis Tools</Link>

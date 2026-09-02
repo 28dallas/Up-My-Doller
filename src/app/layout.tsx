@@ -1,24 +1,25 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import './globals.css'
 import SiteShell from '@/components/layout/SiteShell'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pipsdollarprinter.com'
 
 export const metadata: Metadata = {
-  title: 'Pips Dollar Printer — Deriv Bot Builder, Copy Trading & Trading Education',
+  title: 'SmartTraders — Deriv Bot Builder, Copy Trading & Trading Education',
   description: 'Learn to trade Deriv like a pro. Build profitable Deriv trading bots without coding, copy top traders, access free bots, trading strategies, a risk calculator, and beginner education — all in one place.',
   keywords: 'Deriv bot builder, copy trading, trading bots Kenya, Deriv automation, binary options bot, learn Deriv, Deriv strategies, Deriv risk calculator, Deriv tutorial',
   metadataBase: new URL(siteUrl),
   openGraph: {
-    title: 'Pips Dollar Printer — Deriv Bot Builder, Copy Trading & Trading Education',
+    title: 'SmartTraders — Deriv Bot Builder, Copy Trading & Trading Education',
     description: 'Learn to trade Deriv like a pro. Build profitable Deriv trading bots, copy top traders, and access beginner education.',
     type: 'website',
     locale: 'en_KE',
-    siteName: 'Pips Dollar Printer',
+    siteName: 'SmartTraders',
     url: siteUrl,
   },
   twitter: {
-    site: '@pipsdollarprinter',
+    site: '@smarttraders',
   },
   robots: {
     index: true,
@@ -31,9 +32,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  authors: [{ name: 'Pips Dollar Printer' }],
-  publisher: 'Pips Dollar Printer',
-  creator: 'Pips Dollar Printer',
+  authors: [{ name: 'SmartTraders' }],
+  publisher: 'SmartTraders',
+  creator: 'SmartTraders',
   verification: {
     google: 'r4mSD5ui22z8z78JCH3czEYFBa4JpFOGwOP_Nxn1a18',
   },
@@ -55,7 +56,9 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-background text-white antialiased">
-        <SiteShell>{children}</SiteShell>
+        <Suspense fallback={<>{children}</>}>
+          <SiteShell>{children}</SiteShell>
+        </Suspense>
       </body>
     </html>
   )

@@ -10,7 +10,7 @@ const SECTIONS = [
     color: 'text-primary',
     bg: 'bg-primary/10',
     articles: [
-      { title: 'Create your DBTraders account', href: '/auth/signup' },
+      { title: 'Create your SmartTraders account', href: '/auth/signup' },
       { title: 'Connect your Deriv account via API token', href: '/dashboard/api-token' },
       { title: 'Understanding your dashboard', href: '/dashboard' },
       { title: 'Setting up Telegram alerts', href: '/dashboard/alerts' },
@@ -34,7 +34,7 @@ const SECTIONS = [
     color: 'text-success',
     bg: 'bg-success/10',
     articles: [
-      { title: 'How copy trading works on DBTraders', href: '/copy-trading' },
+      { title: 'How copy trading works on SmartTraders', href: '/copy-trading' },
       { title: 'Choosing the right trader to copy', href: '/copy-trading' },
       { title: 'Setting stake size and risk limits', href: '/dashboard/copy-trading' },
       { title: 'Stopping a copy subscription', href: '/dashboard/copy-trading' },
@@ -97,7 +97,7 @@ export default function DocsPage() {
             Documentation
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
-            How to Use <span className="gradient-text">DBTraders</span>
+            How to Use <span className="gradient-text">SmartTraders</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
             Everything you need to set up, trade, and grow — from first login to advanced automation.

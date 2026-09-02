@@ -1,149 +1,145 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
-import Footer from '@/components/layout/Footer'
-import HeroSection from '@/components/sections/HeroSection'
-import FeaturesSection from '@/components/sections/FeaturesSection'
-import WhyChooseUsSection from '@/components/sections/WhyChooseUsSection'
-import LivePlatformStats from '@/components/sections/LivePlatformStats'
-import HowItWorksSection from '@/components/sections/HowItWorksSection'
-import FreeBotShowcase from '@/components/sections/FreeBotShowcase'
-import CopyTradingSection from '@/components/sections/CopyTradingSection'
-import PricingSection from '@/components/sections/PricingSection'
-import TestimonialsSection from '@/components/sections/TestimonialsSection'
-import StatsBanner from '@/components/sections/StatsBanner'
-import DerivLiveFeed from '@/components/sections/DerivLiveFeed'
-import BlogPreviewSection from '@/components/sections/BlogPreviewSection'
-import CommunityCTASection from '@/components/sections/CommunityCTASection'
-import MpesaGuideSection from '@/components/sections/MpesaGuideSection'
-import StartLearningSection from '@/components/sections/StartLearningSection'
-import RiskNotice from '@/components/shared/RiskNotice'
-import { getDerivOAuthUrl } from '@/lib/constants'
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { ArrowRight, BookOpen, Bot, ShieldCheck, Sparkles, UserCheck } from 'lucide-react'
+import { DERIV_AFFILIATE_LINK, getDerivOAuthUrl } from '@/lib/constants'
+import { getDerivSession } from '@/lib/deriv-session'
 
 export default function HomePage() {
-  const searchParams = useSearchParams()
-  const isAffiliate = !!(
-    searchParams.get('utm_source') === 'CU334550' ||
-    searchParams.get('utm_medium') === 'affiliate' ||
-    searchParams.get('utm_campaign') === 'dynamicworks' ||
-    searchParams.get('sidc') ||
-    searchParams.get('affiliate') === '1' ||
-    searchParams.get('from') === 'deriv'
-  )
+  const [isConnected, setIsConnected] = useState(false)
+  const [authUrl, setAuthUrl] = useState<string | null>(null)
 
-  if (isAffiliate) {
-    const authUrl = getDerivOAuthUrl(window.location.origin)
+  useEffect(() => {
+    setIsConnected(!!getDerivSession())
+    setAuthUrl(getDerivOAuthUrl(window.location.origin))
+  }, [])
 
+  if (isConnected) {
     return (
-      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#010d18] px-4 py-10 text-white">
-        <div className="absolute inset-0 opacity-40">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(6,182,212,0.12),_transparent_45%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:36px_36px]" />
-
-          <div className="absolute left-10 top-1/2 h-28 w-16 -translate-y-1/2 rounded-t-[8px] rounded-b-[4px] bg-[#0dd4b3]/80 shadow-[0_0_20px_rgba(13,212,179,0.25)]" />
-          <div className="absolute left-24 top-[58%] h-20 w-12 rounded-t-[8px] rounded-b-[4px] bg-[#f0596f]/80 shadow-[0_0_20px_rgba(240,89,111,0.25)]" />
-          <div className="absolute right-10 top-1/2 h-24 w-16 -translate-y-1/2 rounded-t-[8px] rounded-b-[4px] bg-[#0dd4b3]/80 shadow-[0_0_20px_rgba(13,212,179,0.25)]" />
-          <div className="absolute right-24 top-[58%] h-20 w-12 rounded-t-[8px] rounded-b-[4px] bg-[#f0596f]/80 shadow-[0_0_20px_rgba(240,89,111,0.25)]" />
-        </div>
-
-        <div className="relative z-10 w-full max-w-[760px] rounded-[32px] border border-cyan-400/20 bg-[#071b2d]/90 p-6 shadow-[0_0_60px_rgba(25,211,190,0.08)] sm:p-8">
-          <div className="mb-8 text-center">
-            <div className="mb-5 flex justify-center">
-              <div className="flex h-24 w-24 items-center justify-center rounded-[30px] border border-[#f4c9d5]/20 bg-[#f6dfe8]/10 text-[4rem] font-black text-[#f5dfe8] shadow-[0_0_30px_rgba(245,223,232,0.12)]">
-                d
-              </div>
+      <main className="min-h-screen bg-background pt-24">
+        <section className="mx-auto max-w-6xl px-4 pb-16">
+          <div className="rounded-3xl border border-border bg-card p-8 shadow-[0_20px_70px_rgba(0,0,0,0.25)]">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Deriv connected
             </div>
 
-            <div className="text-[2.8rem] font-black uppercase leading-none tracking-[-0.07em] sm:text-[4.3rem]">
-              <span className="text-[#ff4655]">DB</span>
-              <span className="text-[#1ee6c4]">Traders</span>
-            </div>
+            <h1 className="text-4xl font-black tracking-tight text-white md:text-5xl">
+              Welcome back — your access is live.
+            </h1>
+            <p className="mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
+              Your Deriv account is linked, so you can access the learning hub, recommended strategies, and the bot library without any extra barrier.
+            </p>
 
-            <div className="mt-3 flex items-center justify-center gap-2 text-[0.62rem] uppercase tracking-[0.26em] text-slate-300">
-              <span className="rounded-full border border-cyan-400/40 bg-cyan-400/10 px-3 py-1 text-cyan-300">Trading Hub</span>
-              <span className="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3 py-1 text-emerald-300">Live</span>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/learn" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-black transition hover:bg-primary/90">
+                Go to learning hub
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/bots" className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-sm font-semibold text-white transition hover:border-primary/50 hover:text-primary">
+                Open bot library
+              </Link>
             </div>
           </div>
-
-          <div className="rounded-[28px] border border-white/10 bg-[#0d1d2a]/80 px-5 py-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-8">
-            <div className="text-center">
-              <h1 className="text-[2.1rem] font-black tracking-[-0.05em] text-white sm:text-[2.7rem]">
-                Welcome to DBTraders
-              </h1>
-              <p className="mt-2 text-sm text-slate-300 sm:text-base">Empowering your financial journey.</p>
-            </div>
-
-            <div className="mt-7">
-              <div className="flex h-3 overflow-hidden rounded-full bg-slate-800">
-                <div className="h-full w-[35%] rounded-full bg-gradient-to-r from-cyan-400 via-emerald-400 to-emerald-500" />
-              </div>
-              <div className="mt-2 text-right text-xs font-semibold tracking-[0.18em] text-slate-300">35%</div>
-            </div>
-
-            <div className="mt-6 flex items-center justify-center gap-3 text-sm text-slate-300">
-              <div className="h-3 w-3 rounded-full border border-cyan-300 bg-cyan-400/20" />
-              <span>Connecting to Volatility Markets...</span>
-            </div>
-
-            <div className="mt-8 grid grid-cols-3 gap-4 sm:gap-8">
-              {[
-                { label: 'Advanced Charts', color: 'bg-cyan-500/10 text-cyan-300' },
-                { label: 'Trading Bots', color: 'bg-emerald-500/10 text-emerald-300' },
-                { label: 'Copy Trading', color: 'bg-violet-500/10 text-violet-300' },
-              ].map(({ label, color }) => (
-                <div key={label} className="flex flex-col items-center gap-2 text-center">
-                  <div className={`flex h-16 w-16 items-center justify-center rounded-full ${color} ring-1 ring-white/10`}>
-                    <span className="text-lg font-bold">{label.charAt(0)}</span>
-                  </div>
-                  <span className="text-[11px] text-slate-300">{label}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 space-y-3">
-              <a
-                href={authUrl || 'https://deriv.com'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#00c853] px-6 py-4 text-base font-bold text-black shadow-[0_0_28px_rgba(0,200,83,0.25)] transition hover:bg-[#00e676]"
-              >
-                Continue with Deriv
-              </a>
-
-              <a
-                href={authUrl || 'https://deriv.com'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-6 py-3 text-base font-semibold text-primary transition hover:bg-primary/20"
-              >
-                Create a free Deriv account
-              </a>
-            </div>
-          </div>
-        </div>
+        </section>
       </main>
     )
   }
 
   return (
-    <main className="min-h-screen bg-background pt-24">
-      <HeroSection />
-      <RiskNotice />
-      <StartLearningSection />
-      <FeaturesSection />
-      <WhyChooseUsSection />
-      <LivePlatformStats />
-      <HowItWorksSection />
-      <StatsBanner />
-      <DerivLiveFeed />
-      <FreeBotShowcase />
-      <CopyTradingSection />
-      <MpesaGuideSection />
-      <PricingSection />
-      <TestimonialsSection />
-      <BlogPreviewSection />
-      <CommunityCTASection />
-      <Footer />
+    <main className="min-h-screen bg-[#020b16] px-4 py-10 text-white md:py-16">
+      <div className="mx-auto max-w-6xl">
+        <div className="overflow-hidden rounded-[32px] border border-cyan-400/20 bg-[#081a2d]/90 shadow-[0_30px_80px_rgba(13,148,136,0.12)]">
+          <div className="grid gap-0 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="p-8 md:p-10 lg:p-12">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">
+                <Sparkles className="h-3.5 w-3.5" />
+                Affiliate-first onboarding
+              </div>
+
+              <h1 className="max-w-2xl text-4xl font-black tracking-[-0.06em] text-white md:text-6xl">
+                Learn Deriv with confidence. Connect once. Unlock everything.
+              </h1>
+
+              <p className="mt-5 max-w-xl text-base leading-7 text-slate-300 md:text-lg">
+                SmartTraders gives you a smarter path into Deriv: discover the markets, learn the strategy basics, and access the bot tools only after your Deriv account is connected through the affiliate flow.
+              </p>
+
+              <div className="mt-8 grid gap-4 md:grid-cols-3">
+                {[
+                  { icon: BookOpen, title: 'Learn fast', text: 'Understand Deriv markets, strategies, and risk in plain English.' },
+                  { icon: Bot, title: 'Explore bots', text: 'Browse the bot library and recommended setups after your account is connected.' },
+                  { icon: UserCheck, title: 'Connect securely', text: 'Use the official Deriv OAuth flow to link your account safely.' },
+                ].map(({ icon: Icon, title, text }) => (
+                  <div key={title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <Icon className="mb-3 h-5 w-5 text-primary" />
+                    <div className="mb-2 text-sm font-bold text-white">{title}</div>
+                    <p className="text-xs leading-5 text-slate-300">{text}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-10 rounded-3xl border border-white/10 bg-[#0c1d2d] p-5">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300">Access flow</div>
+                  <div className="text-xs text-slate-400">3 simple steps</div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {[
+                    'Click any green button to open/connect your account',
+                    'Create or connect your Deriv account',
+                    'Unlock learning + bots',
+                  ].map((step, index) => (
+                    <div key={step} className="rounded-2xl border border-white/10 bg-[#091827] p-3">
+                      <div className="mb-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-black text-black">{index + 1}</div>
+                      <p className="text-sm font-medium text-white">{step}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 bg-[#091d32] p-8 md:p-10 lg:border-l lg:border-t-0">
+              <div className="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">
+                Required before access
+              </div>
+              <h2 className="text-2xl font-black text-white">Start with your Deriv account</h2>
+
+              <p className="mt-3 text-sm leading-6 text-slate-300">
+                Before you can open the learning portal or bot library to access all Features, you need to create an account at Deriv official site or connect your account. This ensures you have and account ready for trading before access is unlocked.
+              </p>
+
+              <div className="mt-6 space-y-3">
+                <a
+                  href={DERIV_AFFILIATE_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#00c853] px-5 py-3.5 text-sm font-bold text-black transition hover:bg-[#00e676]"
+                >
+                  Open my affiliate Deriv link
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (authUrl) window.location.assign(authUrl)
+                  }}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-3.5 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-400/20"
+                >
+                  Connect my Deriv account
+                </button>
+              </div>
+
+              <div className="mt-6 rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4 text-sm text-amber-100">
+                This keeps the journey compliant and ensures your account is linked before the learning and bot education features unlock.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   )
 }

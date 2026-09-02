@@ -163,7 +163,7 @@ export default function AlertsPage() {
       <Card>
         <h2 className="text-white font-bold text-lg mb-4">Sample Alert Preview</h2>
         <div className="bg-background rounded-xl border border-border p-4 font-mono text-xs text-muted-foreground leading-relaxed">
-          <p className="text-success font-bold">✅ TRADE WIN — Pips Dollar Printer</p>
+          <p className="text-success font-bold">✅ TRADE WIN — SmartTraders</p>
           <p className="mt-1">🤖 Bot: Volatility Crusher v3</p>
           <p>📊 Market: Volatility 10 Index</p>
           <p>📈 Direction: Over 5</p>

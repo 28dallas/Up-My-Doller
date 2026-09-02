@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { TrendingUp } from 'lucide-react'
+import Image from 'next/image'
 
 const FOOTER_LINKS = {
   Platform: [
@@ -46,11 +46,17 @@ export default function Footer() {
 <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-black" />
+              <div className="w-10 h-10 overflow-hidden rounded-lg border border-border bg-background">
+                <Image
+                  src="/img/Free Trading Signals 20260902_133854.jpg"
+                  alt="SmartTraders logo"
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-cover"
+                />
               </div>
               <span className="font-bold text-white text-sm">
-                Pips <span className="text-primary">Dollar</span> Printer
+                Smart<span className="text-primary">Traders</span>
               </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed mb-4">
@@ -87,7 +93,7 @@ export default function Footer() {
         <div className="mt-10 pt-6 border-t border-border">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-muted-foreground text-xs">
-              Copyright {new Date().getFullYear()} Pips Dollar Printer. All rights reserved.
+              Copyright {new Date().getFullYear()} SmartTraders. All rights reserved.
             </p>
             <p className="text-muted-foreground text-xs text-center md:text-right max-w-xl">
               <strong className="text-warning">Risk Disclaimer:</strong> Trading involves substantial risk of loss. Past performance is not indicative of future results. Only trade with money you can afford to lose. This platform does not provide financial advice.

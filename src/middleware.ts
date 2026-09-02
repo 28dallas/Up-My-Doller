@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const PUBLIC_PATHS = ['/', '/learn', '/blog', '/pricing', '/about', '/contact', '/affiliate', '/refer', '/terms', '/privacy', '/cookies', '/disclaimer', '/docs', '/comparisons', '/strategies', '/auth/login', '/auth/signup', '/auth/deriv/callback']
+const PUBLIC_PATHS = ['/', '/blog', '/pricing', '/about', '/contact', '/affiliate', '/refer', '/terms', '/privacy', '/cookies', '/disclaimer', '/docs', '/comparisons', '/strategies', '/auth/login', '/auth/signup', '/auth/deriv/callback']
 
 const isPublicPath = (pathname: string) => {
   if (pathname === '/') return true
@@ -41,5 +41,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/:path*', '/tools/:path*', '/bots/:path*', '/copy-trading/:path*'],
+  matcher: ['/dashboard/:path*', '/api/:path*', '/tools/:path*', '/learn/:path*', '/bots/:path*', '/copy-trading/:path*'],
 }

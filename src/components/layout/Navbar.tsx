@@ -1,6 +1,7 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   Menu, X, LayoutDashboard, Wrench, Gift, BarChart2,
@@ -8,6 +9,7 @@ import {
   BookOpen, GraduationCap, Calculator, Scale
 } from 'lucide-react'
 import { DERIV_AFFILIATE_LINK } from '@/lib/constants'
+import { getDerivSession } from '@/lib/deriv-session'
 import DerivConnectButton from '@/components/shared/DerivConnectButton'
 
 const NAV_ITEMS = [
@@ -33,18 +35,34 @@ const LEARN_ITEMS = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isConnected, setIsConnected] = useState(false)
   const pathname = usePathname()
+
+  useEffect(() => {
+    setIsConnected(!!getDerivSession())
+  }, [])
+
+  const lockedClassName = 'cursor-not-allowed opacity-50'
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0e2e] border-b border-[#1a2060]">
       {/* Top bar: Logo + Auth buttons */}
       <div className="flex items-center justify-between px-4 sm:px-6 h-14 border-b border-[#1a2060]">
         {/* Logo */}
-        <Link href="/" className="flex flex-col leading-tight">
-          <span className="text-white font-bold text-base tracking-wide">Pips Dollarprinter</span>
-          <span className="text-xs" style={{ color: '#aaa' }}>
-            powered by{' '}
-            <span className="font-bold italic" style={{ color: '#ff444f' }}>Deriv</span>
+        <Link href="/" className="flex items-center gap-2 leading-tight">
+          <Image
+            src="/img/Free Trading Signals 20260902_133854.jpg"
+            alt="SmartTraders logo"
+            width={34}
+            height={34}
+            className="h-[34px] w-[34px] rounded-lg border border-[#2a3080] object-contain"
+          />
+          <span className="flex flex-col">
+            <span className="text-white font-bold text-base tracking-wide">SmartTraders</span>
+            <span className="text-xs" style={{ color: '#aaa' }}>
+              powered by{' '}
+              <span className="font-bold italic" style={{ color: '#ff444f' }}>Deriv</span>
+            </span>
           </span>
         </Link>
 
@@ -60,7 +78,12 @@ export default function Navbar() {
             href="https://t.me/TRENDIF"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded text-white text-xs font-semibold border border-[#0088cc]/30 hover:bg-[#0088cc]/15 transition-all"
+            aria-disabled={!isConnected}
+            tabIndex={isConnected ? 0 : -1}
+            onClick={(event) => {
+              if (!isConnected) event.preventDefault()
+            }}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded text-white text-xs font-semibold border border-[#0088cc]/30 transition-all ${!isConnected ? lockedClassName : 'hover:bg-[#0088cc]/15'}`}
           >
             <svg className="w-4 h-4 fill-current text-[#0088cc] shrink-0" viewBox="0 0 24 24">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15.75-.75 4.35-1.06 6.03-.13.71-.39.95-.64.97-.56.05-1.03-.38-1.57-.74-.85-.56-1.33-.9-2.16-1.45-.96-.64-.34-.99.21-1.56.14-.15 2.65-2.42 2.7-2.63.01-.03.01-.14-.05-.2-.06-.06-.15-.04-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.91-1.27 4.85-2.11 5.83-2.52 2.77-1.17 3.35-1.38 3.73-1.38.08 0 .27.02.39.12.1.08.13.19.14.28.01.07.01.21 0 .28z" />
@@ -73,7 +96,12 @@ export default function Navbar() {
             href="https://wa.me/254107646264"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded text-white text-xs font-semibold hover:bg-[#25d366]/10 transition-all"
+            aria-disabled={!isConnected}
+            tabIndex={isConnected ? 0 : -1}
+            onClick={(event) => {
+              if (!isConnected) event.preventDefault()
+            }}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded text-white text-xs font-semibold transition-all ${!isConnected ? lockedClassName : 'hover:bg-[#25d366]/10'}`}
           >
             <svg className="w-4 h-4 fill-current text-[#25d366] shrink-0" viewBox="0 0 24 24">
               <path d="M12.004 2C6.48 2 2.008 6.48 2.008 12c0 1.91.54 3.7 1.48 5.23L2.008 22l4.9-1.29c1.47.8 3.14 1.29 4.93 1.29 5.52 0 10-4.48 10-10S17.526 2 12.004 2zm5.72 13.91c-.24.68-1.21 1.25-1.81 1.33-.51.07-1.18.1-3.38-.82-2.82-1.17-4.6-4.03-4.74-4.22-.14-.19-1.12-1.49-1.12-2.84 0-1.35.7-2.01.95-2.28.25-.27.54-.34.72-.34.18 0 .36 0 .51.01.16.01.37-.06.58.45.21.52.73 1.79.79 1.92.06.13.1.28.01.45-.09.18-.14.28-.28.45-.14.17-.3.38-.43.51-.15.15-.31.32-.13.63.18.3.8 1.32 1.72 2.14.92.82 1.7-1.08 1.7-1.08.18-.32.4-.26.63-.15.22.11 1.42.67 1.66.79.24.12.4.18.46.28.06.1.06.58-.18 1.26z" />
@@ -82,12 +110,18 @@ export default function Navbar() {
           </a>
 
           <div className="hidden sm:block"><DerivConnectButton className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded text-white text-sm font-medium border border-[#2a3080] hover:bg-[#1a2060] transition-all">Connect Deriv</DerivConnectButton></div>
-          <Link
-            href="/dashboard/api-token"
-            className="hidden sm:inline-flex items-center px-4 py-1.5 rounded text-white text-sm font-medium bg-[#1a2060] hover:bg-[#2a3080] border border-[#2a3080] transition-all"
-          >
-            API Token
-          </Link>
+          {isConnected ? (
+            <Link
+              href="/dashboard/api-token"
+              className="hidden sm:inline-flex items-center px-4 py-1.5 rounded text-white text-sm font-medium bg-[#1a2060] hover:bg-[#2a3080] border border-[#2a3080] transition-all"
+            >
+              API Token
+            </Link>
+          ) : (
+            <span className={`hidden sm:inline-flex items-center px-4 py-1.5 rounded text-white text-sm font-medium bg-[#1a2060] border border-[#2a3080] ${lockedClassName}`} aria-disabled="true" title="Connect your Deriv account first">
+              API Token
+            </span>
+          )}
           <a
             href={DERIV_AFFILIATE_LINK}
             target="_blank"
@@ -112,36 +146,50 @@ export default function Navbar() {
         {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + '/')
           return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-1.5 px-3 h-full text-xs font-medium whitespace-nowrap transition-all border-b-2 ${
-                active
-                  ? 'text-white border-primary bg-white/5'
-                  : 'text-[#8899cc] border-transparent hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Icon className="w-3.5 h-3.5 shrink-0" />
-              {label}
-            </Link>
+            isConnected ? (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-1.5 px-3 h-full text-xs font-medium whitespace-nowrap transition-all border-b-2 ${
+                  active
+                    ? 'text-white border-primary bg-white/5'
+                    : 'text-[#8899cc] border-transparent hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5 shrink-0" />
+                {label}
+              </Link>
+            ) : (
+              <span key={href} className={`flex items-center gap-1.5 px-3 h-full text-xs font-medium whitespace-nowrap border-b-2 border-transparent text-[#8899cc] ${lockedClassName}`} aria-disabled="true" title="Connect your Deriv account first">
+                <Icon className="w-3.5 h-3.5 shrink-0" />
+                {label}
+              </span>
+            )
           )
         })}
         <div className="mx-1 h-5 w-px bg-[#2a3080] shrink-0" />
         {LEARN_ITEMS.map(({ label, href, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + '/')
           return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-1.5 px-3 h-full text-xs font-medium whitespace-nowrap transition-all border-b-2 ${
-                active
-                  ? 'text-primary border-primary bg-primary/5'
-                  : 'text-[#8899cc] border-transparent hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              <Icon className="w-3.5 h-3.5 shrink-0" />
-              {label}
-            </Link>
+            isConnected ? (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-1.5 px-3 h-full text-xs font-medium whitespace-nowrap transition-all border-b-2 ${
+                  active
+                    ? 'text-primary border-primary bg-primary/5'
+                    : 'text-[#8899cc] border-transparent hover:text-primary hover:bg-primary/5'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5 shrink-0" />
+                {label}
+              </Link>
+            ) : (
+              <span key={href} className={`flex items-center gap-1.5 px-3 h-full text-xs font-medium whitespace-nowrap border-b-2 border-transparent text-[#8899cc] ${lockedClassName}`} aria-disabled="true" title="Connect your Deriv account first">
+                <Icon className="w-3.5 h-3.5 shrink-0" />
+                {label}
+              </span>
+            )
           )
         })}
       </div>
@@ -153,24 +201,7 @@ export default function Navbar() {
             {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
               const active = pathname === href
               return (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setIsOpen(false)}
-                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                    active ? 'bg-primary/15 text-primary' : 'text-[#8899cc] hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <Icon className="w-4 h-4 shrink-0" />
-                  {label}
-                </Link>
-              )
-})}
-            <div className="pt-3 flex flex-col gap-2 border-t border-[#1a2060] mt-2">
-              <div className="text-xs font-semibold uppercase tracking-wider text-[#8899cc] px-3 pt-1">Learn</div>
-              {LEARN_ITEMS.map(({ label, href, icon: Icon }) => {
-                const active = pathname === href
-                return (
+                isConnected ? (
                   <Link
                     key={href}
                     href={href}
@@ -182,12 +213,43 @@ export default function Navbar() {
                     <Icon className="w-4 h-4 shrink-0" />
                     {label}
                   </Link>
+                ) : (
+                  <span key={href} className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#8899cc] ${lockedClassName}`} aria-disabled="true" title="Connect your Deriv account first">
+                    <Icon className="w-4 h-4 shrink-0" />
+                    {label}
+                  </span>
+                )
+              )
+})}
+            <div className="pt-3 flex flex-col gap-2 border-t border-[#1a2060] mt-2">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#8899cc] px-3 pt-1">Learn</div>
+              {LEARN_ITEMS.map(({ label, href, icon: Icon }) => {
+                const active = pathname === href
+                return (
+                  isConnected ? (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                        active ? 'bg-primary/15 text-primary' : 'text-[#8899cc] hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4 shrink-0" />
+                      {label}
+                    </Link>
+                  ) : (
+                    <span key={href} className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-[#8899cc] ${lockedClassName}`} aria-disabled="true" title="Connect your Deriv account first">
+                      <Icon className="w-4 h-4 shrink-0" />
+                      {label}
+                    </span>
+                  )
                 )
               })}
             </div>
             <div className="pt-3 flex flex-col gap-2 border-t border-[#1a2060] mt-2">
               <Link href="/auth/login" onClick={() => setIsOpen(false)} className="text-center py-2 rounded border border-[#2a3080] text-white text-sm hover:bg-[#1a2060] transition-all">Log in</Link>
-              <Link href="/dashboard/api-token" onClick={() => setIsOpen(false)} className="text-center py-2 rounded bg-[#1a2060] text-white text-sm hover:bg-[#2a3080] transition-all">API Token</Link>
+              {isConnected ? <Link href="/dashboard/api-token" onClick={() => setIsOpen(false)} className="text-center py-2 rounded bg-[#1a2060] text-white text-sm hover:bg-[#2a3080] transition-all">API Token</Link> : <span className={`text-center py-2 rounded bg-[#1a2060] text-white text-sm ${lockedClassName}`} aria-disabled="true">API Token</span>}
               <a
                 href={DERIV_AFFILIATE_LINK}
                 target="_blank"

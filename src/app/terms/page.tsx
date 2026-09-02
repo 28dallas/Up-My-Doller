@@ -5,7 +5,7 @@ import Link from 'next/link'
 const SECTIONS = [
   {
     title: '1. Acceptance of Terms',
-    body: 'By creating an account or using any part of the DBTraders platform, you agree to be bound by these Terms of Service. If you do not agree, do not use the platform. These terms apply to all users including free, Pro, and Elite subscribers.',
+    body: 'By creating an account or using any part of the SmartTraders platform, you agree to be bound by these Terms of Service. If you do not agree, do not use the platform. These terms apply to all users including free, Pro, and Elite subscribers.',
   },
   {
     title: '2. Account Responsibilities',
@@ -13,7 +13,7 @@ const SECTIONS = [
   },
   {
     title: '3. Subscription Plans & Billing',
-    body: 'DBTraders offers Free, Pro (KES 2,500/month), and Elite (KES 6,500/month) plans. Subscriptions are billed monthly. You may cancel at any time from your dashboard — access continues until the end of the current billing period. No refunds are issued for partial months. We reserve the right to change pricing with 30 days notice.',
+    body: 'SmartTraders offers Free, Pro (KES 2,500/month), and Elite (KES 6,500/month) plans. Subscriptions are billed monthly. You may cancel at any time from your dashboard — access continues until the end of the current billing period. No refunds are issued for partial months. We reserve the right to change pricing with 30 days notice.',
   },
   {
     title: '4. Acceptable Use',
@@ -21,23 +21,23 @@ const SECTIONS = [
   },
   {
     title: '5. Trading Risk Acknowledgment',
-    body: 'Trading synthetic indices and other financial instruments involves substantial risk of loss. DBTraders provides software tools, signals, and educational content — not financial advice. Past performance of any bot, trader, or strategy is not indicative of future results. You acknowledge that you may lose some or all of your trading capital.',
+    body: 'Trading synthetic indices and other financial instruments involves substantial risk of loss. SmartTraders provides software tools, signals, and educational content — not financial advice. Past performance of any bot, trader, or strategy is not indicative of future results. You acknowledge that you may lose some or all of your trading capital.',
   },
   {
     title: '6. Bot & Strategy Tools',
-    body: 'Bots and strategies provided on the platform are for informational and automation purposes only. DBTraders does not guarantee any specific outcome from using these tools. You are solely responsible for the stakes, risk settings, and trading decisions made using our tools on your Deriv account.',
+    body: 'Bots and strategies provided on the platform are for informational and automation purposes only. SmartTraders does not guarantee any specific outcome from using these tools. You are solely responsible for the stakes, risk settings, and trading decisions made using our tools on your Deriv account.',
   },
   {
     title: '7. Copy Trading',
-    body: 'When you copy a trader, you acknowledge that the copied trader\'s performance may change at any time. DBTraders does not guarantee the continued performance of any trader on the platform. You retain full control over your account and can stop copying at any time. Losses incurred through copy trading are your responsibility.',
+    body: 'When you copy a trader, you acknowledge that the copied trader\'s performance may change at any time. SmartTraders does not guarantee the continued performance of any trader on the platform. You retain full control over your account and can stop copying at any time. Losses incurred through copy trading are your responsibility.',
   },
   {
     title: '8. Intellectual Property',
-    body: 'All platform content, including bot files, UI designs, strategy logic, and written content, is the intellectual property of DBTraders. You may not copy, distribute, or create derivative works without explicit written permission.',
+    body: 'All platform content, including bot files, UI designs, strategy logic, and written content, is the intellectual property of SmartTraders. You may not copy, distribute, or create derivative works without explicit written permission.',
   },
   {
     title: '9. Limitation of Liability',
-    body: 'DBTraders shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of the platform, including trading losses, data loss, or service interruptions. Our total liability to you shall not exceed the amount you paid in the 30 days preceding the claim.',
+    body: 'SmartTraders shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of the platform, including trading losses, data loss, or service interruptions. Our total liability to you shall not exceed the amount you paid in the 30 days preceding the claim.',
   },
   {
     title: '10. Termination',

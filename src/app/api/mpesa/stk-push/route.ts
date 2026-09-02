@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
           PhoneNumber: formattedPhone,
           CallBackURL: process.env.MPESA_CALLBACK_URL,
           AccountReference: `PDP-${userId.slice(0, 8).toUpperCase()}`,
-          TransactionDesc: `Pips Dollar Printer ${plan} Plan`,
+          TransactionDesc: `SmartTraders ${plan} Plan`,
         }),
       }
     )

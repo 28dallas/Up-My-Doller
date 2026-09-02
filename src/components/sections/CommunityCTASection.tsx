@@ -17,7 +17,7 @@ export default function CommunityCTASection() {
             </div>
 
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
-              Join the DBTraders Community
+              Join the SmartTraders Community
             </h2>
             <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
               Get live signals, strategy updates, mentorship sessions, and connect with profitable Deriv traders.

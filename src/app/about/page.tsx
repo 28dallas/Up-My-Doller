@@ -20,7 +20,7 @@ const VALUES = [
 ]
 
 const TEAM = [
-  { initials: 'DK', name: 'DB King', role: 'Founder & Lead Trader', bio: 'Professional Deriv trader with 6+ years experience on synthetic indices. Built DBTraders to share what actually works.' },
+  { initials: 'DK', name: 'DB King', role: 'Founder & Lead Trader', bio: 'Professional Deriv trader with 6+ years experience on synthetic indices. Built SmartTraders to share what actually works.' },
   { initials: 'AM', name: 'Alex Mwenda', role: 'Head of Product', bio: 'Product engineer focused on making complex trading tools accessible to everyday traders across Africa.' },
   { initials: 'FN', name: 'Faith Njeri', role: 'Community Manager', bio: 'Manages the Telegram community and ensures every trader gets the support they need to succeed.' },
 ]
@@ -35,13 +35,13 @@ export default function AboutPage() {
         <div className="absolute inset-0 grid-bg opacity-30" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary mb-6">
-            About DBTraders
+            About SmartTraders
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
             We Build Tools That Help <span className="gradient-text">African Traders Win</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            DBTraders is a Deriv-focused trading platform built for synthetic index traders across Africa. We combine automation, copy trading, real-time analysis, and community into one place.
+            SmartTraders is a Deriv-focused trading platform built for synthetic index traders across Africa. We combine automation, copy trading, real-time analysis, and community into one place.
           </p>
         </div>
       </section>
@@ -66,13 +66,13 @@ export default function AboutPage() {
           <div>
             <h2 className="text-3xl font-bold text-white mb-4">Our Story</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              DBTraders started as a Telegram group where a small community of Kenyan traders shared Deriv bot files and strategies. As the group grew to thousands of members, it became clear that traders needed more than just files — they needed a proper platform.
+              SmartTraders started as a Telegram group where a small community of Kenyan traders shared Deriv bot files and strategies. As the group grew to thousands of members, it became clear that traders needed more than just files — they needed a proper platform.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              We built the first version of DBTraders to solve the problems we faced ourselves: scattered bot files, no way to track performance, no easy copy trading, and payment methods that didn&apos;t work for African traders.
+              We built the first version of SmartTraders to solve the problems we faced ourselves: scattered bot files, no way to track performance, no easy copy trading, and payment methods that didn&apos;t work for African traders.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Today, DBTraders serves thousands of traders across Kenya, Uganda, Tanzania, and beyond — with tools that are built specifically for how we trade.
+              Today, SmartTraders serves thousands of traders across Kenya, Uganda, Tanzania, and beyond — with tools that are built specifically for how we trade.
             </p>
           </div>
           <div className="bg-card border border-border rounded-2xl p-8">
@@ -134,7 +134,7 @@ export default function AboutPage() {
       <section className="py-16 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 text-center">
         <div className="bg-gradient-to-br from-primary/10 to-card border border-primary/20 rounded-2xl p-10">
           <h2 className="text-2xl font-bold text-white mb-3">Ready to start trading smarter?</h2>
-          <p className="text-muted-foreground mb-6">Join 12,000+ traders already using DBTraders to automate and grow their Deriv accounts.</p>
+          <p className="text-muted-foreground mb-6">Join 12,000+ traders already using SmartTraders to automate and grow their Deriv accounts.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/auth/signup" className="px-6 py-3 bg-primary text-black font-semibold rounded-xl hover:opacity-90 transition-all">
               Create Free Account

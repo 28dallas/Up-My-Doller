@@ -13,7 +13,7 @@ const SECTIONS = [
   },
   {
     title: '3. Deriv API Tokens',
-    body: 'When you add a Deriv API token, it is encrypted and stored securely. We use it only to execute the trading actions you configure on the platform. You can revoke access at any time by deleting the token from your DBTraders dashboard or from your Deriv account settings. We never store your Deriv username or password.',
+    body: 'When you add a Deriv API token, it is encrypted and stored securely. We use it only to execute the trading actions you configure on the platform. You can revoke access at any time by deleting the token from your SmartTraders dashboard or from your Deriv account settings. We never store your Deriv username or password.',
   },
   {
     title: '4. Payment Information',
@@ -45,7 +45,7 @@ const SECTIONS = [
   },
   {
     title: '11. Children\'s Privacy',
-    body: 'DBTraders is not intended for users under 18 years of age. We do not knowingly collect personal information from minors. If you believe a minor has created an account, please contact us immediately.',
+    body: 'SmartTraders is not intended for users under 18 years of age. We do not knowingly collect personal information from minors. If you believe a minor has created an account, please contact us immediately.',
   },
   {
     title: '12. Changes to This Policy',
