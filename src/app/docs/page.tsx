@@ -11,7 +11,6 @@ const SECTIONS = [
     bg: 'bg-primary/10',
     articles: [
       { title: 'Create your SmartTraders account', href: '/auth/signup' },
-      { title: 'Connect your Deriv account via API token', href: '/dashboard/api-token' },
       { title: 'Understanding your dashboard', href: '/dashboard' },
       { title: 'Setting up Telegram alerts', href: '/dashboard/alerts' },
     ],

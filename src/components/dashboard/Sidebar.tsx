@@ -18,7 +18,6 @@ import {
   Settings,
   Bell,
   MessageCircle,
-  Key,
   Shield,
 } from 'lucide-react'
 
@@ -26,7 +25,6 @@ const NAV_ITEMS = [
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Alerts', href: '/dashboard/alerts', icon: Bell },
   { label: 'Analysis', href: '/dashboard/analysis', icon: BarChart2 },
-  { label: 'API Token', href: '/dashboard/api-token', icon: Key },
   { label: 'Bot Builder', href: '/dashboard/bot-builder', icon: Wrench },
   { label: 'Charts', href: '/dashboard/charts', icon: LineChart },
   { label: 'Copy Trading', href: '/dashboard/copy-trading', icon: Copy },
